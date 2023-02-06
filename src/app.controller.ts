@@ -1,9 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller()
+@ApiTags('Index')
 export class AppController {
   @Get()
-  getHello(): string {
+  @ApiOperation({
+    summary: 'Returns the index document. Contains information about the API.',
+  })
+  index(): string {
     return JSON.stringify({
       title: 'potber API',
       description: 'A RESTful API for forum.mods.de',

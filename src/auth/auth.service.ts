@@ -31,7 +31,6 @@ export default class AuthService {
         this.httpService.post(forumConfig.LOGIN_URL, payload).pipe(
           catchError((error: AxiosError) => {
             throw new Error(`Unable to log into forum: ${error.response.data}`);
-            debugger;
           }),
         ),
       );

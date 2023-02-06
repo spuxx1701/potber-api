@@ -34,7 +34,8 @@
     "class-validator": "^0.13.2",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -46,6 +47,7 @@
     "@types/passport": "^1.0.11",
     "@types/passport-jwt": "^3.0.8",
     "@types/supertest": "^2.0.11",
+    "@types/xmldom": "^0.1.31",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
