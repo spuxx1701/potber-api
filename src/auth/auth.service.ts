@@ -1,17 +1,22 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { forumConfig } from 'src/config/forum.config';
 import { authExceptions } from './auth.exceptions';
 import LoginResource from './resources/login.resource';
 import SessionResource from './resources/session.resource';
+import { JwtService } from '@nestjs/jwt';
+import JwtResource from './resources/jwt.resource';
 
 @Injectable()
 export default class AuthService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private jwtService: JwtService,
+  ) {}
 
-  async login(loginResource: LoginResource): Promise<SessionResource> {
+  async login(loginResource: LoginResource): Promise<JwtResource> {
     Logger.log(
       `User '${loginResource.username}' is attempting to log in.`,
       this.constructor.name,
@@ -30,17 +35,25 @@ export default class AuthService {
       ),
     );
     this.checkForLoginSuccess(data);
-    const cookiesUrl = this.getSessionCookiesUrl(data);
-    const cookies = await this.getSessionCookies(cookiesUrl);
-    const session = await this.getSessionDetails(cookies);
-    return session;
+    const cookieUrl = this.getSessionCookieUrl(data);
+    const cookie = await this.getSessionCookie(cookieUrl);
+    const session = await this.getSessionDetails(cookie);
+    Logger.log(
+      `User '${session.username}' has signed in.`,
+      this.constructor.name,
+    );
+    return {
+      access_token: this.jwtService.sign(session, {
+        expiresIn: loginResource.lifetime,
+      }),
+    } as JwtResource;
   }
 
   /**
    * Checks the login response for signs of success. Throws an exception if
    * login was not successful.
    */
-  private checkForLoginSuccess(data: string) {
+  checkForLoginSuccess(data: string) {
     if (/Erfolgreich eingeloggt/.test(data)) {
       return true;
     } else if (/Fehler\sbeim\sEinloggen/.test(data)) {
@@ -56,7 +69,7 @@ export default class AuthService {
    * @returns Returns the URL of the post-login page from where the
    * session cookie need to be retrieved.
    */
-  private getSessionCookiesUrl(data: string): string {
+  getSessionCookieUrl(data: string): string {
     const iframeUriMatches = data.match(/(?:(<iframe\ssrc=')(.*?)?('))/);
     if (iframeUriMatches && iframeUriMatches.length >= 3) {
       return `https:${iframeUriMatches[2]}`;
@@ -66,11 +79,11 @@ export default class AuthService {
   }
 
   /**
-   * Gets the two session cookies from the given URL.
-   * @param url The url that should be called to retrieve the cookies.
-   * @returns The object containing the session cookies.
+   * Gets the two session cookie from the given URL.
+   * @param url The url that should be called to retrieve the cookie.
+   * @returns The object containing the session cookie.
    */
-  private async getSessionCookies(url: string) {
+  async getSessionCookie(url: string) {
     const { headers } = await firstValueFrom(
       this.httpService.get(url).pipe(
         catchError((error: AxiosError) => {
@@ -80,27 +93,27 @@ export default class AuthService {
         }),
       ),
     );
-    const cookies = headers['set-cookie'];
-    if (cookies && cookies.length >= 2) {
+    const cookie = headers['set-cookie'];
+    if (cookie && cookie.length >= 2) {
       // Since the first cookie tends to not work, we use the second one
-      return `${cookies[1].split(';')[0]}`;
+      return `${cookie[1].split(';')[0]}`;
     } else {
-      throw new Error('Did not find receive two session cookies.');
+      throw new Error('Did not find receive two session cookie.');
     }
   }
 
   /**
-   * Calls the forum landing page with the given session cookies and retrieves
+   * Calls the forum landing page with the given session cookie and retrieves
    * details about the current session.
-   * @param cookies The session cookies.
+   * @param cookie The session cookie.
    * @returns The session details.
    */
-  async getSessionDetails(cookies: string): Promise<SessionResource> {
+  async getSessionDetails(cookie: string): Promise<SessionResource> {
     const { data } = await firstValueFrom(
       this.httpService
         .get(forumConfig.FORUM_URL, {
           headers: {
-            Cookie: cookies,
+            Cookie: cookie,
           },
         })
         .pipe(
@@ -111,19 +124,35 @@ export default class AuthService {
           }),
         ),
     );
-    const session = this.extractSessionDetails(data);
+    const session = this.extractSessionDetails(data, cookie);
     return session;
   }
 
-  private extractSessionDetails(data: string): SessionResource {
+  private extractSessionDetails(data: string, cookie: string): SessionResource {
     if (/Du\sbist\snicht\seingeloggt/.test(data)) {
       throw new Error('Unable to confirm login.');
     }
-    debugger;
+    // Extract user ID, username and logout token
+    const userIdMatches = data.match(/(?:(User-ID\s)(.*)(\.\n))/);
+    const usernameMatches = data.match(/(?:(my\.mods\.de\/)(.*)("\s))/);
+    const logoutTokenMatches = data.match(
+      /(?:(\/logout\/.*&a=)(.*)(&redirect))/,
+    );
+    if (
+      !userIdMatches ||
+      userIdMatches.length < 3 ||
+      !usernameMatches ||
+      usernameMatches.length < 3 ||
+      !logoutTokenMatches ||
+      logoutTokenMatches.length < 3
+    ) {
+      throw new Error('Unable to session details.');
+    }
     const session: SessionResource = {
-      userId: '123',
-      username: 'yolo',
-      logoutToken: 'adawd',
+      userId: userIdMatches[2],
+      username: usernameMatches[2],
+      logoutToken: logoutTokenMatches[2],
+      boardSessionCookie: cookie,
     };
     return session;
   }

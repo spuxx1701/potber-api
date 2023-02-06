@@ -9,7 +9,6 @@ export const httpConfig: HttpModuleOptions = {
 export function httpRequestInterceptor(
   config: InternalAxiosRequestConfig<any>,
 ) {
-  console.log(config);
   Logger.log(`Outgoing request to '${config.url}'.`, 'Axios');
   return config;
 }

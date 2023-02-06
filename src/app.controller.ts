@@ -6,15 +6,15 @@ export class AppController {
   getHello(): string {
     return JSON.stringify({
       title: 'potber API',
-      description: 'A RESTful API for foru.mods.de',
+      description: 'A RESTful API for forum.mods.de',
       author: {
         name: 'Leopold Hock',
         website: 'https://www.leopoldhock.de',
         github: 'https://www.github.com/spuxx1701',
       },
-      github: 'https://www.github.com/potber-api',
-      client: process.env.CLIENT_URL,
-      documentation: process.env.SWAGGER_URL,
+      github: 'https://www.github.com/spuxx1701/potber-api',
+      client: process.env.APP_CLIENT_URL,
+      documentation: process.env.APP_SWAGGER_URL,
     });
   }
 }
