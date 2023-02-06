@@ -3,7 +3,6 @@ import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { forumConfig } from 'src/config/forum.config';
-import { httpConfig } from 'src/config/http.config';
 import { authExceptions } from './auth.exceptions';
 import LoginResource from './resources/login.resource';
 import SessionResource from './resources/session.resource';
@@ -83,7 +82,8 @@ export default class AuthService {
     );
     const cookies = headers['set-cookie'];
     if (cookies && cookies.length >= 2) {
-      return `${cookies[0]}; ${cookies[1]}`;
+      // Since the first cookie tends to not work, we use the second one
+      return `${cookies[1].split(';')[0]}`;
     } else {
       throw new Error('Did not find receive two session cookies.');
     }
@@ -111,7 +111,6 @@ export default class AuthService {
           }),
         ),
     );
-    debugger;
     const session = this.extractSessionDetails(data);
     return session;
   }
