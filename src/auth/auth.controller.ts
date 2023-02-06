@@ -5,7 +5,9 @@ import {
   Get,
   Post,
   Request,
+  UnauthorizedException,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -14,6 +16,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { validationPipe } from 'src/validation/validation.pipe';
 import { authExceptions } from './auth.exceptions';
 import AuthService from './auth.service';
@@ -25,11 +28,16 @@ import SessionResource from './resources/session.resource';
 @Controller('auth')
 @ApiTags('Authentication')
 @UsePipes(validationPipe)
+@UseInterceptors(LoggingInterceptor)
 export class AuthController {
   constructor(private readonly service: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Sign into the forum.' })
+  @ApiOperation({
+    summary: 'Sign into the board.',
+    description:
+      "Signs you into the board and returns an 'Authorization' header containing a JWT (https://jwt.io/). To terminate the session, simply delete the JWT.",
+  })
   @ApiOkResponse({
     description: 'Login was successful.',
     type: JwtResource,
@@ -52,7 +60,7 @@ export class AuthController {
     description: 'The session details.',
     type: SessionResource,
   })
-  @ApiException(() => [authExceptions.notSignedIn])
+  @ApiException(() => UnauthorizedException)
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
   async session(@Request() request: any): Promise<SessionResource> {

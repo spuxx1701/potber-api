@@ -21,32 +21,37 @@ export default class AuthService {
       `User '${loginResource.username}' is attempting to log in.`,
       this.constructor.name,
     );
-    const payload = `login_username=${encodeURIComponent(
-      loginResource.username,
-    )}&login_password=${encodeURIComponent(
-      loginResource.password,
-    )}&login_lifetime=${loginResource.lifetime}`;
-    const { data } = await firstValueFrom(
-      this.httpService.post(forumConfig.LOGIN_URL, payload).pipe(
-        catchError((error: AxiosError) => {
-          throw new Error(`Unable to log into forum: ${error.response.data}`);
-          debugger;
+    try {
+      const payload = `login_username=${encodeURIComponent(
+        loginResource.username,
+      )}&login_password=${encodeURIComponent(
+        loginResource.password,
+      )}&login_lifetime=${loginResource.lifetime}`;
+      const { data } = await firstValueFrom(
+        this.httpService.post(forumConfig.LOGIN_URL, payload).pipe(
+          catchError((error: AxiosError) => {
+            throw new Error(`Unable to log into forum: ${error.response.data}`);
+            debugger;
+          }),
+        ),
+      );
+      this.checkForLoginSuccess(data);
+      const cookieUrl = this.getSessionCookieUrl(data);
+      const cookie = await this.getSessionCookie(cookieUrl);
+      const session = await this.getSessionDetails(cookie);
+      Logger.log(
+        `User '${session.username}' has signed in.`,
+        this.constructor.name,
+      );
+      return {
+        access_token: this.jwtService.sign(session, {
+          expiresIn: loginResource.lifetime,
         }),
-      ),
-    );
-    this.checkForLoginSuccess(data);
-    const cookieUrl = this.getSessionCookieUrl(data);
-    const cookie = await this.getSessionCookie(cookieUrl);
-    const session = await this.getSessionDetails(cookie);
-    Logger.log(
-      `User '${session.username}' has signed in.`,
-      this.constructor.name,
-    );
-    return {
-      access_token: this.jwtService.sign(session, {
-        expiresIn: loginResource.lifetime,
-      }),
-    } as JwtResource;
+      } as JwtResource;
+    } catch (error) {
+      Logger.log('Login attempt failed.', this.constructor.name);
+      throw error;
+    }
   }
 
   /**
@@ -128,6 +133,14 @@ export default class AuthService {
     return session;
   }
 
+  /**
+   * Searches the given HTML and attempts to extract session details from
+   * the HTML (namely the user ID, the username and the logout token).
+   * Will throw an error if retrieving any of these details fails.
+   * @param data The HTML text.
+   * @param cookie The cookie. Will be stored in the session details.
+   * @returns The session details.
+   */
   private extractSessionDetails(data: string, cookie: string): SessionResource {
     if (/Du\sbist\snicht\seingeloggt/.test(data)) {
       throw new Error('Unable to confirm login.');
