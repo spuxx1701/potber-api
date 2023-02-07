@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { DOMParser } from 'xmldom';
 import { xml2js, Element as XmlJsElement } from 'xml-js';
 
 // Re-export Element interface for easier access
@@ -7,22 +6,20 @@ export type Element = XmlJsElement;
 
 @Injectable()
 export default class XmlJsService {
-  private domParser = new DOMParser();
   /**
    * Parses an XML text to an XmlJs element.
    * @param text The text.
    * @returns The XmlJs element.
    */
   parseXml(text: string) {
-    // const xmlDocument = this.domParser.parseFromString(text, 'text/xml');
     return xml2js(text, { compact: false }) as Element;
   }
 
   /**
    * Get a child element by its name.
-   * @param elementName The chlild element's name.
+   * @param elementName The child element's name.
    * @param element The parent element.
-   * @returns The child enement or undefined.
+   * @returns The child element or undefined.
    */
   getElement(elementName: string, parentElement: Element) {
     if (parentElement.elements) {
@@ -34,6 +31,12 @@ export default class XmlJsService {
     return undefined;
   }
 
+  /**
+   * Gets a child element by its name and retrievs its CDATA content.
+   * @param elementName The child element's name.
+   * @param parentElement The parent element.
+   * @returns The child element's CDATA content or undefined.
+   */
   getElementCdata(elementName: string, parentElement: Element) {
     const element = this.getElement(elementName, parentElement);
     if (element?.elements) {
