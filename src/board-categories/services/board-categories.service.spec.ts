@@ -1,11 +1,10 @@
-import { HttpService } from '@nestjs/axios';
 import { Test } from '@nestjs/testing';
+import { BoardsModule } from 'src/boards/boards.module';
 import HttpModule from 'src/http/http.module';
 import XmlTransformerService from 'src/xml-api/xml-transformer.service';
 import BoardCategoryResource from '../resources/board-category.resource';
 import BoardCategoriesService from './board-categories.service';
 import { boardXmlMockData } from './board-categories.service.spec.includes';
-import BoardsService from './boards.service';
 
 describe('Boards | Services | BoardCategoriesService', () => {
   let boardCategoriesService: BoardCategoriesService;
@@ -13,8 +12,8 @@ describe('Boards | Services | BoardCategoriesService', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [HttpModule],
-      providers: [XmlTransformerService, BoardsService, BoardCategoriesService],
+      imports: [HttpModule, BoardsModule],
+      providers: [XmlTransformerService, BoardCategoriesService],
     }).compile();
     xmlTransformer = await moduleRef.resolve(XmlTransformerService);
     boardCategoriesService = await moduleRef.resolve(BoardCategoriesService);
@@ -25,7 +24,7 @@ describe('Boards | Services | BoardCategoriesService', () => {
       const actual = boardCategoriesService.transformBoardOverview(
         xmlTransformer.parseXml(boardXmlMockData.full),
       );
-      const expected: BoardCategory[] = [
+      const expected: BoardCategoryResource[] = [
         {
           id: '6',
           name: 'Allgemeines',
