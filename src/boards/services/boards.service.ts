@@ -25,8 +25,10 @@ export class BoardsService {
    * @param id The board's ID.
    * @param session The session.
    */
-  async findOne(id: string, session: SessionResource) {
-    const { data } = await this.httpService.get(`${ENDPOINT_URL}?BID=${id}`, {
+  async findOne(id: string, session: SessionResource, page?: number) {
+    let url = `${ENDPOINT_URL}?BID=${id}`;
+    if (page) url += `&page=${page}`;
+    const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
 
@@ -50,6 +52,10 @@ export class BoardsService {
     }
     let page: BoardPageResource | undefined;
     const threadsXml = this.xmljs.getElement('threads', boardXml);
+    // Check if the given page has posts and throw NotFound otherwise
+    if (!threadsXml.elements) {
+      throw new NotFoundException();
+    }
     if (threadsXml) {
       page = {
         number: parseInt(this.xmljs.getAttribute('page', threadsXml)),

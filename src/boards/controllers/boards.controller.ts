@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  Query,
   Request,
   UseGuards,
   UseInterceptors,
@@ -13,6 +14,7 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
@@ -32,12 +34,22 @@ export class BoardsController {
   @ApiOperation({
     summary: 'Gets a board by ID.',
   })
+  @ApiQuery({
+    name: 'page',
+    description: "The page you'd like to get.",
+    required: false,
+    type: Number,
+  })
   @ApiOkResponse({
     description: 'The specified board.',
     type: BoardResource,
   })
   @ApiException(() => [NotFoundException, ForbiddenException])
-  async findOne(@Param('id') id: string, @Request() request: any) {
-    return this.service.findOne(id, request.user);
+  async findOne(
+    @Param('id') id: string,
+    @Request() request: any,
+    @Query('page') page?: number,
+  ) {
+    return this.service.findOne(id, request.user, page);
   }
 }
