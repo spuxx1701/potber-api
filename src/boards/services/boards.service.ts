@@ -27,7 +27,7 @@ export class BoardsService {
    */
   async findOne(id: string, session: SessionResource) {
     const { data } = await this.httpService.get(`${ENDPOINT_URL}?BID=${id}`, {
-      cookie: session.boardSessionCookie,
+      cookie: session.cookie,
     });
 
     const xmlDocument = this.xmljs.parseXml(data);

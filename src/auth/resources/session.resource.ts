@@ -12,14 +12,9 @@ export class SessionResource {
   username: string;
 
   @ApiProperty({
-    description: 'Your logout token.',
-  })
-  logoutToken: string;
-
-  @ApiProperty({
     description: 'Your board session cookie.',
   })
-  boardSessionCookie: string;
+  cookie: string;
 
   @ApiProperty({
     description: 'When the JWT has been issued.',

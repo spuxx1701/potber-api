@@ -23,7 +23,7 @@ export class BoardCategoriesService {
    */
   async findAll(session: SessionResource): Promise<BoardCategoryResource[]> {
     const { data } = await this.httpService.get(ENDPOINT_URL, {
-      cookie: session.boardSessionCookie,
+      cookie: session.cookie,
     });
     const xmlDocument = this.xmljs.parseXml(data);
     const boardCategories = this.transformBoardOverview(xmlDocument);

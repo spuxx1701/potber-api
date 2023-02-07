@@ -6,12 +6,14 @@ import { SessionResource } from './resources/session.resource';
 import { JwtService } from '@nestjs/jwt';
 import { JwtResource } from './resources/jwt.resource';
 import { HttpService } from 'src/http/http.service';
+import { XmlJsService } from 'src/xml-api/xml-js.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly httpService: HttpService,
-    private jwtService: JwtService,
+    private readonly xmljs: XmlJsService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async login(loginResource: LoginResource): Promise<JwtResource> {
@@ -103,8 +105,53 @@ export class AuthService {
     const { data } = await this.httpService.get(forumConfig.FORUM_URL, {
       cookie,
     });
-    const session = this.extractSessionDetails(data, cookie);
+    const userId = await this.getUserId(cookie);
+    const username = await this.getUsername(userId);
+    const session: SessionResource = {
+      userId,
+      username,
+      cookie,
+    };
+    // const session = this.extractSessionDetails(data, cookie);
     return session;
+  }
+
+  /**
+   * Calls the 'boards.php' endpoint to extract the user ID.
+   * @param cookie The session cookie.
+   */
+  async getUserId(cookie: string): Promise<string> {
+    const { data } = await this.httpService.get(
+      `${forumConfig.API_URL}boards.php`,
+      {
+        cookie,
+      },
+    );
+    const xmlDocument = this.xmljs.parseXml(data);
+    const userId = this.xmljs.getAttribute(
+      'current-user-id',
+      xmlDocument.elements[0],
+    );
+    if (!userId) {
+      throw new Error('Unable to retrieve user ID.');
+    }
+    return userId;
+  }
+
+  /**
+   * Calls the given user's profile page to extract the username.
+   * @param userId The user ID.
+   * @param cookie The session cookie.
+   */
+  async getUsername(userId: string): Promise<string> {
+    const { data } = await this.httpService.get(
+      `${forumConfig.USER_PAGE_URL}${userId}`,
+    );
+    const usernameMatches = data.match(/(?:(Profil\:\s)(.*)(<\/title>))/);
+    if (!usernameMatches || usernameMatches.length < 3) {
+      throw new Error('Unable to retrieve username.');
+    }
+    return usernameMatches[2];
   }
 
   /**
@@ -122,24 +169,18 @@ export class AuthService {
     // Extract user ID, username and logout token
     const userIdMatches = data.match(/(?:(User-ID\s)(.*)(\.\n))/);
     const usernameMatches = data.match(/(?:(my\.mods\.de\/)(.*)("\s))/);
-    const logoutTokenMatches = data.match(
-      /(?:(\/logout\/.*&a=)(.*)(&redirect))/,
-    );
     if (
       !userIdMatches ||
       userIdMatches.length < 3 ||
       !usernameMatches ||
-      usernameMatches.length < 3 ||
-      !logoutTokenMatches ||
-      logoutTokenMatches.length < 3
+      usernameMatches.length < 3
     ) {
       throw new Error('Unable to session details.');
     }
     const session: SessionResource = {
       userId: userIdMatches[2],
       username: usernameMatches[2],
-      logoutToken: logoutTokenMatches[2],
-      boardSessionCookie: cookie,
+      cookie: cookie,
     };
     return session;
   }
