@@ -6,7 +6,7 @@ import SessionResource from 'src/auth/resources/session.resource';
 import BoardResource from 'src/boards/resources/board.resource';
 import BoardsService from 'src/boards/services/boards.service';
 import { forumConfig } from 'src/config/forum.config';
-import XmlTransformerService from 'src/xml-api/xml-transformer.service';
+import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
 import BoardCategoryResource from '../resources/board-category.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}boards.php`;
@@ -15,7 +15,7 @@ const ENDPOINT_URL = `${forumConfig.API_URL}boards.php`;
 export default class BoardCategoriesService {
   constructor(
     private readonly httpService: HttpService,
-    private readonly xmlTransformer: XmlTransformerService,
+    private readonly xmljs: XmlJsService,
     private readonly boardsService: BoardsService,
   ) {}
 
@@ -37,7 +37,7 @@ export default class BoardCategoriesService {
           }),
         ),
     );
-    const xmlDocument = this.xmlTransformer.parseXml(data);
+    const xmlDocument = this.xmljs.parseXml(data);
     const boardCategories = this.transformBoardOverview(xmlDocument);
     return boardCategories;
   }
@@ -48,29 +48,24 @@ export default class BoardCategoriesService {
    * @param xmlDocument The xml document.
    * @returns The board categories.
    */
-  transformBoardOverview(xmlDocument: XMLDocument) {
-    const boardCategoriesXml = this.xmlTransformer.getNode(
+  transformBoardOverview(boardOverviewXml: Element) {
+    const boardCategoriesXml = this.xmljs.getElement(
       'categories',
-      xmlDocument,
-    ) as Element;
+      boardOverviewXml,
+    );
     const boardCategories: BoardCategoryResource[] = [];
-    for (let i = 0; i < boardCategoriesXml.childNodes.length; i++) {
-      const boardCategoryXml = boardCategoriesXml.childNodes[i];
+    for (const boardCategoryXml of boardCategoriesXml.elements) {
       const boards: BoardResource[] = [];
-      const boardsNode = this.xmlTransformer.getNode(
-        'boards',
-        boardCategoryXml,
-      );
-      if (boardsNode) {
-        for (let ii = 0; ii < boardsNode.childNodes.length; ii++) {
-          const boardNode = boardsNode.childNodes[ii];
-          boards.push(this.boardsService.transformBoard(boardNode));
+      const boardsElement = this.xmljs.getElement('boards', boardCategoryXml);
+      if (boardsElement && boardsElement.elements) {
+        for (const boardElement of boardsElement.elements) {
+          boards.push(this.boardsService.transformBoard(boardElement));
         }
       }
       boardCategories.push({
-        id: this.xmlTransformer.getAttributeValue('id', boardCategoryXml),
-        name: this.xmlTransformer.getNodeTextContent('name', boardCategoryXml),
-        description: this.xmlTransformer.getNodeTextContent(
+        id: this.xmljs.getAttribute('id', boardCategoryXml),
+        name: this.xmljs.getElementCdata('name', boardCategoryXml),
+        description: this.xmljs.getElementCdata(
           'description',
           boardCategoryXml,
         ),

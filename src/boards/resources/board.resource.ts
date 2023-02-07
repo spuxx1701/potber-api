@@ -11,7 +11,7 @@ export default class BoardResource {
 }
 
 export interface BoardPageResource {
-  page: number;
+  number: number;
   stickiesCount: number;
   globalsCount: number;
   threadsCount: number;

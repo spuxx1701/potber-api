@@ -1,28 +1,28 @@
 import { Test } from '@nestjs/testing';
 import { BoardsModule } from 'src/boards/boards.module';
 import HttpModule from 'src/http/http.module';
-import XmlTransformerService from 'src/xml-api/xml-transformer.service';
+import XmlJsService from 'src/xml-api/xml-js.service';
 import BoardCategoryResource from '../resources/board-category.resource';
 import BoardCategoriesService from './board-categories.service';
 import { boardXmlMockData } from './board-categories.service.spec.includes';
 
 describe('BoardCategories | BoardCategoriesService', () => {
   let boardCategoriesService: BoardCategoriesService;
-  let xmlTransformer: XmlTransformerService;
+  let xmljs: XmlJsService;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [HttpModule, BoardsModule],
-      providers: [XmlTransformerService, BoardCategoriesService],
+      providers: [XmlJsService, BoardCategoriesService],
     }).compile();
-    xmlTransformer = await moduleRef.resolve(XmlTransformerService);
+    xmljs = await moduleRef.resolve(XmlJsService);
     boardCategoriesService = await moduleRef.resolve(BoardCategoriesService);
   });
 
   describe('transformBoardOverview', () => {
     it("Should transform the board overview from 'boards.php' endpoint.", () => {
       const actual = boardCategoriesService.transformBoardOverview(
-        xmlTransformer.parseXml(boardXmlMockData.full),
+        xmljs.parseXml(boardXmlMockData.full),
       );
       const expected: BoardCategoryResource[] = [
         {

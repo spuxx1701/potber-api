@@ -9,7 +9,7 @@ export type Element = XmlJsElement;
 export default class XmlJsService {
   private domParser = new DOMParser();
   /**
-   * Pares an XML text to an XmlJs element.
+   * Parses an XML text to an XmlJs element.
    * @param text The text.
    * @returns The XmlJs element.
    */
@@ -35,7 +35,6 @@ export default class XmlJsService {
   }
 
   getElementCdata(elementName: string, parentElement: Element) {
-    debugger;
     const element = this.getElement(elementName, parentElement);
     if (element?.elements) {
       const cdataElement = this.getElement('cdata', element);
@@ -51,8 +50,8 @@ export default class XmlJsService {
    * @returns The attribute or undefined.
    */
   getAttribute(attributeName: string, element: Element) {
-    if (element.attributes) {
-      return element.attributes[attributeName];
+    if (element?.attributes && element.attributes[attributeName]) {
+      return element.attributes[attributeName] as string;
     }
     return undefined;
   }

@@ -1,61 +1,59 @@
 import { Injectable } from '@nestjs/common';
-import XmlTransformerService from 'src/xml-api/xml-transformer.service';
+import ThreadsService from 'src/threads/services/threads.service';
+import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
 import BoardResource, { BoardPageResource } from '../resources/board.resource';
 
 @Injectable()
 export default class BoardsService {
-  constructor(private readonly xmlTransformer: XmlTransformerService) {}
+  constructor(
+    private readonly xmljs: XmlJsService,
+    private readonly threadsService: ThreadsService,
+  ) {}
 
   transformBoard(boardXml: Element): BoardResource {
-    // Check whether the board was found and throw an error if it wasn't
-    if (this.xmlTransformer.getNode('invalid-board', boardXml))
-      throw new Error('not-found');
-    // Check whether we have access to the given board and throw an error if we don't
-    if (boardXml.nodeName === 'no-access') throw new Error('no-access');
+    // Check whether board is invalid or we do not have access
+    if (
+      this.xmljs.getElement('invalid-board', boardXml) ||
+      boardXml.name === 'no-access'
+    )
+      return undefined;
     let page: BoardPageResource | undefined;
-    const threadsNode = this.xmlTransformer.getNode('threads', boardXml);
-    if (threadsNode) {
+    const threadsXml = this.xmljs.getElement('threads', boardXml);
+    if (threadsXml) {
       page = {
-        page: parseInt(
-          this.xmlTransformer.getAttributeValue('page', threadsNode),
-        ),
+        number: parseInt(this.xmljs.getAttribute('page', threadsXml)),
         stickiesCount: parseInt(
-          this.xmlTransformer.getAttributeValue('with-stickies', threadsNode),
+          this.xmljs.getAttribute('with-stickies', threadsXml),
         ),
         globalsCount: parseInt(
-          this.xmlTransformer.getAttributeValue('with-globals', threadsNode),
+          this.xmljs.getAttribute('with-globals', threadsXml),
         ),
-        threadsCount: parseInt(
-          this.xmlTransformer.getAttributeValue('count', threadsNode),
-        ),
+        threadsCount: parseInt(this.xmljs.getAttribute('count', threadsXml)),
         threads: [],
       };
-      for (const threadXml of threadsNode.childNodes) {
-        // page.threads.push(transformThread(threadXml) as unknown as Thread);
+      for (const threadXml of threadsXml.elements) {
+        page.threads.push(this.threadsService.transformThread(threadXml));
       }
     }
     const board = {
-      id: this.xmlTransformer.getAttributeValue('id', boardXml),
-      name: this.xmlTransformer.getNodeTextContent('name', boardXml),
-      description: this.xmlTransformer.getNodeTextContent(
-        'description',
-        boardXml,
-      ),
+      id: this.xmljs.getAttribute('id', boardXml),
+      name: this.xmljs.getElementCdata('name', boardXml),
+      description: this.xmljs.getElementCdata('description', boardXml),
       threadsCount: parseInt(
-        this.xmlTransformer.getAttributeValue(
+        this.xmljs.getAttribute(
           'value',
-          this.xmlTransformer.getNode('number-of-threads', boardXml),
+          this.xmljs.getElement('number-of-threads', boardXml),
         ),
       ),
       repliesCount: parseInt(
-        this.xmlTransformer.getAttributeValue(
+        this.xmljs.getAttribute(
           'value',
-          this.xmlTransformer.getNode('number-of-replies', boardXml),
+          this.xmljs.getElement('number-of-replies', boardXml),
         ),
       ),
-      categoryId: this.xmlTransformer.getAttributeValue(
+      categoryId: this.xmljs.getAttribute(
         'id',
-        this.xmlTransformer.getNode('in-category', boardXml),
+        this.xmljs.getElement('in-category', boardXml),
       ),
       page,
     } as BoardResource;
