@@ -8,8 +8,8 @@ export class AppController {
   @ApiOperation({
     summary: 'Returns the index document. Contains information about the API.',
   })
-  index(): string {
-    return JSON.stringify({
+  index() {
+    return {
       title: 'potber API',
       description: 'A RESTful API for forum.mods.de',
       author: {
@@ -20,6 +20,6 @@ export class AppController {
       github: 'https://www.github.com/spuxx1701/potber-api',
       client: process.env.APP_CLIENT_URL,
       documentation: process.env.APP_SWAGGER_URL,
-    });
+    };
   }
 }

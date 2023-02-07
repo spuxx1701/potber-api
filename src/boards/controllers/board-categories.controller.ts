@@ -13,7 +13,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import BoardCategoryResource from '../resources/board-category.resource';
+import BoardCategory from '../resources/board-category.resource';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import BoardCategoriesService from '../services/board-categories.service';
@@ -32,11 +32,11 @@ export class BoardCategoriesController {
   })
   @ApiOkResponse({
     description: 'The board categories.',
-    type: BoardCategoryResource,
+    type: BoardCategory,
     isArray: true,
   })
   @ApiException(() => [UnauthorizedException])
-  async findAll(@Request() request: any): Promise<BoardCategoryResource[]> {
+  async findAll(@Request() request: any): Promise<BoardCategory[]> {
     return this.service.findAll(request.user);
   }
 }

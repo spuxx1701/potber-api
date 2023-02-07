@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import BoardResource from './board.resource';
+import Board from './board.resource';
 
-export default class BoardCategoryResource {
+export default class BoardCategory {
   @ApiProperty({
     description: "The board category's ID.",
     example: '6',
@@ -24,5 +24,5 @@ export default class BoardCategoryResource {
     description: 'The boards that belong to this board category.',
     example: [],
   })
-  boards: BoardResource[];
+  boards: Board[];
 }
