@@ -60,3 +60,18 @@ export default class PostResource {
   })
   avatarUrl?: string;
 }
+
+export interface FirstPost {
+  icon?: string;
+  author: UserResource;
+  date: Date;
+  threadId: string;
+  boardId: string;
+}
+
+export interface LastPost {
+  author: UserResource;
+  date: Date;
+  threadId: string;
+  boardId: string;
+}

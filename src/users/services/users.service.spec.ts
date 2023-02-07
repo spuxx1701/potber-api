@@ -36,7 +36,7 @@ describe('Users | UsersService', () => {
       );
       const expected: UserResource = {
         id: '1341645',
-        name: 'Real_Futtid',
+        name: 'Real_Futti',
         groupId: '3',
       };
       expect(actual).toEqual(expected);

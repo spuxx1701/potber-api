@@ -13,8 +13,8 @@ export default class UsersService {
    */
   transformUser(userElement: Element): UserResource {
     const user: UserResource = {
-      id: this.xmljs.getAttribute('id', userElement) as string,
-      groupId: this.xmljs.getAttribute('group-id', userElement) as string,
+      id: this.xmljs.getAttribute('id', userElement),
+      groupId: this.xmljs.getAttribute('group-id', userElement),
       name: this.xmljs.getElement('cdata', userElement)?.cdata,
     };
     return user;
