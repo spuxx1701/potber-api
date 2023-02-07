@@ -19,7 +19,7 @@ import BoardCategoryResource from '../resources/board-category.resource';
 import BoardCategoriesService from '../services/board-categories.service';
 
 @Controller('boardCategories')
-@ApiTags('BoardResource categories')
+@ApiTags('Board categories')
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
