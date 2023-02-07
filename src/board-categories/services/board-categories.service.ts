@@ -3,11 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import SessionResource from 'src/auth/resources/session.resource';
+import BoardResource from 'src/boards/resources/board.resource';
+import BoardsService from 'src/boards/services/boards.service';
 import { forumConfig } from 'src/config/forum.config';
 import XmlTransformerService from 'src/xml-api/xml-transformer.service';
-import BoardCategory from '../resources/board-category.resource';
-import Board from '../resources/board.resource';
-import BoardsService from './boards.service';
+import BoardCategoryResource from '../resources/board-category.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}boards.php`;
 
@@ -23,7 +23,7 @@ export default class BoardCategoriesService {
    * Retrieves all board categories.
    * @param session The session object.
    */
-  async findAll(session: SessionResource): Promise<BoardCategory[]> {
+  async findAll(session: SessionResource): Promise<BoardCategoryResource[]> {
     const { data } = await firstValueFrom(
       this.httpService
         .get(ENDPOINT_URL, {
@@ -53,10 +53,10 @@ export default class BoardCategoriesService {
       'categories',
       xmlDocument,
     ) as Element;
-    const boardCategories: BoardCategory[] = [];
+    const boardCategories: BoardCategoryResource[] = [];
     for (let i = 0; i < boardCategoriesXml.childNodes.length; i++) {
       const boardCategoryXml = boardCategoriesXml.childNodes[i];
-      const boards: Board[] = [];
+      const boards: BoardResource[] = [];
       const boardsNode = this.xmlTransformer.getNode(
         'boards',
         boardCategoryXml,
@@ -75,7 +75,7 @@ export default class BoardCategoriesService {
           boardCategoryXml,
         ),
         boards,
-      } as BoardCategory);
+      } as BoardCategoryResource);
     }
     return boardCategories;
   }

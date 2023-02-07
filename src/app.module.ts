@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { BoardsModule } from './boards/boards.module';
 import HttpModule from './http/http.module';
+import UsersModule from './users/users.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import HttpModule from './http/http.module';
     }),
     HttpModule,
     AuthModule,
+    UsersModule,
     BoardsModule,
   ],
   controllers: [AppController],

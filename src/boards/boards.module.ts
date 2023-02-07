@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import HttpModule from 'src/http/http.module';
+import ThreadsModule from 'src/threads/threads.module';
 import XmlApiModule from 'src/xml-api/xml-api.module';
-import { BoardCategoriesController } from './controllers/board-categories.controller';
-import BoardCategoriesService from './services/board-categories.service';
 import BoardsService from './services/boards.service';
 
 @Module({
-  imports: [HttpModule, XmlApiModule],
-  controllers: [BoardCategoriesController],
-  providers: [BoardCategoriesService, BoardsService],
+  imports: [HttpModule, XmlApiModule, ThreadsModule],
+  exports: [BoardsService],
+  controllers: [],
+  providers: [BoardsService],
 })
 export class BoardsModule {}

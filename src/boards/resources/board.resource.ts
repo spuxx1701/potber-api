@@ -1,4 +1,4 @@
-export default class Board {
+export default class BoardResource {
   id: string;
   name: string;
   description: string;
@@ -7,10 +7,10 @@ export default class Board {
   categoryId: string;
   lastPost?: any; // TODO: narrow
   moderators?: any[]; // TODO: narrow
-  page?: BoardPage;
+  page?: BoardPageResource;
 }
 
-export interface BoardPage {
+export interface BoardPageResource {
   page: number;
   stickiesCount: number;
   globalsCount: number;

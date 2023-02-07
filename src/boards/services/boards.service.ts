@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import XmlTransformerService from 'src/xml-api/xml-transformer.service';
-import Board, { BoardPage } from '../resources/board.resource';
+import BoardResource, { BoardPageResource } from '../resources/board.resource';
 
 @Injectable()
 export default class BoardsService {
   constructor(private readonly xmlTransformer: XmlTransformerService) {}
 
-  transformBoard(boardXml: Element): Board {
+  transformBoard(boardXml: Element): BoardResource {
     // Check whether the board was found and throw an error if it wasn't
     if (this.xmlTransformer.getNode('invalid-board', boardXml))
       throw new Error('not-found');
     // Check whether we have access to the given board and throw an error if we don't
     if (boardXml.nodeName === 'no-access') throw new Error('no-access');
-    let page: BoardPage | undefined;
+    let page: BoardPageResource | undefined;
     const threadsNode = this.xmlTransformer.getNode('threads', boardXml);
     if (threadsNode) {
       page = {
@@ -58,7 +58,7 @@ export default class BoardsService {
         this.xmlTransformer.getNode('in-category', boardXml),
       ),
       page,
-    } as Board;
+    } as BoardResource;
     return board;
   }
 }

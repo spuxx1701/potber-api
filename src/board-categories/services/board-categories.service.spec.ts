@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Test } from '@nestjs/testing';
 import HttpModule from 'src/http/http.module';
 import XmlTransformerService from 'src/xml-api/xml-transformer.service';
-import BoardCategory from '../resources/board-category.resource';
+import BoardCategoryResource from '../resources/board-category.resource';
 import BoardCategoriesService from './board-categories.service';
 import { boardXmlMockData } from './board-categories.service.spec.includes';
 import BoardsService from './boards.service';
