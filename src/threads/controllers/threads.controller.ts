@@ -23,7 +23,7 @@ import { ThreadResource } from '../resources/thread.resource';
 @ApiBearerAuth('access-token')
 export class ThreadsController {
   @Get(':id')
-  @ApiOperation({ summary: 'Gets a thread by id.' })
+  @ApiOperation({ summary: 'Gets a thread by ID.' })
   @ApiOkResponse({
     description: 'The given thread.',
     type: ThreadResource,
