@@ -29,9 +29,10 @@ export class BoardsService {
     const { data } = await this.httpService.get(`${ENDPOINT_URL}?BID=${id}`, {
       cookie: session.boardSessionCookie,
     });
+
     const xmlDocument = this.xmljs.parseXml(data);
-    const boardCategories = this.transformBoard(xmlDocument);
-    return boardCategories;
+    const board = this.transformBoard(xmlDocument.elements[0]);
+    return board;
   }
 
   /**
@@ -41,7 +42,7 @@ export class BoardsService {
    */
   transformBoard(boardXml: Element): BoardResource {
     // Check whether board is invalid or we do not have access
-    if (this.xmljs.getElement('invalid-board', boardXml)) {
+    if (boardXml.name === 'invalid-board') {
       throw new NotFoundException();
     }
     if (boardXml.name === 'no-access') {

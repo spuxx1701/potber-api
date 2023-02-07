@@ -1,4 +1,4 @@
-export const boardXmlMockData = {
+export const boardOverviewXmlMockData = {
   full: `<categories xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="http://forum.mods.de/bb/forum.xsd"
   current-user-id="1268185"

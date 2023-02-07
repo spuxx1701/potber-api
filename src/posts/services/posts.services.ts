@@ -11,7 +11,6 @@ export class PostsService {
   ) {}
 
   transformPost(postXml: Element) {
-    debugger;
     const post = {
       id: this.xmljs.getAttribute('id', postXml),
       author: this.usersService.transformUser(
@@ -64,7 +63,6 @@ export class PostsService {
 
   transformFirstPost(firstPostXml: Element) {
     const postXml = this.xmljs.getElement('post', firstPostXml);
-    debugger;
     return {
       author: this.usersService.transformUser(
         this.xmljs.getElement('user', postXml),

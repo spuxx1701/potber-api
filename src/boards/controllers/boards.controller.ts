@@ -37,7 +37,7 @@ export class BoardsController {
     type: BoardResource,
   })
   @ApiException(() => [NotFoundException, ForbiddenException])
-  async findOne(@Param() id: string, @Request() request: any) {
+  async findOne(@Param('id') id: string, @Request() request: any) {
     return this.service.findOne(id, request.user);
   }
 }

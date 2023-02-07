@@ -4,7 +4,7 @@ import { HttpModule } from 'src/http/http.module';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { BoardCategoryResource } from '../resources/board-category.resource';
 import { BoardCategoriesService } from './board-categories.service';
-import { boardXmlMockData } from './board-categories.service.spec.includes';
+import { boardOverviewXmlMockData } from './board-categories.service.spec.includes';
 
 describe('BoardCategories | BoardCategoriesService', () => {
   let boardCategoriesService: BoardCategoriesService;
@@ -22,7 +22,7 @@ describe('BoardCategories | BoardCategoriesService', () => {
   describe('transformBoardOverview', () => {
     it("Should transform the board overview from 'boards.php' endpoint.", () => {
       const actual = boardCategoriesService.transformBoardOverview(
-        xmljs.parseXml(boardXmlMockData.full),
+        xmljs.parseXml(boardOverviewXmlMockData.full),
       );
       const expected: BoardCategoryResource[] = [
         {
