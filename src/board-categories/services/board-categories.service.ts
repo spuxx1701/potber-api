@@ -1,11 +1,9 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { AxiosError } from 'axios';
-import { catchError, firstValueFrom } from 'rxjs';
 import SessionResource from 'src/auth/resources/session.resource';
 import BoardResource from 'src/boards/resources/board.resource';
 import BoardsService from 'src/boards/services/boards.service';
 import { forumConfig } from 'src/config/forum.config';
+import HttpService from 'src/http/http.service';
 import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
 import BoardCategoryResource from '../resources/board-category.resource';
 
@@ -24,19 +22,9 @@ export default class BoardCategoriesService {
    * @param session The session object.
    */
   async findAll(session: SessionResource): Promise<BoardCategoryResource[]> {
-    const { data } = await firstValueFrom(
-      this.httpService
-        .get(ENDPOINT_URL, {
-          headers: {
-            Cookie: session.boardSessionCookie,
-          },
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            throw new Error(`Unable to retrieve board categories: ${error}`);
-          }),
-        ),
-    );
+    const { data } = await this.httpService.get(ENDPOINT_URL, {
+      cookie: session.boardSessionCookie,
+    });
     const xmlDocument = this.xmljs.parseXml(data);
     const boardCategories = this.transformBoardOverview(xmlDocument);
     return boardCategories;

@@ -1,4 +1,3 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
@@ -8,6 +7,7 @@ import LoginResource from './resources/login.resource';
 import SessionResource from './resources/session.resource';
 import { JwtService } from '@nestjs/jwt';
 import JwtResource from './resources/jwt.resource';
+import HttpService from 'src/http/http.service';
 
 @Injectable()
 export default class AuthService {
@@ -27,12 +27,9 @@ export default class AuthService {
       )}&login_password=${encodeURIComponent(
         loginResource.password,
       )}&login_lifetime=${loginResource.lifetime}`;
-      const { data } = await firstValueFrom(
-        this.httpService.post(forumConfig.LOGIN_URL, payload).pipe(
-          catchError((error: AxiosError) => {
-            throw new Error(`Unable to log into forum: ${error.response.data}`);
-          }),
-        ),
+      const { data } = await this.httpService.post(
+        forumConfig.LOGIN_URL,
+        payload,
       );
       this.checkForLoginSuccess(data);
       const cookieUrl = this.getSessionCookieUrl(data);
@@ -88,15 +85,7 @@ export default class AuthService {
    * @returns The object containing the session cookie.
    */
   async getSessionCookie(url: string) {
-    const { headers } = await firstValueFrom(
-      this.httpService.get(url).pipe(
-        catchError((error: AxiosError) => {
-          throw new Error(
-            `Unable to retrieve session details: ${error.response.data}`,
-          );
-        }),
-      ),
-    );
+    const { headers } = await this.httpService.get(url);
     const cookie = headers['set-cookie'];
     if (cookie && cookie.length >= 2) {
       // Since the first cookie tends to not work, we use the second one
@@ -113,21 +102,9 @@ export default class AuthService {
    * @returns The session details.
    */
   async getSessionDetails(cookie: string): Promise<SessionResource> {
-    const { data } = await firstValueFrom(
-      this.httpService
-        .get(forumConfig.FORUM_URL, {
-          headers: {
-            Cookie: cookie,
-          },
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            throw new Error(
-              `Unable to retrieve session details: ${error.response.data}`,
-            );
-          }),
-        ),
-    );
+    const { data } = await this.httpService.get(forumConfig.FORUM_URL, {
+      cookie,
+    });
     const session = this.extractSessionDetails(data, cookie);
     return session;
   }
