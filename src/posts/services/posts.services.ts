@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import UsersService from 'src/users/services/users.service';
-import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
-import PostResource, { FirstPost, LastPost } from '../resources/post.resource';
+import { UsersService } from 'src/users/services/users.service';
+import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
+import { FirstPost, LastPost, PostResource } from '../resources/post.resource';
 
 @Injectable()
-export default class PostsService {
+export class PostsService {
   constructor(
     private readonly xmljs: XmlJsService,
     private readonly usersService: UsersService,

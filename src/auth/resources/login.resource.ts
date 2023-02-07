@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString, Max, MaxLength, Min } from 'class-validator';
 
-export default class LoginResource {
+export class LoginResource {
   @ApiProperty({
     description: 'Your username.',
   })

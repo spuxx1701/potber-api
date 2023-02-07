@@ -15,15 +15,15 @@ import {
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
-import BoardCategoryResource from '../resources/board-category.resource';
-import BoardCategoriesService from '../services/board-categories.service';
+import { BoardCategoryResource } from '../resources/board-category.resource';
+import { BoardCategoriesService } from '../services/board-categories.service';
 
 @Controller('boardCategories')
 @ApiTags('Board categories')
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
-export default class BoardCategoriesController {
+export class BoardCategoriesController {
   constructor(private readonly service: BoardCategoriesService) {}
 
   @Get()

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import PostResource, {
+import {
   FirstPost,
   LastPost,
+  PostResource,
 } from 'src/posts/resources/post.resource';
-import UserResource from 'src/users/resources/user.resource';
 
-export default class ThreadResource {
+export class ThreadResource {
   @ApiProperty({
     description: "The thread's unique ID.",
   })

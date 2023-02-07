@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class SessionResource {
+export class SessionResource {
   @ApiProperty({
     description: 'Your user ID.',
   })

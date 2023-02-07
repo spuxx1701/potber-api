@@ -9,7 +9,7 @@ export interface RequestOptions {
 }
 
 @Injectable()
-export default class HttpService {
+export class HttpService {
   constructor(private readonly httpService: NestHttpService) {}
 
   /**

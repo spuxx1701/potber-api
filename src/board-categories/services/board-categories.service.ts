@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import SessionResource from 'src/auth/resources/session.resource';
-import BoardResource from 'src/boards/resources/board.resource';
-import BoardsService from 'src/boards/services/boards.service';
+import { SessionResource } from 'src/auth/resources/session.resource';
+import { BoardResource } from 'src/boards/resources/board.resource';
+import { BoardsService } from 'src/boards/services/boards.service';
 import { forumConfig } from 'src/config/forum.config';
-import HttpService from 'src/http/http.service';
-import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
-import BoardCategoryResource from '../resources/board-category.resource';
+import { HttpService } from 'src/http/http.service';
+import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
+import { BoardCategoryResource } from '../resources/board-category.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}boards.php`;
 
 @Injectable()
-export default class BoardCategoriesService {
+export class BoardCategoriesService {
   constructor(
     private readonly httpService: HttpService,
     private readonly xmljs: XmlJsService,

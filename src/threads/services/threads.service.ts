@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import PostResource from 'src/posts/resources/post.resource';
-import PostsService from 'src/posts/services/posts.services';
-import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
-import ThreadResource, { ThreadPage } from '../resources/thread.resource';
+import { PostResource } from 'src/posts/resources/post.resource';
+import { PostsService } from 'src/posts/services/posts.services';
+import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
+import { ThreadPage, ThreadResource } from '../resources/thread.resource';
 
 @Injectable()
-export default class ThreadsService {
+export class ThreadsService {
   constructor(
     private readonly xmljs: XmlJsService,
     private readonly postsService: PostsService,

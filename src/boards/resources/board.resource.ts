@@ -1,4 +1,4 @@
-export default class BoardResource {
+export class BoardResource {
   id: string;
   name: string;
   description: string;

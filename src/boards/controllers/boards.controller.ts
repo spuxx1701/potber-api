@@ -17,15 +17,15 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import BoardResource from '../resources/board.resource';
-import BoardsService from '../services/boards.service';
+import { BoardResource } from '../resources/board.resource';
+import { BoardsService } from '../services/boards.service';
 
 @Controller('boards')
 @ApiTags('Boards')
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
-export default class BoardsController {
+export class BoardsController {
   constructor(private readonly service: BoardsService) {}
 
   @Get(':id')

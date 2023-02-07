@@ -1,16 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AxiosError } from 'axios';
-import { catchError, firstValueFrom } from 'rxjs';
 import { forumConfig } from 'src/config/forum.config';
 import { authExceptions } from './auth.exceptions';
-import LoginResource from './resources/login.resource';
-import SessionResource from './resources/session.resource';
+import { LoginResource } from './resources/login.resource';
+import { SessionResource } from './resources/session.resource';
 import { JwtService } from '@nestjs/jwt';
-import JwtResource from './resources/jwt.resource';
-import HttpService from 'src/http/http.service';
+import { JwtResource } from './resources/jwt.resource';
+import { HttpService } from 'src/http/http.service';
 
 @Injectable()
-export default class AuthService {
+export class AuthService {
   constructor(
     private readonly httpService: HttpService,
     private jwtService: JwtService,

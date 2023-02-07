@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
-import HttpModule from 'src/http/http.module';
-import PostsModule from 'src/posts/posts.module';
-import PostResource, { FirstPost } from 'src/posts/resources/post.resource';
-import ThreadResource, { ThreadPage } from '../resources/thread.resource';
-import ThreadsService from './threads.service';
+import { HttpModule } from 'src/http/http.module';
+import { PostsModule } from 'src/posts/posts.module';
+import { FirstPost, PostResource } from 'src/posts/resources/post.resource';
+import { ThreadPage, ThreadResource } from '../resources/thread.resource';
+import { ThreadsService } from './threads.service';
 import { threadXmlMockData } from './threads.service.spec.includes';
-import XmlJsService from 'src/xml-api/xml-js.service';
+import { XmlJsService } from 'src/xml-api/xml-js.service';
 
 describe('Threads | ThreadsService', () => {
   let threadsService: ThreadsService;

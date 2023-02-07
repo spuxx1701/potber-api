@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import XmlJsService from 'src/xml-api/xml-js.service';
-import UserResource from '../resources/user.resource';
-import UsersService from './users.service';
+import { XmlJsService } from 'src/xml-api/xml-js.service';
+import { UserResource } from '../resources/user.resource';
+import { UsersService } from './users.service';
 import { userXmlMockData } from './users.service.spec.includes';
 
 describe('Users | UsersService', () => {

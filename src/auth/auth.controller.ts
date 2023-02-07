@@ -19,11 +19,11 @@ import {
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { validationPipe } from 'src/validation/validation.pipe';
 import { authExceptions } from './auth.exceptions';
-import AuthService from './auth.service';
+import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt.guard';
-import JwtResource from './resources/jwt.resource';
-import LoginResource from './resources/login.resource';
-import SessionResource from './resources/session.resource';
+import { JwtResource } from './resources/jwt.resource';
+import { LoginResource } from './resources/login.resource';
+import { SessionResource } from './resources/session.resource';
 
 @Controller('auth')
 @ApiTags('Authentication')

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import UserResource from 'src/users/resources/user.resource';
+import { UserResource } from 'src/users/resources/user.resource';
 
-export default class PostResource {
+export class PostResource {
   @ApiProperty({
     description: "The post's unique ID.",
   })

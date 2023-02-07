@@ -4,14 +4,14 @@ import {
 } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { httpConfig, httpRequestInterceptor } from './http.config';
-import HttpService from './http.service';
+import { HttpService } from './http.service';
 
 @Module({
   imports: [NestHttpModule.register(httpConfig)],
   exports: [HttpService],
   providers: [HttpService],
 })
-export default class HttpModule {
+export class HttpModule {
   constructor(private readonly httpService: NestHttpService) {}
 
   onModuleInit() {

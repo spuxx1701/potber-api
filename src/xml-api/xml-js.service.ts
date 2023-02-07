@@ -5,7 +5,7 @@ import { xml2js, Element as XmlJsElement } from 'xml-js';
 export type Element = XmlJsElement;
 
 @Injectable()
-export default class XmlJsService {
+export class XmlJsService {
   /**
    * Parses an XML text to an XmlJs element.
    * @param text The text.

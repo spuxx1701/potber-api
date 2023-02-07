@@ -9,14 +9,14 @@ import {
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import ThreadResource from '../resources/thread.resource';
+import { ThreadResource } from '../resources/thread.resource';
 
 @Controller('threads')
 @ApiTags('Threads')
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
-export default class ThreadsController {
+export class ThreadsController {
   @Get(':id')
   @ApiOkResponse({
     description: 'The given thread.',

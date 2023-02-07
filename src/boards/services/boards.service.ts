@@ -3,19 +3,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { AxiosError } from 'axios';
-import { Session } from 'inspector';
-import SessionResource from 'src/auth/resources/session.resource';
+import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
-import HttpService from 'src/http/http.service';
-import ThreadsService from 'src/threads/services/threads.service';
-import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
-import BoardResource, { BoardPageResource } from '../resources/board.resource';
+import { HttpService } from 'src/http/http.service';
+import { ThreadsService } from 'src/threads/services/threads.service';
+import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
+import { BoardPageResource, BoardResource } from '../resources/board.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}board.php`;
 
 @Injectable()
-export default class BoardsService {
+export class BoardsService {
   constructor(
     private readonly xmljs: XmlJsService,
     private readonly httpService: HttpService,
