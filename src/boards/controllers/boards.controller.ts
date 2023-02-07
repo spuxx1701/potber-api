@@ -30,7 +30,7 @@ export class BoardsController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Returns the board for the given ID.',
+    summary: 'Gets a board by ID.',
   })
   @ApiOkResponse({
     description: 'The specified board.',
