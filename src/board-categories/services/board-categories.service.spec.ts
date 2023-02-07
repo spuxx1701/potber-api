@@ -6,7 +6,7 @@ import BoardCategoryResource from '../resources/board-category.resource';
 import BoardCategoriesService from './board-categories.service';
 import { boardXmlMockData } from './board-categories.service.spec.includes';
 
-describe('Boards | Services | BoardCategoriesService', () => {
+describe('BoardCategories | BoardCategoriesService', () => {
   let boardCategoriesService: BoardCategoriesService;
   let xmlTransformer: XmlTransformerService;
 
