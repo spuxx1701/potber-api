@@ -1,22 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import XmlTransformerService from 'src/xml-api/xml-transformer.service';
+import XmlJsService, { Element } from 'src/xml-api/xml-js.service';
 import UserResource from '../resources/user.resource';
 
 @Injectable()
 export default class UsersService {
-  constructor(private readonly xts: XmlTransformerService) {}
+  constructor(private readonly xmljs: XmlJsService) {}
 
   /**
    * Transforms a user.
-   * @param userXml The user xml.
+   * @param userElement The user xml element.
    * @returns The user.
    */
-  transformUser(userXml: Element): UserResource {
-    const user = {
-      id: this.xts.getAttributeValue('id', userXml),
-      groupId: this.xts.getAttributeValue('group-id', userXml),
-      name: userXml.textContent || this.xts.getNodeTextContent('name', userXml),
-    } as UserResource;
+  transformUser(userElement: Element): UserResource {
+    const user: UserResource = {
+      id: this.xmljs.getAttribute('id', userElement) as string,
+      groupId: this.xmljs.getAttribute('group-id', userElement) as string,
+      name: this.xmljs.getElement('cdata', userElement)?.cdata,
+    };
     return user;
   }
 }

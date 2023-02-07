@@ -25,10 +25,12 @@ export default class XmlTransformerService {
     nodeName: string,
     element: Document | Element | ChildNode | XMLDocument,
   ): any {
-    for (let i = 0; i < element.childNodes.length; i++) {
-      const node = element.childNodes[i];
-      if (node.nodeName === nodeName) {
-        return node;
+    if (element.childNodes) {
+      for (let i = 0; i < element.childNodes.length; i++) {
+        const node = element.childNodes[i];
+        if (node.nodeName === nodeName) {
+          return node;
+        }
       }
     }
     return undefined;
@@ -56,6 +58,10 @@ export default class XmlTransformerService {
    * @returns The attribute's value or undefined.
    */
   getAttributeValue(attributeName: string, element: Element | ChildNode) {
+    if (!element) {
+      debugger;
+      return undefined;
+    }
     if ((element as Element).attributes) {
       for (let i = 0; i < (element as Element).attributes.length; i++) {
         const attribute = (element as Element).attributes[i];
