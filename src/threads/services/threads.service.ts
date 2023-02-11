@@ -115,6 +115,8 @@ export class ThreadsService {
       throw new NotFoundException();
     } else if (threadXml.name === 'no-access') {
       throw new ForbiddenException();
+    } else if (threadXml.name === 'thread-hidden') {
+      throw new NotFoundException();
     }
     const thread = {
       id: this.xmljs.getAttribute('id', threadXml),
