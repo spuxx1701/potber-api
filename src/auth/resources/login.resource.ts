@@ -1,5 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, Max, MaxLength, Min } from 'class-validator';
+import {
+  IsNumber,
+  IsNumberString,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  Validate,
+} from 'class-validator';
+import { IsValidLifetime } from '../validators/lifetime.validator';
 
 export class LoginResource {
   @ApiProperty({
@@ -20,12 +29,10 @@ export class LoginResource {
 
   @ApiProperty({
     description:
-      'The session lifetime. Can be 3600 (one hour), 86400 (one day), 604800 (one month) or 31536000 (one year)',
+      'The session lifetime. Example values are 3600 (one hour), 86400 (one day), 604800 (one month) or 31536000 (one year).',
     examples: [3600, 86400, 604800, 31536000],
     default: 3600,
   })
-  @IsNumber()
-  @Min(3600)
-  @Max(31536000)
+  @Validate(IsValidLifetime)
   lifetime: number;
 }
