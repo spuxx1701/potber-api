@@ -10,6 +10,7 @@ import { PostCreateResource } from '../resources/post.create.resource';
 import { PostLinkResource } from '../resources/post.link.resource';
 import { PostPreviewResource } from '../resources/post.preview.resource';
 import { PostResource } from '../resources/post.resource';
+import * as he from 'he';
 
 @Injectable()
 export class PostsService {
@@ -33,6 +34,7 @@ export class PostsService {
       `User '${session.username}' (${session.userId}) is attempting to create a new post in thread '${post.threadId}'.`,
       this.constructor.name,
     );
+    post.message = he.encode(post.message);
     const url = `${forumConfig.FORUM_URL}/newreply.php?TID=${post.threadId}`;
     const token = await this.getSecurityToken(url, session);
     const payload = this.createFormBody(post, token);
