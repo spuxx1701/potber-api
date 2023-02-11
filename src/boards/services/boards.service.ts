@@ -52,11 +52,11 @@ export class BoardsService {
     }
     let page: BoardPageResource | undefined;
     const threadsXml = this.xmljs.getElement('threads', boardXml);
-    // Check if the given page has posts and throw NotFound otherwise
-    if (!threadsXml.elements) {
-      throw new NotFoundException();
-    }
     if (threadsXml) {
+      // Check if the given page has posts and throw NotFound otherwise
+      if (!threadsXml.elements) {
+        throw new NotFoundException();
+      }
       page = {
         number: parseInt(this.xmljs.getAttribute('page', threadsXml)),
         stickiesCount: parseInt(
