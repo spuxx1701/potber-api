@@ -66,6 +66,6 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
   async session(@Request() request: any): Promise<SessionResource> {
-    return request.user as SessionResource;
+    return this.service.getSessionDetails(request.user.cookie);
   }
 }

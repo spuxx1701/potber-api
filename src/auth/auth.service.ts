@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { forumConfig } from 'src/config/forum.config';
 import { authExceptions } from './auth.exceptions';
 import { LoginResource } from './resources/login.resource';
@@ -102,18 +102,18 @@ export class AuthService {
    * @returns The session details.
    */
   async getSessionDetails(cookie: string): Promise<SessionResource> {
-    const { data } = await this.httpService.get(forumConfig.FORUM_URL, {
-      cookie,
-    });
-    const userId = await this.getUserId(cookie);
-    const username = await this.getUsername(userId);
-    const session: SessionResource = {
-      userId,
-      username,
-      cookie,
-    };
-    // const session = this.extractSessionDetails(data, cookie);
-    return session;
+    try {
+      const userId = await this.getUserId(cookie);
+      const username = await this.getUsername(userId);
+      const session: SessionResource = {
+        userId,
+        username,
+        cookie,
+      };
+      return session;
+    } catch (error) {
+      throw new UnauthorizedException(error.message);
+    }
   }
 
   /**
