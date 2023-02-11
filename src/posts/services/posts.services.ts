@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
@@ -34,7 +34,6 @@ export class PostsService {
       `User '${session.username}' (${session.userId}) is attempting to create a new post in thread '${post.threadId}'.`,
       this.constructor.name,
     );
-    post.message = he.encode(post.message);
     const url = `${forumConfig.FORUM_URL}/newreply.php?TID=${post.threadId}`;
     const token = await this.getSecurityToken(url, session);
     const payload = this.createFormBody(post, token);
@@ -80,7 +79,7 @@ export class PostsService {
     }
     keyValuePairs.push(`${prefix}_title=${post.title ? post.title : ''}`);
     keyValuePairs.push(`${prefix}_icon=${post.icon ? post.icon : '0'}`);
-    keyValuePairs.push(`message=${escape(post.message)}`);
+    keyValuePairs.push(`message=${escape(he.encode(post.message))}`);
     keyValuePairs.push(`${prefix}_converturls=${post.convertUrls ? '1' : '0'}`);
     keyValuePairs.push(
       `${prefix}_disablebbcode=${post.disableBbCode ? '1' : '0'}`,
@@ -104,6 +103,9 @@ export class PostsService {
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
+    if (/Keine\sZutrittsberechtigung/.test(data)) {
+      throw new ForbiddenException();
+    }
     const tokenMatches = data.match(/(?:(name='token'\svalue=')(.*?)('\s\/>))/);
     if (tokenMatches && tokenMatches.length >= 3) {
       return tokenMatches[2] as string;
@@ -130,7 +132,10 @@ export class PostsService {
     } else {
       if (new RegExp(/Du postest zu viel in zu kurzer Zeit/).test(text)) {
         throw postsExceptions.tooManyRequests;
+      } else if (/Dieser Thread ist geschlossen/) {
+        throw postsExceptions.threadIsClosed;
       } else {
+        debugger;
         throw postsExceptions.unknown;
       }
     }

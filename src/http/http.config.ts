@@ -3,7 +3,7 @@ import { Logger } from '@nestjs/common';
 import { InternalAxiosRequestConfig } from 'axios';
 
 export const httpConfig: HttpModuleOptions = {
-  timeout: 5000,
+  timeout: 10000,
 };
 
 export function httpRequestInterceptor(

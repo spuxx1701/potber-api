@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
@@ -109,6 +113,8 @@ export class ThreadsService {
   transformThread(threadXml: Element): ThreadResource {
     if (threadXml.name === 'invalid-thread') {
       throw new NotFoundException();
+    } else if (threadXml.name === 'no-access') {
+      throw new ForbiddenException();
     }
     const thread = {
       id: this.xmljs.getAttribute('id', threadXml),
