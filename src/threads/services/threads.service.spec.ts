@@ -68,6 +68,7 @@ describe('Threads | ThreadsService', () => {
               title: 'Foo',
               icon: '37',
               message: 'Hello World!',
+              contentHidden: false,
               editedCount: 17,
               lastEdit: {
                 user: {
@@ -92,6 +93,7 @@ describe('Threads | ThreadsService', () => {
               title: undefined,
               icon: undefined,
               message: 'Hello Ameisenfutter!',
+              contentHidden: false,
               editedCount: 0,
               lastEdit: undefined,
               avatarUrl: './avatare/upload/U1268185--small.png',
