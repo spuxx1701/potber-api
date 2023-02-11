@@ -1,13 +1,16 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
+  Body,
   Controller,
   Get,
   NotFoundException,
   Param,
+  Post,
   Query,
   Request,
   UseGuards,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -16,10 +19,15 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { isBoolean, isDefined } from 'class-validator';
+import { isDefined, validate, validateOrReject } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
+import { PostCreateResource } from 'src/posts/resources/post.create.resource';
 import { PostResource } from 'src/posts/resources/post.resource';
+import {
+  validationException,
+  validationPipe,
+} from 'src/validation/validation.pipe';
 import { threadsExceptions } from '../config/threads.exceptions';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadsService } from '../services/threads.service';
@@ -93,5 +101,19 @@ export class ThreadsController {
     return this.service.findPost(id, postId, request.user, {
       quote: quote === 'true' ? true : false,
     });
+  }
+
+  @Post(':id/posts')
+  @UsePipes(validationPipe)
+  @ApiOperation({
+    summary: 'Creates a new post in the given thread.',
+  })
+  @ApiException(() => [validationException])
+  create(
+    @Param('id') id: string,
+    @Body() body: PostCreateResource,
+    @Request() request: any,
+  ): Promise<PostResource> {
+    return;
   }
 }

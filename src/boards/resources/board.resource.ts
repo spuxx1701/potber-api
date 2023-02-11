@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { LastPostResource } from 'src/posts/resources/post.resource';
+import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
 import { ThreadResource } from 'src/threads/resources/thread.resource';
 import { UserResource } from 'src/users/resources/user.resource';
 
@@ -40,7 +40,7 @@ export class BoardResource {
   categoryId: string;
 
   @ApiProperty({ description: "The board's most recent post." })
-  lastPost?: LastPostResource;
+  lastPost?: PostPreviewResource;
 
   @ApiProperty({ description: "Who's the sheriff in town." })
   moderators?: UserResource[];

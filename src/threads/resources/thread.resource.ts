@@ -1,9 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  FirstPostResource,
-  LastPostResource,
-  PostResource,
-} from 'src/posts/resources/post.resource';
+import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
+import { PostResource } from 'src/posts/resources/post.resource';
 
 export class ThreadPage {
   @ApiProperty({ description: "The thread's current page." })
@@ -59,10 +56,10 @@ export class ThreadResource {
   boardId: string;
 
   @ApiProperty({ description: "The thread's opening post." })
-  firstPost?: FirstPostResource;
+  firstPost?: PostPreviewResource;
 
   @ApiProperty({ description: "The thread's most recent post." })
-  lastPost?: LastPostResource;
+  lastPost?: PostPreviewResource;
 
   @ApiProperty({ description: "The thread's current page." })
   page?: ThreadPage;

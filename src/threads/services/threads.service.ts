@@ -125,10 +125,10 @@ export class ThreadsService {
         'id',
         this.xmljs.getElement('in-board', threadXml),
       ),
-      firstPost: this.postsService.transformFirstPost(
+      firstPost: this.postsService.transformPostPreview(
         this.xmljs.getElement('firstpost', threadXml),
       ),
-      lastPost: this.postsService.transformLastPost(
+      lastPost: this.postsService.transformPostPreview(
         this.xmljs.getElement('lastpost', threadXml),
       ),
       page: this.transformThreadPage(this.xmljs.getElement('posts', threadXml)),
