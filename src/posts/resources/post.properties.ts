@@ -43,8 +43,15 @@ export const postProperties = {
   } as ApiPropertyOptions,
 
   message: {
-    description: 'The post message.',
+    description:
+      'The post message. Will be undefined if the message was hidden by a moderator.',
     example: 'Geposted von der potber API! ❤',
+  } as ApiPropertyOptions,
+
+  contentHidden: {
+    description:
+      'Whether the post content (icon, title and message) was hidden by a moderator.',
+    example: false,
   } as ApiPropertyOptions,
 
   editedCount: {

@@ -25,7 +25,10 @@ export class PostResource {
   icon?: string;
 
   @ApiProperty(postProperties.message)
-  message: string;
+  message?: string;
+
+  @ApiProperty(postProperties.contentHidden)
+  contentHidden?: boolean;
 
   @ApiProperty(postProperties.editedCount)
   editedCount: number;

@@ -194,6 +194,7 @@ export class PostsService {
       ),
       avatarUrl: this.xmljs.getElementCdata('avatar', postXml),
     } as PostResource;
+    post.contentHidden = !post.message;
     return post;
   }
 
