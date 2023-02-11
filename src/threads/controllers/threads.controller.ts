@@ -20,7 +20,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { isDefined, validate, validateOrReject } from 'class-validator';
+import { isDefined } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { PostCreateResource } from 'src/posts/resources/post.create.resource';
@@ -33,6 +33,10 @@ import {
 import { threadsExceptions } from '../config/threads.exceptions';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadsService } from '../services/threads.service';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+const testThreadId = process.env.SWAGGER_TEST_THREAD_ID;
 
 @Controller('threads')
 @ApiTags('Threads')
@@ -131,7 +135,7 @@ export class ThreadsController {
   @ApiParam({
     name: 'id',
     description: "The thread's id.",
-    example: '219311',
+    example: testThreadId,
     type: String,
   })
   @ApiOkResponse({
