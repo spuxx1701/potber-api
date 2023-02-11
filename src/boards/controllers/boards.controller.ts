@@ -55,7 +55,6 @@ export class BoardsController {
     @Request() request: any,
     @Query('page') page?: number,
   ): Promise<BoardResource> {
-    if (!id) throw boardsExceptions.missingId;
     return this.service.findOne(id, request.user, page);
   }
 }

@@ -24,21 +24,65 @@ export class ThreadsService {
    * Returns the thread for the given id and page. If page is not supplied, will return first page.
    * @param id The thread id.
    * @param session: The session object.
-   * @param page (optional) The page.
+   * @param options (optional) More options.
    */
   async findOne(
     id: string,
     session: SessionResource,
-    page?: number,
+    options?: {
+      postId?: string;
+      page?: number;
+    },
   ): Promise<ThreadResource> {
     let url = `${ENDPOINT_URL}?TID=${id}`;
-    if (page) url += `&page=${page}`;
+    if (options?.postId) {
+      url += `&PID=${options.postId}`;
+    } else if (options.page) {
+      url += `&page=${options.page}`;
+    }
+
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
     const threadXml = this.xmljs.parseXml(data);
     const thread = this.transformThread(threadXml.elements[0]);
+    // If post id was specified, we need to check whether the thread page that we're returning actually
+    // contains that post. If it doesn't, the thread doesn't contain a post with that post id and
+    // we should raise a 404.
+    if (
+      options?.postId &&
+      thread.page &&
+      !thread.page.posts.find((post) => post.id === options.postId)
+    ) {
+      throw new NotFoundException();
+    }
     return thread;
+  }
+
+  /**
+   * Returns the given post. Essentially wraps threadService.findOne(), extracts the post and offers
+   * some additional post-related functionality.
+   * @param threadId
+   * @param postId
+   * @param session
+   * @param options
+   */
+  async findPost(
+    threadId: string,
+    postId: string,
+    session: SessionResource,
+    options?: { quote?: boolean },
+  ): Promise<PostResource> {
+    // Since findOne does all required checks, we can simply assume that we
+    // receive the page and specific post at this point.
+    const thread = await this.findOne(threadId, session, { postId });
+    const post = (thread.page as ThreadPage).posts.find(
+      (post) => post.id === postId,
+    ) as PostResource;
+    if (options?.quote) {
+      post.content = `[quote=${post.author.id},${post.id},"${post.author.name}"][b]${post.content}[/b][/quote]"`;
+    }
+    return post;
   }
 
   /**

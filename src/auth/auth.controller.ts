@@ -35,8 +35,10 @@ export class AuthController {
   @Post('login')
   @ApiOperation({
     summary: 'Sign into the board.',
-    description:
-      "Signs you into the board and returns an 'Authorization' header containing a JWT (https://jwt.io/). To terminate the session, simply delete the JWT.",
+    description: `Signs you into the board and returns an 'Authorization' header containing a JWT (https://jwt.io/). To terminate the session,
+      simply delete the JWT (e.g. by deleting the cookie that holds it). To authenticate yourself on swagger UI, copy the access_token
+      from the response object, click the 'Authorize' button on the top of the page, parse your token and hit 'Login'.
+      To terminate the session, hit 'Logout'.`,
   })
   @ApiOkResponse({
     description: 'Login was successful.',
