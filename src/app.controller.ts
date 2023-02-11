@@ -1,5 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { swaggerUri } from './config/swagger.config';
 
 @Controller()
 @ApiTags('Index')
@@ -19,7 +20,8 @@ export class AppController {
       },
       github: 'https://www.github.com/spuxx1701/potber-api',
       client: process.env.APP_CLIENT_URL,
-      documentation: process.env.APP_SWAGGER_URL,
+      documentation: `${process.env.APP_API_URL}${swaggerUri}`,
+      documentationJson: `${process.env.APP_API_URL}${swaggerUri}-json`,
     };
   }
 }
