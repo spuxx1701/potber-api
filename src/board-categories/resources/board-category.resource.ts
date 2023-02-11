@@ -3,7 +3,7 @@ import { BoardResource } from 'src/boards/resources/board.resource';
 
 export class BoardCategoryResource {
   @ApiProperty({
-    description: "The board category's ID.",
+    description: "The board category's id.",
     example: '6',
   })
   id: string;

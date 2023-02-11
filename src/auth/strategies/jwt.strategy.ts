@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: SessionResource) {
     // Call the board landing page with the payload's cookie and check whether
-    // the user IDs match.
+    // the user ids match.
     const session = await this.authService.getSessionDetails(payload.cookie);
     if (session.userId === payload.userId) {
       return payload;

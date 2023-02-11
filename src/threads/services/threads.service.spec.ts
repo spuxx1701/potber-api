@@ -1,7 +1,10 @@
 import { Test } from '@nestjs/testing';
 import { HttpModule } from 'src/http/http.module';
 import { PostsModule } from 'src/posts/posts.module';
-import { FirstPost, PostResource } from 'src/posts/resources/post.resource';
+import {
+  FirstPostResource,
+  PostResource,
+} from 'src/posts/resources/post.resource';
 import { ThreadPage, ThreadResource } from '../resources/thread.resource';
 import { ThreadsService } from './threads.service';
 import { threadXmlMockData } from './threads.service.spec.includes';
@@ -48,7 +51,7 @@ describe('Threads | ThreadsService', () => {
           date: new Date(1673732641 * 1000),
           icon: '37',
           threadId: '219289',
-        } as FirstPost,
+        } as FirstPostResource,
         lastPost: undefined,
         page: {
           number: 1,

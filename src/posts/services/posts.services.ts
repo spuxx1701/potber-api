@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/services/users.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
-import { FirstPost, LastPost, PostResource } from '../resources/post.resource';
+import {
+  FirstPostResource,
+  LastPostResource,
+  PostResource,
+} from '../resources/post.resource';
 
 @Injectable()
 export class PostsService {
@@ -87,7 +91,7 @@ export class PostsService {
         'id',
         this.xmljs.getElement('in-board', postXml),
       ),
-    } as FirstPost;
+    } as FirstPostResource;
   }
 
   transformLastPost(lastPostXml: Element) {
@@ -113,7 +117,7 @@ export class PostsService {
         'id',
         this.xmljs.getElement('in-board', postXml),
       ),
-    } as LastPost;
+    } as LastPostResource;
   }
 
   transformLastEdit(messageXml: Element) {

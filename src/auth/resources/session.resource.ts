@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class SessionResource {
   @ApiProperty({
-    description: 'Your user ID.',
+    description: 'Your user id.',
   })
   userId: string;
 

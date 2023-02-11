@@ -2,76 +2,70 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserResource } from 'src/users/resources/user.resource';
 
 export class PostResource {
-  @ApiProperty({
-    description: "The post's unique ID.",
-  })
+  @ApiProperty({ description: "The post's unique id." })
   id: string;
 
-  @ApiProperty({
-    description: "The post's author.",
-  })
+  @ApiProperty({ description: "The post's author." })
   author: UserResource;
 
-  @ApiProperty({
-    description: 'The creation timestamp of the post.',
-  })
+  @ApiProperty({ description: 'The creation timestamp of the post.' })
   date: Date;
 
-  @ApiProperty({
-    description: 'The thread this post belongs to.',
-  })
+  @ApiProperty({ description: 'The thread this post belongs to.' })
   threadId: string;
 
-  @ApiProperty({
-    description: 'The boad this post belongs to.',
-  })
+  @ApiProperty({ description: 'The boad this post belongs to.' })
   boardId: string;
 
-  @ApiProperty({
-    description: "The post's title.",
-  })
+  @ApiProperty({ description: "The post's title." })
   title?: string;
 
-  @ApiProperty({
-    description: "The post's icon. '0' means no icon.",
-  })
+  @ApiProperty({ description: "The post's icon. '0' means no icon." })
   icon?: string;
 
-  @ApiProperty({
-    description: 'The post content.',
-  })
+  @ApiProperty({ description: 'The post content.' })
   content: string;
 
-  @ApiProperty({
-    description: 'How often the post has been edited.',
-  })
+  @ApiProperty({ description: 'How often the post has been edited.' })
   editedCount: number;
 
-  @ApiProperty({
-    description: 'When the post was edited last and by who.',
-  })
+  @ApiProperty({ description: 'When the post was edited last and by who.' })
   lastEdit?: {
     user: UserResource;
     date: Date;
   };
 
-  @ApiProperty({
-    description: "The post author's avatar URL.",
-  })
+  @ApiProperty({ description: "The post author's avatar URL." })
   avatarUrl?: string;
 }
 
-export interface FirstPost {
+export class FirstPostResource {
+  @ApiProperty({ description: "The post's icon. '0' means no icon." })
   icon?: string;
+
+  @ApiProperty({ description: "The post's author." })
   author: UserResource;
+
+  @ApiProperty({ description: 'The creation timestamp of the post.' })
   date: Date;
+
+  @ApiProperty({ description: 'The thread this post belongs to.' })
   threadId: string;
+
+  @ApiProperty({ description: 'The boad this post belongs to.' })
   boardId: string;
 }
 
-export interface LastPost {
+export class LastPostResource {
+  @ApiProperty({ description: "The post's author." })
   author: UserResource;
+
+  @ApiProperty({ description: 'The creation timestamp of the post.' })
   date: Date;
+
+  @ApiProperty({ description: 'The thread this post belongs to.' })
   threadId: string;
+
+  @ApiProperty({ description: 'The boad this post belongs to.' })
   boardId: string;
 }

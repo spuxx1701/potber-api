@@ -25,11 +25,11 @@ export class BoardsService {
 
   /**
    * Returns a board.
-   * @param id The board's ID.
+   * @param id The board's id.
    * @param session The session.
    */
   async findOne(id: string, session: SessionResource, page?: number) {
-    let url = `${ENDPOINT_URL}?BID=${id}`;
+    let url = `${ENDPOINT_URL}?Bid=${id}`;
     if (page) url += `&page=${page}`;
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,

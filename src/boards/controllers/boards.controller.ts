@@ -19,6 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
+import { boardsExceptions } from '../config/boards.exceptions';
 import { BoardResource } from '../resources/board.resource';
 import { BoardsService } from '../services/boards.service';
 
@@ -32,7 +33,7 @@ export class BoardsController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'Gets a board by ID.',
+    summary: 'Gets a board by id.',
   })
   @ApiQuery({
     name: 'page',
@@ -44,12 +45,17 @@ export class BoardsController {
     description: 'The specified board.',
     type: BoardResource,
   })
-  @ApiException(() => [NotFoundException, ForbiddenException])
+  @ApiException(() => [
+    boardsExceptions.missingId,
+    NotFoundException,
+    ForbiddenException,
+  ])
   async findOne(
     @Param('id') id: string,
     @Request() request: any,
     @Query('page') page?: number,
-  ) {
+  ): Promise<BoardResource> {
+    if (!id) throw boardsExceptions.missingId;
     return this.service.findOne(id, request.user, page);
   }
 }

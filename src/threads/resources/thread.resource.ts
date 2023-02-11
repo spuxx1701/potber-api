@@ -1,24 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  FirstPost,
-  LastPost,
+  FirstPostResource,
+  LastPostResource,
   PostResource,
 } from 'src/posts/resources/post.resource';
 
+export class ThreadPage {
+  @ApiProperty({ description: "The thread's current page." })
+  number: number;
+
+  @ApiProperty({ description: 'The total number of posts on this page.' })
+  postCount: number;
+
+  @ApiProperty({ description: 'I honestly have no idea what this does.' })
+  offset: number;
+
+  @ApiProperty({ description: 'The posts on tuis page.' })
+  posts: PostResource[];
+}
+
 export class ThreadResource {
-  @ApiProperty({
-    description: "The thread's unique ID.",
-  })
+  @ApiProperty({ description: "The thread's unique id." })
   id: string;
 
-  @ApiProperty({
-    description: "The thread's title.",
-  })
+  @ApiProperty({ description: "The thread's title." })
   title: string;
 
-  @ApiProperty({
-    description: "The thread's subtitle.",
-  })
+  @ApiProperty({ description: "The thread's subtitle." })
   subtitle: string;
 
   @ApiProperty({
@@ -26,65 +34,36 @@ export class ThreadResource {
   })
   repliesCount: number;
 
-  @ApiProperty({
-    description: 'The number of hits that thread received.',
-  })
+  @ApiProperty({ description: 'The number of hits that thread received.' })
   hitsCount: number;
 
-  @ApiProperty({
-    description: 'The number of pages the thread has.',
-  })
+  @ApiProperty({ description: 'The number of pages the thread has.' })
   pagesCount: number;
 
-  @ApiProperty({
-    description: 'Whether the thread has been closed.',
-  })
+  @ApiProperty({ description: 'Whether the thread has been closed.' })
   isClosed: boolean;
 
-  @ApiProperty({
-    description: 'Whether the thread is sticky.',
-  })
+  @ApiProperty({ description: 'Whether the thread is sticky.' })
   isSticky: boolean;
 
-  @ApiProperty({
-    description: 'Whether the thread is important.',
-  })
+  @ApiProperty({ description: 'Whether the thread is important.' })
   isImportant: boolean;
 
-  @ApiProperty({
-    description: 'Whether the thread is an announcement.',
-  })
+  @ApiProperty({ description: 'Whether the thread is an announcement.' })
   isAnnouncement: boolean;
 
-  @ApiProperty({
-    description: 'Whether the thread is global.',
-  })
+  @ApiProperty({ description: 'Whether the thread is global.' })
   isGlobal: boolean;
 
-  @ApiProperty({
-    description: 'The board the thread belongs to.',
-  })
+  @ApiProperty({ description: 'The board the thread belongs to.' })
   boardId: string;
 
-  @ApiProperty({
-    description: "The thread's opening post.",
-  })
-  firstPost?: FirstPost;
+  @ApiProperty({ description: "The thread's opening post." })
+  firstPost?: FirstPostResource;
 
-  @ApiProperty({
-    description: "The thread's most recent post.",
-  })
-  lastPost?: LastPost;
+  @ApiProperty({ description: "The thread's most recent post." })
+  lastPost?: LastPostResource;
 
-  @ApiProperty({
-    description: "The thread's current page.",
-  })
+  @ApiProperty({ description: "The thread's current page." })
   page?: ThreadPage;
-}
-
-export interface ThreadPage {
-  number: number;
-  postCount: number;
-  offset: number;
-  posts: PostResource[];
 }

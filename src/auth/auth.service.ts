@@ -117,7 +117,7 @@ export class AuthService {
   }
 
   /**
-   * Calls the 'boards.php' endpoint to extract the user ID.
+   * Calls the 'boards.php' endpoint to extract the user id.
    * @param cookie The session cookie.
    */
   async getUserId(cookie: string): Promise<string> {
@@ -133,14 +133,14 @@ export class AuthService {
       xmlDocument.elements[0],
     );
     if (!userId) {
-      throw new Error('Unable to retrieve user ID.');
+      throw new Error('Unable to retrieve user id.');
     }
     return userId;
   }
 
   /**
    * Calls the given user's profile page to extract the username.
-   * @param userId The user ID.
+   * @param userId The user id.
    * @param cookie The session cookie.
    */
   async getUsername(userId: string): Promise<string> {
@@ -156,7 +156,7 @@ export class AuthService {
 
   /**
    * Searches the given HTML and attempts to extract session details from
-   * the HTML (namely the user ID, the username and the logout token).
+   * the HTML (namely the user id, the username and the logout token).
    * Will throw an error if retrieving any of these details fails.
    * @param data The HTML text.
    * @param cookie The cookie. Will be stored in the session details.
@@ -166,8 +166,8 @@ export class AuthService {
     if (/Du\sbist\snicht\seingeloggt/.test(data)) {
       throw new Error('Unable to confirm login.');
     }
-    // Extract user ID, username and logout token
-    const userIdMatches = data.match(/(?:(User-ID\s)(.*)(\.\n))/);
+    // Extract user id, username and logout token
+    const userIdMatches = data.match(/(?:(User-id\s)(.*)(\.\n))/);
     const usernameMatches = data.match(/(?:(my\.mods\.de\/)(.*)("\s))/);
     if (
       !userIdMatches ||
