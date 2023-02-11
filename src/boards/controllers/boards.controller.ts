@@ -7,6 +7,7 @@ import {
   Param,
   Query,
   Request,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -20,8 +21,6 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import { boardsExceptions } from '../config/boards.exceptions';
-import { boardProperties } from '../resources/board.properties';
 import { BoardResource } from '../resources/board.resource';
 import { BoardsService } from '../services/boards.service';
 
@@ -54,9 +53,9 @@ export class BoardsController {
     type: BoardResource,
   })
   @ApiException(() => [
-    boardsExceptions.missingId,
-    NotFoundException,
+    UnauthorizedException,
     ForbiddenException,
+    NotFoundException,
   ])
   async findOne(
     @Param('id') id: string,

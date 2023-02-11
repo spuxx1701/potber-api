@@ -1,13 +1,16 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
+  BadRequestException,
   Body,
   Controller,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
   Post,
   Query,
   Request,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -78,7 +81,12 @@ export class ThreadsController {
     description: 'The given thread.',
     type: ThreadResource,
   })
-  @ApiException(() => [threadsExceptions.missingId, NotFoundException])
+  @ApiException(() => [
+    threadsExceptions.missingId,
+    NotFoundException,
+    UnauthorizedException,
+    ForbiddenException,
+  ])
   async findOne(
     @Param('id') id: string,
     @Request() request: any,
@@ -113,7 +121,12 @@ export class ThreadsController {
     description: 'The given post.',
     type: PostResource,
   })
-  @ApiException(() => [threadsExceptions.quoteMustBeBoolean, NotFoundException])
+  @ApiException(() => [
+    threadsExceptions.quoteMustBeBoolean,
+    NotFoundException,
+    UnauthorizedException,
+    ForbiddenException,
+  ])
   async findPost(
     @Param('id') id: string,
     @Param('postId') postId: string,
@@ -142,7 +155,12 @@ export class ThreadsController {
     description: 'Some details that lead to the newly created post.',
     type: PostLinkResource,
   })
-  @ApiException(() => [validationException])
+  @ApiException(() => [
+    validationException,
+    BadRequestException,
+    UnauthorizedException,
+    ForbiddenException,
+  ])
   createPost(
     @Param('id') id: string,
     @Body() body: PostCreateResource,
