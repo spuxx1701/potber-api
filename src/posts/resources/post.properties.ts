@@ -84,4 +84,9 @@ export const postProperties = {
       'Whether emojis should not be converted automatically. If set to true, emojis will be displayed as plain text.',
     default: false,
   } as ApiPropertyOptions,
+
+  url: {
+    description: "The post's API resource URL.",
+    example: 'https://api.potber.de/threads/219289/posts/1249813752',
+  },
 };

@@ -48,6 +48,7 @@ export class HttpService {
         .post(url, payload, {
           headers: {
             Cookie: options?.cookie,
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
             ...options?.headers,
           },
         })

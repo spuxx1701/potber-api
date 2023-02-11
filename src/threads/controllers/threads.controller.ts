@@ -24,6 +24,7 @@ import { isDefined, validate, validateOrReject } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { PostCreateResource } from 'src/posts/resources/post.create.resource';
+import { PostLinkResource } from 'src/posts/resources/post.link.resource';
 import { PostResource } from 'src/posts/resources/post.resource';
 import {
   validationException,
@@ -130,15 +131,20 @@ export class ThreadsController {
   @ApiParam({
     name: 'id',
     description: "The thread's id.",
-    example: '219289',
+    example: '219311',
     type: String,
+  })
+  @ApiOkResponse({
+    description: 'Some details that lead to the newly created post.',
+    type: PostLinkResource,
   })
   @ApiException(() => [validationException])
   create(
     @Param('id') id: string,
     @Body() body: PostCreateResource,
     @Request() request: any,
-  ): Promise<PostResource> {
-    return;
+  ): Promise<PostLinkResource> {
+    const post = new PostCreateResource({ threadId: id, ...body });
+    return this.service.createPost(post, request.user);
   }
 }

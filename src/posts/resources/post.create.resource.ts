@@ -10,6 +10,8 @@ import { postIcons } from '../config/post-icons';
 import { postProperties } from './post.properties';
 
 export class PostCreateResource {
+  threadId: string;
+
   @ApiProperty(postProperties.title)
   @IsString()
   @IsOptional()
@@ -41,4 +43,10 @@ export class PostCreateResource {
   @IsOptional()
   @IsBoolean()
   disableEmojis: boolean = postProperties.disableEmojis.default;
+
+  constructor(init: PostCreateResource) {
+    for (const key in init) {
+      this[key] = init[key];
+    }
+  }
 }

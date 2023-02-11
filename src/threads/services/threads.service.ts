@@ -7,6 +7,8 @@ import { PostsService } from 'src/posts/services/posts.services';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadPageResource } from '../resources/thread-page.resource';
+import { PostCreateResource } from 'src/posts/resources/post.create.resource';
+import { PostLinkResource } from 'src/posts/resources/post.link.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}thread.php`;
 
@@ -84,6 +86,19 @@ export class ThreadsService {
       post.message = `[quote=${post.author.id},${post.id},"${post.author.name}"][b]${post.message}[/b][/quote]"`;
     }
     return post;
+  }
+
+  /**
+   * Wraps PostsService.create().
+   * @param post The post-create resource.
+   * @param session The session object.
+   * @returns The created post.
+   */
+  async createPost(
+    post: PostCreateResource,
+    session: SessionResource,
+  ): Promise<PostLinkResource> {
+    return this.postsService.create(post, session);
   }
 
   /**
