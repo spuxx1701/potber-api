@@ -14,12 +14,14 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { boardsExceptions } from '../config/boards.exceptions';
+import { boardProperties } from '../resources/board.properties';
 import { BoardResource } from '../resources/board.resource';
 import { BoardsService } from '../services/boards.service';
 
@@ -34,6 +36,12 @@ export class BoardsController {
   @Get(':id')
   @ApiOperation({
     summary: 'Gets a board by id.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: "The board's id.",
+    example: '14',
+    type: String,
   })
   @ApiQuery({
     name: 'page',

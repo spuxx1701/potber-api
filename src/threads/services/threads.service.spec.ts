@@ -68,7 +68,7 @@ describe('Threads | ThreadsService', () => {
               date: new Date(1673732641 * 1000),
               title: 'Foo',
               icon: '37',
-              content: 'Hello World!',
+              message: 'Hello World!',
               editedCount: 17,
               lastEdit: {
                 user: {
@@ -92,7 +92,7 @@ describe('Threads | ThreadsService', () => {
               date: new Date(1673732787 * 1000),
               title: undefined,
               icon: undefined,
-              content: 'Hello Ameisenfutter!',
+              message: 'Hello Ameisenfutter!',
               editedCount: 0,
               lastEdit: undefined,
               avatarUrl: './avatare/upload/U1268185--small.png',

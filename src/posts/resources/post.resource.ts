@@ -24,8 +24,8 @@ export class PostResource {
   @ApiProperty(postProperties.icon)
   icon?: string;
 
-  @ApiProperty(postProperties.content)
-  content: string;
+  @ApiProperty(postProperties.message)
+  message: string;
 
   @ApiProperty(postProperties.editedCount)
   editedCount: number;

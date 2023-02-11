@@ -16,6 +16,7 @@ import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
@@ -42,6 +43,12 @@ export class ThreadsController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Gets a thread by id.' })
+  @ApiParam({
+    name: 'id',
+    description: "The thread's id.",
+    example: '219289',
+    type: String,
+  })
   @ApiQuery({
     name: 'page',
     description: "The page you'd like to get.",
@@ -78,6 +85,18 @@ export class ThreadsController {
 
   @Get(':id/posts/:postId')
   @ApiOperation({ summary: 'Gets a specific post by its thread and post ids.' })
+  @ApiParam({
+    name: 'id',
+    description: "The thread's id.",
+    example: '219289',
+    type: String,
+  })
+  @ApiParam({
+    name: 'postId',
+    description: "The post's id.",
+    example: '1249813752',
+    type: String,
+  })
   @ApiQuery({
     name: 'quote',
     description:
@@ -107,6 +126,12 @@ export class ThreadsController {
   @UsePipes(validationPipe)
   @ApiOperation({
     summary: 'Creates a new post in the given thread.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: "The thread's id.",
+    example: '219289',
+    type: String,
   })
   @ApiException(() => [validationException])
   create(

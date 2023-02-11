@@ -4,6 +4,7 @@ import { IsNumber, IsString, Max, MaxLength, Min } from 'class-validator';
 export class LoginResource {
   @ApiProperty({
     description: 'Your username.',
+    example: 'username',
   })
   @IsString()
   @MaxLength(50)
@@ -11,6 +12,7 @@ export class LoginResource {
 
   @ApiProperty({
     description: 'Your password.',
+    example: 'password',
   })
   @IsString()
   @MaxLength(50)

@@ -38,7 +38,7 @@ export class PostsService {
         'id',
         this.xmljs.getElement('icon', postXml),
       ),
-      content: this.xmljs.getElementCdata(
+      message: this.xmljs.getElementCdata(
         'content',
         this.xmljs.getElement('message', postXml),
       ),
@@ -72,8 +72,9 @@ export class PostsService {
    * @param firstPostXml The post preview XML object.
    * @returns The post preview resource.
    */
-  transformPostPreview(firstPostXml: Element) {
-    const postXml = this.xmljs.getElement('post', firstPostXml);
+  transformPostPreview(postPreviewXml: Element) {
+    if (!postPreviewXml) return;
+    const postXml = this.xmljs.getElement('post', postPreviewXml);
     return {
       author: this.usersService.transformUser(
         this.xmljs.getElement('user', postXml),

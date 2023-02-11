@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
 import { ThreadResource } from 'src/threads/resources/thread.resource';
 import { UserResource } from 'src/users/resources/user.resource';
+import { boardProperties } from './board.properties';
 
 export class BoardPageResource {
   @ApiProperty({ description: "The page's number." })
@@ -21,30 +22,30 @@ export class BoardPageResource {
 }
 
 export class BoardResource {
-  @ApiProperty({ description: "The board's unique id." })
+  @ApiProperty(boardProperties.id)
   id: string;
 
-  @ApiProperty({ description: "The board's name." })
+  @ApiProperty(boardProperties.name)
   name: string;
 
-  @ApiProperty({ description: "The board's description." })
+  @ApiProperty(boardProperties.description)
   description: string;
 
-  @ApiProperty({ description: 'How many threads the board has.' })
+  @ApiProperty(boardProperties.threadsCount)
   threadsCount: number;
 
-  @ApiProperty({ description: 'How many posts the board has.' })
+  @ApiProperty(boardProperties.repliesCount)
   repliesCount: number;
 
-  @ApiProperty({ description: 'The category this board belongs to.' })
+  @ApiProperty(boardProperties.categoryId)
   categoryId: string;
 
-  @ApiProperty({ description: "The board's most recent post." })
+  @ApiProperty(boardProperties.lastPost)
   lastPost?: PostPreviewResource;
 
-  @ApiProperty({ description: "Who's the sheriff in town." })
+  // Not being handed out by the API when the 'boards.php' endpoint is called directly.
   moderators?: UserResource[];
 
-  @ApiProperty({ description: 'A single page of the board.' })
+  @ApiProperty(boardProperties.page)
   page?: BoardPageResource;
 }

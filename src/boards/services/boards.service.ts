@@ -7,6 +7,8 @@ import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
 import { ThreadsService } from 'src/threads/services/threads.service';
+import { UserResource } from 'src/users/resources/user.resource';
+import { UsersService } from 'src/users/services/users.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { BoardPageResource, BoardResource } from '../resources/board.resource';
 
@@ -21,6 +23,7 @@ export class BoardsService {
     private readonly xmljs: XmlJsService,
     private readonly httpService: HttpService,
     private readonly threadsService: ThreadsService,
+    private readonly usersService: UsersService,
   ) {}
 
   /**
@@ -29,12 +32,11 @@ export class BoardsService {
    * @param session The session.
    */
   async findOne(id: string, session: SessionResource, page?: number) {
-    let url = `${ENDPOINT_URL}?Bid=${id}`;
+    let url = `${ENDPOINT_URL}?BID=${id}`;
     if (page) url += `&page=${page}`;
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
-
     const xmlDocument = this.xmljs.parseXml(data);
     const board = this.transformBoard(xmlDocument.elements[0]);
     return board;
@@ -75,6 +77,14 @@ export class BoardsService {
         page.threads.push(this.threadsService.transformThread(threadXml));
       }
     }
+    let moderators: UserResource[] | undefined;
+    const moderatorsXml = this.xmljs.getElement('moderators', boardXml);
+    if (moderatorsXml && moderatorsXml.elements) {
+      moderators = [];
+      for (const moderatorXml of moderatorsXml.elements) {
+        moderators.push(this.usersService.transformUser(moderatorXml));
+      }
+    }
     const board = {
       id: this.xmljs.getAttribute('id', boardXml),
       name: this.xmljs.getElementCdata('name', boardXml),
@@ -95,6 +105,7 @@ export class BoardsService {
         'id',
         this.xmljs.getElement('in-category', boardXml),
       ),
+      moderators,
       page,
     } as BoardResource;
     return board;

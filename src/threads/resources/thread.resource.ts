@@ -1,66 +1,51 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
-import { PostResource } from 'src/posts/resources/post.resource';
-
-export class ThreadPage {
-  @ApiProperty({ description: "The thread's current page." })
-  number: number;
-
-  @ApiProperty({ description: 'The total number of posts on this page.' })
-  postCount: number;
-
-  @ApiProperty({ description: 'I honestly have no idea what this does.' })
-  offset: number;
-
-  @ApiProperty({ description: 'The posts on tuis page.' })
-  posts: PostResource[];
-}
+import { ThreadPageResource } from './thread-page.resource';
+import { threadProperties } from './thread.properties';
 
 export class ThreadResource {
-  @ApiProperty({ description: "The thread's unique id." })
+  @ApiProperty(threadProperties.id)
   id: string;
 
-  @ApiProperty({ description: "The thread's title." })
+  @ApiProperty(threadProperties.title)
   title: string;
 
-  @ApiProperty({ description: "The thread's subtitle." })
+  @ApiProperty(threadProperties.subtitle)
   subtitle: string;
 
-  @ApiProperty({
-    description: 'The number of replies (posts) that thread received.',
-  })
+  @ApiProperty(threadProperties.repliesCount)
   repliesCount: number;
 
-  @ApiProperty({ description: 'The number of hits that thread received.' })
+  @ApiProperty(threadProperties.hitsCount)
   hitsCount: number;
 
-  @ApiProperty({ description: 'The number of pages the thread has.' })
+  @ApiProperty(threadProperties.pagesCount)
   pagesCount: number;
 
-  @ApiProperty({ description: 'Whether the thread has been closed.' })
+  @ApiProperty(threadProperties.isClosed)
   isClosed: boolean;
 
-  @ApiProperty({ description: 'Whether the thread is sticky.' })
+  @ApiProperty(threadProperties.isSticky)
   isSticky: boolean;
 
-  @ApiProperty({ description: 'Whether the thread is important.' })
+  @ApiProperty(threadProperties.isImportant)
   isImportant: boolean;
 
-  @ApiProperty({ description: 'Whether the thread is an announcement.' })
+  @ApiProperty(threadProperties.isAnnouncement)
   isAnnouncement: boolean;
 
-  @ApiProperty({ description: 'Whether the thread is global.' })
+  @ApiProperty(threadProperties.isGlobal)
   isGlobal: boolean;
 
-  @ApiProperty({ description: 'The board the thread belongs to.' })
+  @ApiProperty(threadProperties.boardId)
   boardId: string;
 
-  @ApiProperty({ description: "The thread's opening post." })
+  @ApiProperty(threadProperties.firstPost)
   firstPost?: PostPreviewResource;
 
-  @ApiProperty({ description: "The thread's most recent post." })
+  // The last post is not being handed out when the 'threads.php' endpoint is called directly.
   lastPost?: PostPreviewResource;
 
-  @ApiProperty({ description: "The thread's current page." })
-  page?: ThreadPage;
+  @ApiProperty(threadProperties.page)
+  page?: ThreadPageResource;
 }
