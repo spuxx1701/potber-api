@@ -26,7 +26,7 @@ import {
 import { isBooleanString, isDefined } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import { PostCreateResource } from 'src/posts/resources/post.create.resource';
+import { PostWriteResource } from 'src/posts/resources/post.write.resource';
 import { PostLinkResource } from 'src/posts/resources/post.link.resource';
 import { PostResource } from 'src/posts/resources/post.resource';
 import {
@@ -176,10 +176,10 @@ export class ThreadsController {
   ])
   createPost(
     @Param('id') id: string,
-    @Body() body: PostCreateResource,
+    @Body() body: PostWriteResource,
     @Request() request: any,
   ): Promise<PostLinkResource> {
-    const post = new PostCreateResource({ threadId: id, ...body });
+    const post = new PostWriteResource({ threadId: id, ...body });
     return this.service.createPost(post, request.user);
   }
 }

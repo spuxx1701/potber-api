@@ -6,7 +6,7 @@ import { UsersService } from 'src/users/services/users.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { threadId } from 'worker_threads';
 import { postsExceptions } from '../config/posts.exceptions';
-import { PostCreateResource } from '../resources/post.create.resource';
+import { PostWriteResource } from '../resources/post.write.resource';
 import { PostLinkResource } from '../resources/post.link.resource';
 import { PostPreviewResource } from '../resources/post.preview.resource';
 import { PostResource } from '../resources/post.resource';
@@ -27,27 +27,50 @@ export class PostsService {
    * @returns URLs and other information that lead to the newly created post.
    */
   async create(
-    post: PostCreateResource,
+    post: PostWriteResource,
     session: SessionResource,
   ): Promise<PostLinkResource> {
     Logger.log(
       `User '${session.username}' (${session.userId}) is attempting to create a new post in thread '${post.threadId}'.`,
       this.constructor.name,
     );
-    const url = `${forumConfig.FORUM_URL}/newreply.php?TID=${post.threadId}`;
+    const url = `${forumConfig.FORUM_URL}newreply.php?TID=${post.threadId}`;
     const token = await this.getSecurityToken(url, session);
-    const payload = this.createFormBody(post, token);
+    const payload = this.createFormBody('post', post, token);
     const { data } = await this.httpService.post(url, payload, {
       cookie: session.cookie,
     });
-    const id = this.processCreateOrEditResponse(data);
-    const result: PostLinkResource = {
-      id,
-      threadId: post.threadId,
-      url: `${process.env.APP_API_URL}/threads/${threadId}/posts/${id}`,
-    };
+    const result = this.processCreateOrEditResponse(data);
+    // const result: PostLinkResource = {
+    //   id,
+    //   threadId: post.threadId,
+    //   url: `${process.env.APP_API_URL}/threads/${threadId}/posts/${id}`,
+    // };
     Logger.log(
-      `User '${session.username}' (${session.userId}) has created post'${id}' in thread '${post.threadId}'.`,
+      `User '${session.username}' (${session.userId}) has created post'${result.id}' in thread '${result.threadId}'.`,
+      this.constructor.name,
+    );
+    return result;
+  }
+
+  async update(
+    id: string,
+    post: PostWriteResource,
+    session: SessionResource,
+  ): Promise<PostLinkResource> {
+    Logger.log(
+      `User '${session.username}' (${session.userId}) is attempting to edit post ${id} in thread '${post.threadId}'.`,
+      this.constructor.name,
+    );
+    const url = `${forumConfig.FORUM_URL}editreply.php?PID=${id}`;
+    const token = await this.getSecurityToken(url, session);
+    const payload = this.createFormBody('edit', post, token);
+    const { data } = await this.httpService.post(url, payload, {
+      cookie: session.cookie,
+    });
+    const result = this.processCreateOrEditResponse(data);
+    Logger.log(
+      `User '${session.username}' (${session.userId}) has edited post'${id}' in thread '${post.threadId}'.`,
       this.constructor.name,
     );
     return result;
@@ -59,24 +82,13 @@ export class PostsService {
    * @param token The security token.
    * @returns The form body.
    */
-  createFormBody(post: PostCreateResource, token: string): string {
+  createFormBody(
+    prefix: 'post' | 'edit',
+    post: PostWriteResource,
+    token: string,
+  ): string {
     const keyValuePairs = [];
-    let prefix: string | undefined;
-    // Form body needs to be prepared slightly differently for 'create' and 'edit' actions.
-    if (post instanceof PostCreateResource) {
-      prefix = 'post';
-      keyValuePairs.push(`TID=${post.threadId}`);
-      keyValuePairs.push(`token=${token}`);
-      // } else if (post instanceof EditCreateResource) {
-      //   prefix = 'edit';
-      //   keyValuePairs.push(
-      //     `token=${this.getSecurityToken(`/newreply.php?TID=${post.postId}`)}`,
-      //   );
-    } else {
-      throw new Error(
-        'Post must be an instance of either PostCreateResource or EditCreateResource.',
-      );
-    }
+    keyValuePairs.push(`token=${token}`);
     keyValuePairs.push(`${prefix}_title=${post.title ? post.title : ''}`);
     keyValuePairs.push(`${prefix}_icon=${post.icon ? post.icon : '0'}`);
     keyValuePairs.push(`message=${escape(he.encode(post.message))}`);
@@ -103,8 +115,10 @@ export class PostsService {
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
-    if (/Keine\sZutrittsberechtigung/.test(data)) {
+    if (/Keine Zutrittsberechtigung/.test(data)) {
       throw new ForbiddenException();
+    } else if (/Dieser Thread ist versteckt/.test(data)) {
+      throw postsExceptions.threadIsHidden;
     }
     const tokenMatches = data.match(/(?:(name='token'\svalue=')(.*?)('\s\/>))/);
     if (tokenMatches && tokenMatches.length >= 3) {
@@ -118,17 +132,27 @@ export class PostsService {
    * Checks the response text returned by the 'newreply.php' or 'editreply.php' endpoints for
    * signs of success and failure.
    * @param text The response text.
-   * @returns The post id.
+   * @returns .
    */
-  processCreateOrEditResponse(text: string): string | null {
-    if (new RegExp(/Antwort erstellt/).test(text)) {
+  processCreateOrEditResponse(text: string): PostLinkResource | null {
+    if (new RegExp(/Antwort erstellt/).test(text) || /Antwort wurde editier/) {
       // Attempt to retrieve and return the post id
       const postIdMatches = text.match(/(?:(PID=)(\d*)(#))/);
-      if (postIdMatches && postIdMatches.length >= 3) {
-        return postIdMatches[2] as string;
+      const threadIdMatches = text.match(/(?:(TID=)(\d*)(&))/);
+      if (
+        postIdMatches &&
+        postIdMatches.length >= 3 &&
+        threadIdMatches &&
+        threadIdMatches.length >= 3
+      ) {
+        const id = postIdMatches[2] as string;
+        const threadId = threadIdMatches[2] as string;
+        return {
+          id,
+          threadId,
+          url: `${process.env.APP_API_URL}/threads/${threadId}/posts/${id}`,
+        } as PostLinkResource;
       } else return null;
-    } else if (new RegExp(/Antwort wurde editiert/).test(text)) {
-      return 'yolo';
     } else {
       if (new RegExp(/Du postest zu viel in zu kurzer Zeit/).test(text)) {
         throw postsExceptions.tooManyRequests;

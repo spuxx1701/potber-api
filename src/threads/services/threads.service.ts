@@ -11,7 +11,7 @@ import { PostsService } from 'src/posts/services/posts.services';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadPageResource } from '../resources/thread-page.resource';
-import { PostCreateResource } from 'src/posts/resources/post.create.resource';
+import { PostWriteResource } from 'src/posts/resources/post.write.resource';
 import { PostLinkResource } from 'src/posts/resources/post.link.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}thread.php`;
@@ -102,7 +102,7 @@ export class ThreadsService {
    * @returns The created post.
    */
   async createPost(
-    post: PostCreateResource,
+    post: PostWriteResource,
     session: SessionResource,
   ): Promise<PostLinkResource> {
     return this.postsService.create(post, session);
