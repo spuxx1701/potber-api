@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { UserResource } from '../resources/user.resource';
 
+/**
+ * The users service class. Can transform users.
+ */
 @Injectable()
 export class UsersService {
   constructor(private readonly xmljs: XmlJsService) {}

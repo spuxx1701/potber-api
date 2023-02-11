@@ -9,6 +9,9 @@ import { BoardCategoryResource } from '../resources/board-category.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}boards.php`;
 
+/**
+ * Board categories service class. Can transform and return the board overview and board categories.
+ */
 @Injectable()
 export class BoardCategoriesService {
   constructor(

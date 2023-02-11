@@ -4,6 +4,10 @@ import { xml2js, Element as XmlJsElement } from 'xml-js';
 // Re-export Element interface for easier access
 export type Element = XmlJsElement;
 
+/**
+ * The XmlJsService provides tools to transform the forum's XML objects into JavaScript objects
+ * and retrieve certain properties.
+ */
 @Injectable()
 export class XmlJsService {
   /**

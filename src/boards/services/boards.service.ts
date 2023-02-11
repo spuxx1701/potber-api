@@ -12,6 +12,9 @@ import { BoardPageResource, BoardResource } from '../resources/board.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}board.php`;
 
+/**
+ * Boards service class. Can return and transform boards and their pages.
+ */
 @Injectable()
 export class BoardsService {
   constructor(
