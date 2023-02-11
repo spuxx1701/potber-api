@@ -139,7 +139,7 @@ export class ThreadsController {
     type: PostLinkResource,
   })
   @ApiException(() => [validationException])
-  create(
+  createPost(
     @Param('id') id: string,
     @Body() body: PostCreateResource,
     @Request() request: any,
