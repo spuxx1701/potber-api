@@ -1,6 +1,8 @@
-import { BadRequestException, ForbiddenException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
 export const threadsExceptions = {
-  missingId: new BadRequestException('You must provide a thread id.'),
-  quoteMustBeBoolean: new BadRequestException('Quote must be a boolean.'),
+  updateBookmarkMustBeBoolean: new BadRequestException(
+    'updateBookmark must be a boolean.',
+  ),
+  quoteMustBeBoolean: new BadRequestException('quote must be a boolean.'),
 };

@@ -39,6 +39,7 @@ export class ThreadsService {
     options?: {
       postId?: string;
       page?: number;
+      updateBookmark?: boolean;
     },
   ): Promise<ThreadResource> {
     let url = `${ENDPOINT_URL}?TID=${id}`;
@@ -47,7 +48,9 @@ export class ThreadsService {
     } else if (options.page) {
       url += `&page=${options.page}`;
     }
-
+    if (options?.updateBookmark) {
+      url += `&update_bookmark=1`;
+    }
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });

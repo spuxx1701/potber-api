@@ -23,7 +23,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { isDefined } from 'class-validator';
+import { isBooleanString, isDefined } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { PostCreateResource } from 'src/posts/resources/post.create.resource';
@@ -77,12 +77,18 @@ export class ThreadsController {
     required: false,
     type: Number,
   })
+  @ApiQuery({
+    name: 'updateBookmark',
+    description:
+      'Whether the corresponding bookmark should be updated (if it exists).',
+    required: false,
+    type: Boolean,
+  })
   @ApiOkResponse({
     description: 'The given thread.',
     type: ThreadResource,
   })
   @ApiException(() => [
-    threadsExceptions.missingId,
     NotFoundException,
     UnauthorizedException,
     ForbiddenException,
@@ -92,8 +98,15 @@ export class ThreadsController {
     @Request() request: any,
     @Query('postId') postId?: string,
     @Query('page') page?: number,
+    @Query('updateBookmark') updateBookmark?: boolean,
   ): Promise<ThreadResource> {
-    return this.service.findOne(id, request.user, { postId, page });
+    if (isDefined(updateBookmark) && !isBooleanString(updateBookmark))
+      throw threadsExceptions.updateBookmarkMustBeBoolean;
+    return this.service.findOne(id, request.user, {
+      postId,
+      page,
+      updateBookmark,
+    });
   }
 
   @Get(':id/posts/:postId')
@@ -133,7 +146,7 @@ export class ThreadsController {
     @Request() request: any,
     @Query('quote') quote?: 'true' | 'false',
   ): Promise<PostResource> {
-    if (isDefined(quote) && quote !== 'true' && quote !== 'false')
+    if (isDefined(quote) && !isBooleanString(quote))
       throw threadsExceptions.quoteMustBeBoolean;
     return this.service.findPost(id, postId, request.user, {
       quote: quote === 'true' ? true : false,
