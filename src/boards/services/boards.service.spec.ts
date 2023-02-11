@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { HttpModule } from 'src/http/http.module';
 import { ThreadsModule } from 'src/threads/threads.module';
+import { UsersModule } from 'src/users/users.module';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { BoardResource } from '../resources/board.resource';
 import { BoardsService } from './boards.service';
@@ -12,7 +13,7 @@ describe('Boards | BoardsService', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [HttpModule, ThreadsModule],
+      imports: [HttpModule, ThreadsModule, UsersModule],
       providers: [XmlJsService, BoardsService],
     }).compile();
     xmljs = await moduleRef.resolve(XmlJsService);

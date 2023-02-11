@@ -37,6 +37,7 @@ describe('BoardCategories | BoardCategoriesService', () => {
               threadsCount: 0,
               repliesCount: 0,
               categoryId: '6',
+              moderators: undefined,
               page: undefined,
             },
             {
@@ -47,6 +48,28 @@ describe('BoardCategories | BoardCategoriesService', () => {
               threadsCount: 46587,
               repliesCount: 13987787,
               categoryId: '6',
+              moderators: [
+                {
+                  id: '5652',
+                  name: 'Atomsk',
+                  groupId: undefined,
+                },
+                {
+                  id: '1157313',
+                  name: 'Irdorath',
+                  groupId: undefined,
+                },
+                {
+                  id: '27923',
+                  name: 'statixx',
+                  groupId: undefined,
+                },
+                {
+                  id: '1279561',
+                  name: 'Teh Wizard of Aiz',
+                  groupId: undefined,
+                },
+              ],
               page: undefined,
             },
           ],
@@ -63,6 +86,23 @@ describe('BoardCategories | BoardCategoriesService', () => {
               threadsCount: 11771,
               repliesCount: 133645,
               categoryId: '7',
+              moderators: [
+                {
+                  id: '1061026',
+                  name: 'cLam',
+                  groupId: undefined,
+                },
+                {
+                  id: '50262',
+                  name: 'Flipz',
+                  groupId: undefined,
+                },
+                {
+                  id: '1050777',
+                  name: 'oveR',
+                  groupId: undefined,
+                },
+              ],
               page: undefined,
             },
           ],

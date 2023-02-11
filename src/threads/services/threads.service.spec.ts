@@ -1,14 +1,13 @@
 import { Test } from '@nestjs/testing';
 import { HttpModule } from 'src/http/http.module';
 import { PostsModule } from 'src/posts/posts.module';
-import {
-  FirstPostResource,
-  PostResource,
-} from 'src/posts/resources/post.resource';
-import { ThreadPage, ThreadResource } from '../resources/thread.resource';
+import { PostResource } from 'src/posts/resources/post.resource';
+import { ThreadResource } from '../resources/thread.resource';
 import { ThreadsService } from './threads.service';
 import { threadXmlMockData } from './threads.service.spec.includes';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
+import { ThreadPageResource } from '../resources/thread-page.resource';
+import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
 
 describe('Threads | ThreadsService', () => {
   let threadsService: ThreadsService;
@@ -51,7 +50,7 @@ describe('Threads | ThreadsService', () => {
           date: new Date(1673732641 * 1000),
           icon: '37',
           threadId: '219289',
-        } as FirstPostResource,
+        } as PostPreviewResource,
         lastPost: undefined,
         page: {
           number: 1,
@@ -100,7 +99,7 @@ describe('Threads | ThreadsService', () => {
               boardId: '14',
             },
           ] as PostResource[],
-        } as ThreadPage,
+        } as ThreadPageResource,
       };
       expect(actual).toEqual(expected);
     });
