@@ -159,7 +159,6 @@ export class PostsService {
       } else if (/Dieser Thread ist geschlossen/) {
         throw postsExceptions.threadIsClosed;
       } else {
-        debugger;
         throw postsExceptions.unknown;
       }
     }
