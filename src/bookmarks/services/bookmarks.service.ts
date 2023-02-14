@@ -157,12 +157,11 @@ export class BookmarksService {
     threadId: string,
     session: SessionResource,
   ) {
-    const url = `${forumConfig.FORUM_URL}/thread.php?TID=${threadId}&PID=${postId}`;
+    const url = `${forumConfig.FORUM_URL}thread.php?TID=${threadId}&PID=${postId}`;
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
-    // const regex = new RegExp(`(?:(setBookmark\(${postId}, ')([0-9a-f]*)')`);
-    const regex = new RegExp(`(?:(setBookmark\\(1249813752, ')([0-9a-f]*)')`);
+    const regex = new RegExp(`(?:(setBookmark\\(${postId}, ')([0-9a-f]*)')`);
     const tokenMatches = data.match(regex);
     if (tokenMatches && tokenMatches.length >= 3) {
       return tokenMatches[2];
