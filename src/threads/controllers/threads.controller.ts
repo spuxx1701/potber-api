@@ -1,19 +1,15 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
-  BadRequestException,
-  Body,
   Controller,
   ForbiddenException,
   Get,
   NotFoundException,
   Param,
-  Post,
   Query,
   Request,
   UnauthorizedException,
   UseGuards,
   UseInterceptors,
-  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -26,13 +22,6 @@ import {
 import { isBooleanString, isDefined } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import { PostWriteResource } from 'src/posts/resources/post.write.resource';
-import { PostLinkResource } from 'src/posts/resources/post.link.resource';
-import { PostResource } from 'src/posts/resources/post.resource';
-import {
-  validationException,
-  validationPipe,
-} from 'src/validation/validation.pipe';
 import { threadsExceptions } from '../config/threads.exceptions';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadsService } from '../services/threads.service';
@@ -108,78 +97,4 @@ export class ThreadsController {
       updateBookmark,
     });
   }
-
-  @Get(':id/posts/:postId')
-  @ApiOperation({ summary: 'Gets a specific post by its thread and post ids.' })
-  @ApiParam({
-    name: 'id',
-    description: "The thread's id.",
-    example: '219289',
-    type: String,
-  })
-  @ApiParam({
-    name: 'postId',
-    description: "The post's id.",
-    example: '1249813752',
-    type: String,
-  })
-  @ApiQuery({
-    name: 'quote',
-    description:
-      "Pass this parameter if you'd like to quote the post. The post content will then be returned with quote tags.",
-    required: false,
-    type: Boolean,
-  })
-  @ApiOkResponse({
-    description: 'The given post.',
-    type: PostResource,
-  })
-  @ApiException(() => [
-    threadsExceptions.quoteMustBeBoolean,
-    NotFoundException,
-    UnauthorizedException,
-    ForbiddenException,
-  ])
-  async findPost(
-    @Param('id') id: string,
-    @Param('postId') postId: string,
-    @Request() request: any,
-    @Query('quote') quote?: 'true' | 'false',
-  ): Promise<PostResource> {
-    if (isDefined(quote) && !isBooleanString(quote))
-      throw threadsExceptions.quoteMustBeBoolean;
-    return this.service.findPost(id, postId, request.user, {
-      quote: quote === 'true' ? true : false,
-    });
-  }
-
-  // @Post(':id/posts')
-  // @UsePipes(validationPipe)
-  // @ApiOperation({
-  //   summary: 'Creates a new post in the given thread.',
-  // })
-  // @ApiParam({
-  //   name: 'id',
-  //   description: "The thread's id.",
-  //   example: testThreadId,
-  //   type: String,
-  // })
-  // @ApiOkResponse({
-  //   description: 'Some details that lead to the newly created post.',
-  //   type: PostLinkResource,
-  // })
-  // @ApiException(() => [
-  //   validationException,
-  //   BadRequestException,
-  //   UnauthorizedException,
-  //   ForbiddenException,
-  // ])
-  // createPost(
-  //   @Param('id') id: string,
-  //   @Body() body: PostWriteResource,
-  //   @Request() request: any,
-  // ): Promise<PostLinkResource> {
-  //   const post = new PostWriteResource({ threadId: id, ...body });
-  //   return this.service.createPost(post, request.user);
-  // }
 }

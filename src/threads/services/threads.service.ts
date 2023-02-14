@@ -13,8 +13,6 @@ import { PostsService } from 'src/posts/services/posts.services';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadPageResource } from '../resources/thread-page.resource';
-// import { PostWriteResource } from 'src/posts/resources/post.write.resource';
-// import { PostLinkResource } from 'src/posts/resources/post.link.resource';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}thread.php`;
 
@@ -97,19 +95,6 @@ export class ThreadsService {
     }
     return post;
   }
-
-  // /**
-  //  * Wraps PostsService.create().
-  //  * @param post The post-create resource.
-  //  * @param session The session object.
-  //  * @returns The created post.
-  //  */
-  // async createPost(
-  //   post: PostWriteResource,
-  //   session: SessionResource,
-  // ): Promise<PostResource> {
-  //   return this.postsService.create(post, session);
-  // }
 
   /**
    * Transforms a thread XML object to a thread resource.

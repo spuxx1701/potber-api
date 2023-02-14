@@ -29,6 +29,24 @@ export class PostsService {
   ) {}
 
   /**
+   * Wraps ThreadsService.findPost().
+   * @param id The post id.
+   * @param threadId The thread id.
+   * @param session The session resource.
+   * @returns The post.
+   */
+  async findOne(
+    id: string,
+    threadId: string,
+    session: SessionResource,
+    options?: {
+      quote?: boolean;
+    },
+  ): Promise<PostResource> {
+    return this.threadsService.findPost(threadId, id, session, options);
+  }
+
+  /**
    * Creates a new post and returns URLs and other information that lead to the newly created post.
    * @param post The post-create resource.
    * @param session The session object.
