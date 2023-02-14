@@ -1,16 +1,22 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import {
+  ForbiddenException,
+  forwardRef,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
 import { UsersService } from 'src/users/services/users.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
-import { threadId } from 'worker_threads';
 import { postsExceptions } from '../config/posts.exceptions';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostLinkResource } from '../resources/post.link.resource';
 import { PostPreviewResource } from '../resources/post.preview.resource';
 import { PostResource } from '../resources/post.resource';
 import * as he from 'he';
+import { ThreadsService } from 'src/threads/services/threads.service';
 
 @Injectable()
 export class PostsService {
@@ -18,6 +24,8 @@ export class PostsService {
     private readonly httpService: HttpService,
     private readonly xmljs: XmlJsService,
     private readonly usersService: UsersService,
+    @Inject(forwardRef(() => ThreadsService))
+    private readonly threadsService: ThreadsService,
   ) {}
 
   /**
@@ -29,7 +37,7 @@ export class PostsService {
   async create(
     post: PostWriteResource,
     session: SessionResource,
-  ): Promise<PostLinkResource> {
+  ): Promise<PostResource> {
     Logger.log(
       `User '${session.username}' (${session.userId}) is attempting to create a new post in thread '${post.threadId}'.`,
       this.constructor.name,
@@ -40,14 +48,10 @@ export class PostsService {
     const { data } = await this.httpService.post(url, payload, {
       cookie: session.cookie,
     });
-    const result = this.processCreateOrEditResponse(data);
-    // const result: PostLinkResource = {
-    //   id,
-    //   threadId: post.threadId,
-    //   url: `${process.env.APP_API_URL}/threads/${threadId}/posts/${id}`,
-    // };
+    const { id, threadId } = this.processCreateOrEditResponse(data);
+    const result = await this.threadsService.findPost(threadId, id, session);
     Logger.log(
-      `User '${session.username}' (${session.userId}) has created post'${result.id}' in thread '${result.threadId}'.`,
+      `User '${session.username}' (${session.userId}) has created post '${result.id}' in thread '${result.threadId}'.`,
       this.constructor.name,
     );
     return result;
@@ -57,7 +61,7 @@ export class PostsService {
     id: string,
     post: PostWriteResource,
     session: SessionResource,
-  ): Promise<PostLinkResource> {
+  ): Promise<PostResource> {
     Logger.log(
       `User '${session.username}' (${session.userId}) is attempting to edit post ${id} in thread '${post.threadId}'.`,
       this.constructor.name,
@@ -68,7 +72,8 @@ export class PostsService {
     const { data } = await this.httpService.post(url, payload, {
       cookie: session.cookie,
     });
-    const result = this.processCreateOrEditResponse(data);
+    const { threadId } = this.processCreateOrEditResponse(data);
+    const result = await this.threadsService.findPost(threadId, id, session);
     Logger.log(
       `User '${session.username}' (${session.userId}) has edited post'${id}' in thread '${post.threadId}'.`,
       this.constructor.name,

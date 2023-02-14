@@ -153,33 +153,33 @@ export class ThreadsController {
     });
   }
 
-  @Post(':id/posts')
-  @UsePipes(validationPipe)
-  @ApiOperation({
-    summary: 'Creates a new post in the given thread.',
-  })
-  @ApiParam({
-    name: 'id',
-    description: "The thread's id.",
-    example: testThreadId,
-    type: String,
-  })
-  @ApiOkResponse({
-    description: 'Some details that lead to the newly created post.',
-    type: PostLinkResource,
-  })
-  @ApiException(() => [
-    validationException,
-    BadRequestException,
-    UnauthorizedException,
-    ForbiddenException,
-  ])
-  createPost(
-    @Param('id') id: string,
-    @Body() body: PostWriteResource,
-    @Request() request: any,
-  ): Promise<PostLinkResource> {
-    const post = new PostWriteResource({ threadId: id, ...body });
-    return this.service.createPost(post, request.user);
-  }
+  // @Post(':id/posts')
+  // @UsePipes(validationPipe)
+  // @ApiOperation({
+  //   summary: 'Creates a new post in the given thread.',
+  // })
+  // @ApiParam({
+  //   name: 'id',
+  //   description: "The thread's id.",
+  //   example: testThreadId,
+  //   type: String,
+  // })
+  // @ApiOkResponse({
+  //   description: 'Some details that lead to the newly created post.',
+  //   type: PostLinkResource,
+  // })
+  // @ApiException(() => [
+  //   validationException,
+  //   BadRequestException,
+  //   UnauthorizedException,
+  //   ForbiddenException,
+  // ])
+  // createPost(
+  //   @Param('id') id: string,
+  //   @Body() body: PostWriteResource,
+  //   @Request() request: any,
+  // ): Promise<PostLinkResource> {
+  //   const post = new PostWriteResource({ threadId: id, ...body });
+  //   return this.service.createPost(post, request.user);
+  // }
 }

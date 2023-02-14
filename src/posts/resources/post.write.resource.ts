@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsIn,
+  IsNumberString,
   IsOptional,
   IsString,
   MaxLength,
@@ -10,6 +11,8 @@ import { postIcons } from '../config/post-icons';
 import { postProperties } from './post.properties';
 
 export class PostWriteResource {
+  @ApiProperty(postProperties.threadId)
+  @IsNumberString()
   threadId: string;
 
   @ApiProperty(postProperties.title)

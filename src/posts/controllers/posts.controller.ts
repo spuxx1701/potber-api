@@ -4,11 +4,13 @@ import {
   Controller,
   ForbiddenException,
   Param,
+  Post,
   Put,
   Request,
   UnauthorizedException,
   UseGuards,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,8 +21,12 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import { validationException } from 'src/validation/validation.pipe';
+import {
+  validationException,
+  validationPipe,
+} from 'src/validation/validation.pipe';
 import { PostLinkResource } from '../resources/post.link.resource';
+import { PostResource } from '../resources/post.resource';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostsService } from '../services/posts.services';
 
@@ -31,6 +37,28 @@ import { PostsService } from '../services/posts.services';
 @ApiBearerAuth('access-token')
 export class PostsController {
   constructor(private readonly service: PostsService) {}
+
+  @Post()
+  @UsePipes(validationPipe)
+  @ApiOperation({
+    summary: 'Creates a new post.',
+  })
+  @ApiOkResponse({
+    description: 'Some details that lead to the newly created post.',
+    type: PostLinkResource,
+  })
+  @ApiException(() => [
+    validationException,
+    UnauthorizedException,
+    ForbiddenException,
+  ])
+  create(
+    @Body() body: PostWriteResource,
+    @Request() request: any,
+  ): Promise<PostResource> {
+    const post = new PostWriteResource({ ...body });
+    return this.service.create(post, request.user);
+  }
 
   @Put(':id')
   @ApiOperation({ summary: 'Updates a post.' })
