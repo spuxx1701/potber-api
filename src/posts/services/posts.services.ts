@@ -243,7 +243,7 @@ export class PostsService {
       avatarUrl: this.xmljs.getElementCdata('avatar', postXml),
     } as PostResource;
     post.contentHidden = !post.message;
-    post.message = unescape(he.decode(post.message));
+    post.message = post.message ? unescape(he.decode(post.message)) : 'f';
     post.title = post.title ? unescape(post.title) : '';
     return post;
   }
