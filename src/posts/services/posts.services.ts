@@ -112,7 +112,9 @@ export class PostsService {
   ): string {
     const keyValuePairs = [];
     keyValuePairs.push(`token=${token}`);
-    keyValuePairs.push(`${prefix}_title=${post.title ? post.title : ''}`);
+    keyValuePairs.push(
+      `${prefix}_title=${post.title ? escape(post.title) : ''}`,
+    );
     keyValuePairs.push(`${prefix}_icon=${post.icon ? post.icon : '0'}`);
     keyValuePairs.push(`message=${escape(he.encode(post.message))}`);
     keyValuePairs.push(`${prefix}_converturls=${post.convertUrls ? '1' : '0'}`);
@@ -158,7 +160,7 @@ export class PostsService {
    * @returns .
    */
   processCreateOrEditResponse(text: string): PostLinkResource | null {
-    if (new RegExp(/Antwort erstellt/).test(text) || /Antwort wurde editier/) {
+    if (/Antwort erstellt/.test(text) || /Antwort wurde editiert/.test(text)) {
       // Attempt to retrieve and return the post id
       const postIdMatches = text.match(/(?:(PID=)(\d*)(#))/);
       const threadIdMatches = text.match(/(?:(TID=)(\d*)(&))/);
@@ -179,7 +181,7 @@ export class PostsService {
     } else {
       if (new RegExp(/Du postest zu viel in zu kurzer Zeit/).test(text)) {
         throw postsExceptions.tooManyRequests;
-      } else if (/Dieser Thread ist geschlossen/) {
+      } else if (/Dieser Thread ist geschlossen/.test(text)) {
         throw postsExceptions.threadIsClosed;
       } else {
         throw postsExceptions.unknown;
@@ -241,6 +243,8 @@ export class PostsService {
       avatarUrl: this.xmljs.getElementCdata('avatar', postXml),
     } as PostResource;
     post.contentHidden = !post.message;
+    post.message = unescape(he.decode(post.message));
+    post.title = post.title ? unescape(post.title) : '';
     return post;
   }
 
