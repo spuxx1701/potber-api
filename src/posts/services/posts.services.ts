@@ -116,7 +116,11 @@ export class PostsService {
       `${prefix}_title=${post.title ? escape(post.title) : ''}`,
     );
     keyValuePairs.push(`${prefix}_icon=${post.icon ? post.icon : '0'}`);
-    keyValuePairs.push(`message=${escape(he.encode(post.message))}`);
+    keyValuePairs.push(
+      `message=${escape(
+        he.encode(post.message, { allowUnsafeSymbols: true }),
+      )}`,
+    );
     keyValuePairs.push(`${prefix}_converturls=${post.convertUrls ? '1' : '0'}`);
     keyValuePairs.push(
       `${prefix}_disablebbcode=${post.disableBbCode ? '1' : '0'}`,
