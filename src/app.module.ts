@@ -10,6 +10,7 @@ import { PostsModule } from './posts/posts.module';
 import { ThreadsModule } from './threads/threads.module';
 import { UsersModule } from './users/users.module';
 
+/* istanbul ignore file */
 @Module({
   imports: [
     ConfigModule.forRoot({
