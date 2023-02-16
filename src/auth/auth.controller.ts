@@ -42,6 +42,7 @@ export class AuthController {
   })
   @ApiOkResponse({
     description: 'Login was successful.',
+    status: 200,
     type: JwtResource,
   })
   @ApiException(() => [

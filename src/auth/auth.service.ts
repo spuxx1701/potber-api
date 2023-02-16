@@ -21,12 +21,16 @@ export class AuthService {
       `User '${loginResource.username}' is attempting to log in.`,
       this.constructor.name,
     );
+    const lifetime =
+      typeof loginResource.lifetime === 'number'
+        ? loginResource.lifetime
+        : parseInt(loginResource.lifetime);
     try {
       const payload = `login_username=${encodeURIComponent(
         loginResource.username,
       )}&login_password=${encodeURIComponent(
         loginResource.password,
-      )}&login_lifetime=${loginResource.lifetime}`;
+      )}&login_lifetime=${lifetime}`;
       const { data } = await this.httpService.post(
         forumConfig.LOGIN_URL,
         payload,
@@ -41,7 +45,7 @@ export class AuthService {
       );
       return {
         access_token: this.jwtService.sign(session, {
-          expiresIn: loginResource.lifetime,
+          expiresIn: lifetime,
         }),
       } as JwtResource;
     } catch (error) {
