@@ -91,7 +91,7 @@ export class ThreadsService {
       (post) => post.id === postId,
     ) as PostResource;
     if (options?.quote) {
-      post.message = `[quote=${post.threadId.id},${post.id},\"${post.author.name}\"][b]\n${post.message}\n[/b][/quote]`;
+      post.message = `[quote=${post.threadId},${post.id},\"${post.author.name}\"][b]\n${post.message}\n[/b][/quote]`;
     }
     return post;
   }
