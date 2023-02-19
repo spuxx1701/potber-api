@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class SessionResource {
+export class SessionResource {
   @ApiProperty({
-    description: 'Your user ID.',
+    description: 'Your user id.',
   })
   userId: string;
 
@@ -12,7 +12,17 @@ export default class SessionResource {
   username: string;
 
   @ApiProperty({
-    description: 'Your logout token.',
+    description: 'Your board session cookie.',
   })
-  logoutToken: string;
+  cookie: string;
+
+  @ApiProperty({
+    description: 'When the JWT has been issued.',
+  })
+  iat?: number;
+
+  @ApiProperty({
+    description: 'When the JWT will expire.',
+  })
+  exp?: number;
 }

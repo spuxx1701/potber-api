@@ -7,4 +7,5 @@ export const authExceptions = {
   unknownLoginFailure: new UnauthorizedException(
     'Login failed due to an unknown reason.',
   ),
+  invalidSession: new UnauthorizedException('Session is invalid.'),
 };
