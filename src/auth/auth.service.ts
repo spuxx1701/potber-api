@@ -49,7 +49,7 @@ export class AuthService {
         }),
       } as JwtResource;
     } catch (error) {
-      Logger.log('Login attempt failed.', this.constructor.name);
+      Logger.log(`Login attempt failed (${error}).`, this.constructor.name);
       throw error;
     }
   }
