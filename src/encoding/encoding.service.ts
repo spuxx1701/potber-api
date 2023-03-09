@@ -39,24 +39,10 @@ export class EncodingService {
    */
   encodeText(input: string) {
     let result = input;
-
     // Encode to latin-9
     result = this.escapeLatin9(result);
-
     // Escape special characters to HTML
-    // result = he.encode(result, { allowUnsafeSymbols: true });
     result = this.escapeHtml(result);
-
-    // Do a final escape
-    // result = escape(result);
-
-    // Escape special characters to HTML (e.g. emojis)
-
-    // result = escape(input);
-
-    // [potber]%E4%F6%FC%B2&#x1F981;
-    // [potber]&#xE4;&#xF6;&#xFC;&#xB2;&#x1F981;
-    // result = he.encode(result, { allowUnsafeSymbols: true });
     return result;
   }
 
@@ -80,7 +66,7 @@ export class EncodingService {
   escapeLatin9(input: string) {
     let result = input;
     for (const encodingEntry of this.encodingTable) {
-      result = result.replace(encodingEntry.utf8, encodingEntry.latin9);
+      result = result.replaceAll(encodingEntry.utf8, encodingEntry.latin9);
     }
     return result;
   }

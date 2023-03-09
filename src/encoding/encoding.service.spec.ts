@@ -38,9 +38,9 @@ describe('Encoding | EncodingService', () => {
     });
 
     it('should properly encode a string that does contain special characters', () => {
-      const input = '[potber] äöü² 🦁 &#129409; lorem ipsum';
+      const input = '[potber] äöü² äöü² 🦁 &#129409; & lorem ipsum';
       const expected =
-        '[potber] %E4%F6%FC%B2 %26%23129409%3B &#129409; lorem ipsum';
+        '[potber] %E4%F6%FC%B2 %E4%F6%FC%B2 %26%23129409%3B %26#129409; %26 lorem ipsum';
       expect(encodingService.encodeText(input)).toStrictEqual(expected);
     });
   });
