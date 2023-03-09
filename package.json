@@ -1,7 +1,7 @@
 {
   "name": "potber-api",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "A modern JSON API for forum.mods.de",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
