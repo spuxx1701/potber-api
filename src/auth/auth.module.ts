@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { EncodingModule } from 'src/encoding/encoding.module';
 import { HttpModule } from 'src/http/http.module';
 import { XmlApiModule } from 'src/xml-api/xml-api.module';
 import { AuthController } from './auth.controller';
@@ -9,6 +10,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
+    EncodingModule,
     HttpModule,
     XmlApiModule,
     JwtModule.registerAsync({

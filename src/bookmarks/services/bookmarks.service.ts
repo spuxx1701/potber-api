@@ -57,7 +57,7 @@ export class BookmarksService {
     if (!bookmarkSummaryNode) return null;
     if (bookmarkSummaryNode) {
       const bookmarks: BookmarkResource[] = [];
-      if (bookmarkSummaryNode.elements.length > 0) {
+      if (bookmarkSummaryNode.elements?.length > 0) {
         for (const bookmarkNode of bookmarkSummaryNode.elements) {
           if (bookmarkNode.name !== 'bookmark') continue;
           const bookmark: BookmarkResource = {

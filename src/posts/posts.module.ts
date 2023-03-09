@@ -1,4 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
+import { EncodingModule } from 'src/encoding/encoding.module';
 import { HttpModule } from 'src/http/http.module';
 import { ThreadsModule } from 'src/threads/threads.module';
 import { UsersModule } from 'src/users/users.module';
@@ -8,6 +9,7 @@ import { PostsService } from './services/posts.services';
 
 @Module({
   imports: [
+    EncodingModule,
     UsersModule,
     XmlApiModule,
     HttpModule,

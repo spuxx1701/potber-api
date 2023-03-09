@@ -15,12 +15,13 @@ import { PostWriteResource } from '../resources/post.write.resource';
 import { PostLinkResource } from '../resources/post.link.resource';
 import { PostPreviewResource } from '../resources/post.preview.resource';
 import { PostResource } from '../resources/post.resource';
-import * as he from 'he';
 import { ThreadsService } from 'src/threads/services/threads.service';
+import { EncodingService } from 'src/encoding/encoding.service';
 
 @Injectable()
 export class PostsService {
   constructor(
+    private readonly encodingService: EncodingService,
     private readonly httpService: HttpService,
     private readonly xmljs: XmlJsService,
     private readonly usersService: UsersService,
@@ -113,13 +114,13 @@ export class PostsService {
     const keyValuePairs = [];
     keyValuePairs.push(`token=${token}`);
     keyValuePairs.push(
-      `${prefix}_title=${post.title ? escape(post.title) : ''}`,
+      `${prefix}_title=${
+        post.title ? this.encodingService.encodeText(post.title) : ''
+      }`,
     );
     keyValuePairs.push(`${prefix}_icon=${post.icon ? post.icon : '0'}`);
     keyValuePairs.push(
-      `message=${escape(
-        he.encode(post.message, { allowUnsafeSymbols: true }),
-      )}`,
+      `message=${this.encodingService.encodeText(post.message)}`,
     );
     keyValuePairs.push(`${prefix}_converturls=${post.convertUrls ? '1' : '0'}`);
     keyValuePairs.push(
@@ -247,8 +248,9 @@ export class PostsService {
       avatarUrl: this.xmljs.getElementCdata('avatar', postXml),
     } as PostResource;
     post.contentHidden = !post.message;
-    if (post.message) post.message = unescape(he.decode(post.message));
-    if (post.title) post.title = unescape(post.title);
+    if (post.message)
+      post.message = this.encodingService.decodeText(post.message);
+    if (post.title) post.title = this.encodingService.decodeText(post.title);
     return post;
   }
 

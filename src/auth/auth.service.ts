@@ -7,6 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtResource } from './resources/jwt.resource';
 import { HttpService } from 'src/http/http.service';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
+import { EncodingService } from 'src/encoding/encoding.service';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private readonly httpService: HttpService,
     private readonly xmljs: XmlJsService,
     private readonly jwtService: JwtService,
+    private readonly encodingService: EncodingService,
   ) {}
 
   async login(loginResource: LoginResource): Promise<JwtResource> {
@@ -26,11 +28,13 @@ export class AuthService {
         ? loginResource.lifetime
         : parseInt(loginResource.lifetime);
     try {
-      const payload = `login_username=${encodeURIComponent(
+      const username = this.encodingService.encodeLoginCredentials(
         loginResource.username,
-      )}&login_password=${encodeURIComponent(
+      );
+      const password = this.encodingService.encodeLoginCredentials(
         loginResource.password,
-      )}&login_lifetime=${lifetime}`;
+      );
+      const payload = `login_username=${username}&login_password=${password}&login_lifetime=${lifetime}`;
       const { data } = await this.httpService.post(
         forumConfig.LOGIN_URL,
         payload,
@@ -155,37 +159,6 @@ export class AuthService {
     if (!usernameMatches || usernameMatches.length < 3) {
       throw new Error('Unable to retrieve username.');
     }
-    return usernameMatches[2];
-  }
-
-  /**
-   * Searches the given HTML and attempts to extract session details from
-   * the HTML (namely the user id, the username and the logout token).
-   * Will throw an error if retrieving any of these details fails.
-   * @param data The HTML text.
-   * @param cookie The cookie. Will be stored in the session details.
-   * @returns The session details.
-   */
-  private extractSessionDetails(data: string, cookie: string): SessionResource {
-    if (/Du\sbist\snicht\seingeloggt/.test(data)) {
-      throw new Error('Unable to confirm login.');
-    }
-    // Extract user id, username and logout token
-    const userIdMatches = data.match(/(?:(User-id\s)(.*)(\.\n))/);
-    const usernameMatches = data.match(/(?:(my\.mods\.de\/)(.*)("\s))/);
-    if (
-      !userIdMatches ||
-      userIdMatches.length < 3 ||
-      !usernameMatches ||
-      usernameMatches.length < 3
-    ) {
-      throw new Error('Unable to session details.');
-    }
-    const session: SessionResource = {
-      userId: userIdMatches[2],
-      username: usernameMatches[2],
-      cookie: cookie,
-    };
-    return session;
+    return this.encodingService.decodeText(usernameMatches[2]);
   }
 }
