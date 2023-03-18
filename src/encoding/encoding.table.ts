@@ -4,6 +4,7 @@ export interface EncodingEntry {
 }
 
 export const SUPPORTED_CHARACTERS = [
+  '+',
   '&',
   '¡',
   '¢',
