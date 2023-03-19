@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.0.2] - unreleased
+
+### Fixed
+
+- More fixes and improvements regarding encoding/decoding. Deprecated functions escape() and unescape() are no longer being used.
+
 ## [1.0.1] - 2023-03-09
 
 ### Fixed
