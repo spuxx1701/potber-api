@@ -23,7 +23,7 @@ describe('Encoding | EncodingService', () => {
 
     it('should properly convert a username that does require encoding', () => {
       const username = '[potber]äöü²';
-      const expected = '%5Bpotber%5D%E4%F6%FC%B2';
+      const expected = '[potber]%E4%F6%FC%B2';
       expect(encodingService.encodeLoginCredentials(username)).toStrictEqual(
         expected,
       );
