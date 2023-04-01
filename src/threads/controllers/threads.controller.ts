@@ -87,14 +87,14 @@ export class ThreadsController {
     @Request() request: any,
     @Query('postId') postId?: string,
     @Query('page') page?: number,
-    @Query('updateBookmark') updateBookmark?: boolean,
+    @Query('updateBookmark') updateBookmark?: string,
   ): Promise<ThreadResource> {
     if (isDefined(updateBookmark) && !isBooleanString(updateBookmark))
       throw threadsExceptions.updateBookmarkMustBeBoolean;
     return this.service.findOne(id, request.user, {
       postId,
       page,
-      updateBookmark,
+      updateBookmark: updateBookmark === 'true',
     });
   }
 }
