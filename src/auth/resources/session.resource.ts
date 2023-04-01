@@ -12,6 +12,11 @@ export class SessionResource {
   username: string;
 
   @ApiProperty({
+    description: "Your active avatar's URL.",
+  })
+  avatarUrl: string;
+
+  @ApiProperty({
     description: 'Your board session cookie.',
   })
   cookie: string;

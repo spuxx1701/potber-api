@@ -1,25 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import * as he from 'he';
-import { EncodingEntry, SUPPORTED_CHARACTERS } from './encoding.table';
+import { EncodingEntry, ENCODING_TABLE } from './encoding.table';
 
 @Injectable()
 export class EncodingService {
-  encodingTable: EncodingEntry[] = this.createEncodingTable();
-
-  /**
-   * Creates the encoding table from the list of supported characters.
-   * @returns The encodingtable.
-   */
-  createEncodingTable(): EncodingEntry[] {
-    const table: EncodingEntry[] = [];
-    for (const character of SUPPORTED_CHARACTERS) {
-      table.push({
-        utf8: character,
-        latin9: escape(character),
-      });
-    }
-    return table;
-  }
+  encodingTable: EncodingEntry[] = ENCODING_TABLE;
 
   /**
    * Encodes the given login credentials using latin-9 encoding.
@@ -27,7 +12,7 @@ export class EncodingService {
    * @returns The encoded result.
    */
   encodeLoginCredentials(input: string) {
-    const result = escape(input);
+    const result = this.encode(input);
     return result;
   }
 
@@ -40,41 +25,55 @@ export class EncodingService {
   encodeText(input: string) {
     let result = input;
     // Encode to latin-9
-    result = this.escapeLatin9(result);
+    result = this.encode(result);
     // Escape special characters to HTML
     result = this.escapeHtml(result);
     return result;
   }
 
   /**
-   * Decodes a text from latin-9 & html to a proper utf-8 string.
-   * @param input
+   * Decodes a text (e.g. a post message or thread title) to utf-8.
+   * @param input The encoded input string.
+   * @returns The decoded result.
    */
   decodeText(input: string) {
     // Decode latin-9
-    let result = unescape(input);
-    // Decode HTML codes
-    result = he.decode(input);
+    let result = this.decode(input);
+    result = this.unescapeHtml(result);
     return result;
   }
 
   /**
-   * Escapes all supported characters to latin-9.
-   * @param input The utf-8 string.
-   * @returns The escaped result.
+   * Encodes all characters according to the encoding table.
+   * @param input The input string
+   * @returns The encoded result.
    */
-  escapeLatin9(input: string) {
+  encode(input: string) {
     let result = input;
     for (const encodingEntry of this.encodingTable) {
-      result = result.replaceAll(encodingEntry.utf8, encodingEntry.latin9);
+      result = result.replaceAll(encodingEntry.decoded, encodingEntry.encoded);
     }
     return result;
   }
 
   /**
-   * Escapes special characters to their corresponding HTML codes.
-   * @param input
-   * @returns
+   * Decodes all characters according to the encoding table.
+   * @param input The input string.
+   * @returns The decoded result.
+   */
+  decode(input: string) {
+    let result = input;
+    for (const encodingEntry of this.encodingTable) {
+      result = result.replaceAll(encodingEntry.encoded, encodingEntry.decoded);
+    }
+    return result;
+  }
+
+  /**
+   * Escapes special characters (e.g. unicode emojis)
+   * to their corresponding HTML codes.
+   * @param input The input string.
+   * @returns The output string.
    */
   escapeHtml(input: string) {
     const result = [...input]
@@ -83,6 +82,16 @@ export class EncodingService {
         return code > 127 ? `%26%23${code}%3B` : char;
       })
       .join('');
+    return result;
+  }
+
+  /**
+   * Unescapes HTML codes to their corresponding utf-8 characters.
+   * @param input The input string.
+   * @returns The output string.
+   */
+  unescapeHtml(input: string) {
+    const result = he.decode(input);
     return result;
   }
 }
