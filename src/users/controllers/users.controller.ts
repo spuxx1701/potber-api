@@ -1,6 +1,11 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import { Controller, Get, Param } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
 import { usersExceptions } from '../config/users.exceptions';
 import { UserResource } from '../resources/user.resource';
 import { UsersService } from '../services/users.service';
@@ -20,6 +25,10 @@ export class UsersController {
     description: "The user's id.",
     example: '1268185',
     type: String,
+  })
+  @ApiOkResponse({
+    description: 'The user.',
+    type: UserResource,
   })
   @ApiException(() => Object.values(usersExceptions.findById))
   async findById(@Param('id') id: string): Promise<UserResource> {
