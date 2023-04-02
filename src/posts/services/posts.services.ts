@@ -245,7 +245,9 @@ export class PostsService {
         'id',
         this.xmljs.getElement('in-board', postXml),
       ),
-      avatarUrl: this.xmljs.getElementCdata('avatar', postXml),
+      avatarUrl: this.usersService.parseAvatarUrl(
+        this.xmljs.getElementCdata('avatar', postXml),
+      ),
     } as PostResource;
     post.contentHidden = !post.message;
     if (post.message)

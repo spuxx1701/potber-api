@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 - Added /users/:id route.
 
+### Changed
+
+- The API now outputs all avatar URLs as absolute URLs.
+
 ## [1.1.0] - 2023-04-01
 
 ### Added

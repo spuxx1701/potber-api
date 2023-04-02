@@ -5,7 +5,6 @@ import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { usersExceptions } from '../config/users.exceptions';
 import { UserResource } from '../resources/user.resource';
 import { EncodingService } from 'src/encoding/encoding.service';
-
 /**
  * The users service class. Can transform users.
  */
@@ -47,7 +46,7 @@ export class UsersService {
     const avatarUrlMatches = html.match(
       /(?:(<img\ssrc="\/\/forum.mods.de\/bb\/)(.*)("\sclass="avatar"))/,
     );
-    const avatarUrl = avatarUrlMatches[2];
+    const avatarUrl = this.parseAvatarUrl(avatarUrlMatches[2]);
     const user: UserResource = {
       id,
       name,
@@ -71,5 +70,18 @@ export class UsersService {
       name: this.xmljs.getElement('cdata', userElement)?.cdata,
     };
     return user;
+  }
+
+  /**
+   * The board outputs avatar URLs as relative paths. On top of that,
+   * older avatars were stored differently than more recent avatars. This function
+   * parses those relative URLs to absolute URLs.
+   * @param rawUrl The raw URL.
+   * @returns The parsed absolute URL.
+   */
+  parseAvatarUrl(rawUrl: string): string {
+    // Remove './' from avatarUrl
+    const path = rawUrl.replace(/^\.\//, '');
+    return `${forumConfig.FORUM_URL}${path}`;
   }
 }
