@@ -78,7 +78,8 @@ describe('Threads | ThreadsService', () => {
                 },
                 date: new Date(1673953573 * 1000),
               },
-              avatarUrl: './avatare/upload/U1268185--small.png',
+              avatarUrl:
+                'https://forum.mods.de/bb/avatare/upload/U1268185--small.png',
               threadId: '219289',
               boardId: '14',
             },
@@ -96,7 +97,8 @@ describe('Threads | ThreadsService', () => {
               contentHidden: false,
               editedCount: 0,
               lastEdit: undefined,
-              avatarUrl: './avatare/upload/U1268185--small.png',
+              avatarUrl:
+                'https://forum.mods.de/bb/avatare/upload/U1268185--small.png',
               threadId: '219289',
               boardId: '14',
             },

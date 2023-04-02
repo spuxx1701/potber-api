@@ -3,6 +3,8 @@ import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { UserResource } from '../resources/user.resource';
 import { UsersService } from './users.service';
 import { userXmlMockData } from './users.service.spec.includes';
+import { EncodingModule } from 'src/encoding/encoding.module';
+import { HttpModule } from 'src/http/http.module';
 
 describe('Users | UsersService', () => {
   let usersService: UsersService;
@@ -10,7 +12,7 @@ describe('Users | UsersService', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [],
+      imports: [EncodingModule, HttpModule],
       providers: [XmlJsService, UsersService],
     }).compile();
     usersService = await moduleRef.resolve(UsersService);
@@ -40,6 +42,21 @@ describe('Users | UsersService', () => {
         groupId: '3',
       };
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('parseAvatarUrl', () => {
+    it('should properly parse an old avatar URL', () => {
+      const input = 'avatare/oldb/shooter.gif';
+      const expected = 'https://forum.mods.de/bb/avatare/oldb/shooter.gif';
+      expect(usersService.parseAvatarUrl(input)).toBe(expected);
+    });
+
+    it('should properly parse a new avatar URL', () => {
+      const input = './avatare/upload/U3035--e-razor.png';
+      const expected =
+        'https://forum.mods.de/bb/avatare/upload/U3035--e-razor.png';
+      expect(usersService.parseAvatarUrl(input)).toBe(expected);
     });
   });
 });
