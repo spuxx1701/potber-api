@@ -35,10 +35,12 @@ export class UsersService {
     const lastLoginMatches = html.match(
       /(?:(Zuletzt im Board:<\/td>\n.*>)(.*)(<\/td>))/,
     );
-    const lastLogin = lastLoginMatches[2];
+    const lastLogin = lastLoginMatches[2] || undefined;
     const activityMatches = html.match(/(?:(Status:<\/td>\n.*>)(.*)(<\/td>))/);
     const onlineMatches = html.match(/(?:(<span class="online">)(.*)<\/span>)/);
-    const activity = activityMatches[2]?.trim() || onlineMatches[2]?.trim();
+    const activity =
+      activityMatches[2]?.replace('�ber', 'über').trim() ||
+      onlineMatches[2]?.trim();
     const statusMatches = html.match(
       /(?:(Accountstatus:<\/td>\n.*>)(.*)(<\/td>))/,
     );
