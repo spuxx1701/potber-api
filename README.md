@@ -15,7 +15,7 @@ Even though the API was built primarily for serving the [potber client](https://
 
 ### ⚠ About accessing the API ⚠
 
-In contrast to the original forum and its API, almost all potber-api routes requires you to be signed in for each of its endpoints. Since potber-api follows modern standards and patterns, it also makes it much easier to extract a lot of data. Thus, restricting access to forum members was done to decrease the risk of abuse. If a route does not require authentication, it's stated explicitely in the API documentation.
+In contrast to the original forum and its API, almost all potber-api routes require you to be signed in. Since potber-api follows modern standards and patterns, it also makes it much easier to extract a lot of data. Thus, restricting access to forum members was done to decrease the risk of abuse. If a route does not require authentication, it's stated explicitely in the API documentation.
 
 ## Development
 
