@@ -29,6 +29,12 @@ export class UsersService {
     return this.extractUserProfile(id, data);
   }
 
+  /**
+   * Extracts the user profile data from the given HTML document.
+   * @param id The user's id.
+   * @param html The HTML document.
+   * @returns The user profile.
+   */
   extractUserProfile(id: string, html: string): UserResource {
     const nameMatches = html.match(/(?:(Profil\:\s)(.*)(<\/title>))/);
     const name = this.encodingService.decodeText(nameMatches[2]) as string;
