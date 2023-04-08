@@ -10,6 +10,7 @@ import { HttpModule } from './http/http.module';
 import { PostsModule } from './posts/posts.module';
 import { ThreadsModule } from './threads/threads.module';
 import { UsersModule } from './users/users.module';
+import { PrivateMessagesModule } from './private-messages/private-messages.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsersModule } from './users/users.module';
     BoardsModule,
     BoardCategoriesModule,
     BookmarksModule,
+    PrivateMessagesModule,
   ],
   controllers: [AppController],
   providers: [],
