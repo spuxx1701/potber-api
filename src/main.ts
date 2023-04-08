@@ -9,7 +9,6 @@ import {
   swaggerUri,
 } from './config/swagger.config';
 
-/* istanbul ignore file */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
