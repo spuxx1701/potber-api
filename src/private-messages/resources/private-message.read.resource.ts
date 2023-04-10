@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { privateMessageProperties } from './private-message.properties';
 import { UserResource } from 'src/users/resources/user.resource';
+import { PrivateMessageFolder } from '../types';
 
 export class PrivateMessageReadResource {
   @ApiProperty(privateMessageProperties.id)
@@ -11,6 +12,9 @@ export class PrivateMessageReadResource {
 
   @ApiProperty(privateMessageProperties.date)
   date: string;
+
+  @ApiProperty(privateMessageProperties.folder)
+  folder: PrivateMessageFolder;
 
   @ApiProperty(privateMessageProperties.unread)
   unread?: boolean;

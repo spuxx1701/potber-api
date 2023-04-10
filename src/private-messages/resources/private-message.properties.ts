@@ -16,6 +16,12 @@ export const privateMessageProperties = {
     example: '07:54 12.1.2023',
   } as ApiPropertyOptions,
 
+  folder: {
+    description:
+      "The folder this private message is in. Can be 'inbound', 'outbound' or 'system'.",
+    examples: ['inbound', 'outbound', 'system'],
+  } as ApiPropertyOptions,
+
   unread: {
     description: 'Whether the private message has not yet been read.',
     examples: [true, false, undefined],

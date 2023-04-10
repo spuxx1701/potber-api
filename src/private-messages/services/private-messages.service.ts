@@ -6,11 +6,10 @@ import { EncodingService } from 'src/encoding/encoding.service';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { privateMessagesRegex } from '../config/private-messages.regex';
 import { PrivateMessageFolder } from '../types';
-import { UserResource } from 'src/users/resources/user.resource';
 
-const INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
-const OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
-const SYSTEM_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=3`;
+const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
+const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
+const LIST_SYSTEM_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=3`;
 
 /**
  * Service for retrieving and creating private messages. Since the forum's
@@ -24,30 +23,78 @@ export class PrivateMessagesService {
     private readonly encodingService: EncodingService,
   ) {}
 
-  async getInbound(
+  /**
+   * Returns a list of private messages.
+   * @param session The session resource.
+   * @param options.folder (optional) Filter private messages for the given folder.
+   * @param options.unread (optional) Filter for unread/read messages.
+   * @returns The list of private messages.
+   */
+  async findMany(
     session: SessionResource,
+    options?: { folder?: PrivateMessageFolder; unread?: boolean },
   ): Promise<PrivateMessageReadResource[]> {
-    const { data } = await this.httpService.get(INBOUND_URL, {
+    switch (options.folder) {
+      case PrivateMessageFolder.inbound:
+        return this.getFolder(LIST_INBOUND_URL, session, options);
+      case PrivateMessageFolder.outbound:
+        return this.getFolder(LIST_OUTBOUND_URL, session, options);
+      case PrivateMessageFolder.system:
+        return this.getFolder(LIST_SYSTEM_URL, session, options);
+      default:
+        return [
+          ...(await this.getFolder(LIST_INBOUND_URL, session, options)),
+          ...(await this.getFolder(LIST_OUTBOUND_URL, session, options)),
+          ...(await this.getFolder(LIST_SYSTEM_URL, session, options)),
+        ];
+    }
+  }
+
+  /**
+   * Returns all private messages that belong tto the given folder.
+   * @param session The session resource.
+   * @param options.unread (optional) Filter for unread/read messages.
+   * @returns The list of private messages.
+   */
+  async getFolder(
+    url: string,
+    session: SessionResource,
+    options?: { unread?: boolean },
+  ): Promise<PrivateMessageReadResource[]> {
+    const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
-    return this.parseMessageList(data, session, PrivateMessageFolder.inbound);
+    return this.parseMessageList(data, session, PrivateMessageFolder.outbound, {
+      unread: options?.unread,
+    });
   }
 
   /**
    * Parses the given message list html to a list of private message.
    * Only contains header data (title, sender/recipient and date).
    * @param html The HTML document.
+   * @param session The session resource.
    * @param folder The private message folder (inbound/outbound/system).
+   * @param options.unread (optional) Filter for unread/read messages.
    * @returns The list of private messages.
    */
   parseMessageList(
     html: string,
     session: SessionResource,
     folder: PrivateMessageFolder,
+    options?: {
+      unread?: boolean;
+    },
   ): PrivateMessageReadResource[] {
     const messages: PrivateMessageReadResource[] = [];
-    const unreadMatches = html.matchAll(privateMessagesRegex.list.unread);
-    const readMatches = html.matchAll(privateMessagesRegex.list.read);
+    const unreadMatches =
+      options?.unread !== false
+        ? html.matchAll(privateMessagesRegex.list.unread)
+        : [];
+    const readMatches =
+      options?.unread !== true
+        ? html.matchAll(privateMessagesRegex.list.read)
+        : [];
     const allMatches: RegExpMatchArray[] = [...unreadMatches, ...readMatches];
     for (const match of allMatches) {
       try {
@@ -89,7 +136,7 @@ export class PrivateMessagesService {
     }
     const date = dateMatches[2];
 
-    const message: PrivateMessageReadResource = { id, title, date };
+    const message: PrivateMessageReadResource = { id, title, date, folder };
 
     // Retrieving the sender/recipient may fail. If it does, we will assume
     // that 'System' is the sender/recipient.
