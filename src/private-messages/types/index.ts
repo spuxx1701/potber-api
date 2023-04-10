@@ -1,5 +1,5 @@
 export enum PrivateMessageFolder {
   inbound = 'inbound',
-  outbound = 'oubound',
+  outbound = 'outbound',
   system = 'system',
 }
