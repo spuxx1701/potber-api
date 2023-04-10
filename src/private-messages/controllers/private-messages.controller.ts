@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Param,
   Query,
   Request,
   UseGuards,
@@ -10,6 +11,7 @@ import {
 import {
   ApiBearerAuth,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
@@ -30,7 +32,7 @@ export class PrivateMessagesController {
 
   @Get()
   @ApiOperation({
-    summary: 'Returns private messages.',
+    summary: 'Returns a list of private messages.',
   })
   @ApiQuery({
     name: 'folder',
@@ -61,5 +63,18 @@ export class PrivateMessagesController {
       folder: query?.folder,
       unread: query?.unread,
     });
+  }
+
+  @Get(':id')
+  @ApiOperation({
+    summary: 'Returns a single private message.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: "The private message's unique id.",
+    type: String,
+  })
+  async findById(@Param('id') id: string, @Request() request: any) {
+    return this.service.findById(id, request.user);
   }
 }

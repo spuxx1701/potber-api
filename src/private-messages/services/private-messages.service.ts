@@ -6,10 +6,12 @@ import { EncodingService } from 'src/encoding/encoding.service';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { privateMessagesRegex } from '../config/private-messages.regex';
 import { PrivateMessageFolder } from '../types';
+import { UserResource } from 'src/users/resources/user.resource';
 
 const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
 const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
 const LIST_SYSTEM_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=3`;
+const MESSAGE_GET_URL = `${forumConfig.FORUM_URL}pm/?a=2&mid=`;
 
 /**
  * Service for retrieving and creating private messages. Since the forum's
@@ -94,16 +96,21 @@ export class PrivateMessagesService {
       options?.unread !== true
         ? html.matchAll(privateMessagesRegex.list.read)
         : [];
-    const allMatches: RegExpMatchArray[] = [...unreadMatches, ...readMatches];
-    for (const match of allMatches) {
+    const createMessage = (match: RegExpMatchArray) => {
       try {
-        messages.push(this.parseMessageListItem(match[1], folder));
+        return this.parseMessageListItem(match[1], folder);
       } catch (error) {
         Logger.error(
           `An error occured while parsing a private message header for user '${session.username}' (${error.message}). The message will be skipped.`,
           this.constructor.name,
         );
       }
+    };
+    for (const match of unreadMatches) {
+      messages.push({ ...createMessage(match), unread: true });
+    }
+    for (const match of readMatches) {
+      messages.push({ ...createMessage(match), unread: false });
     }
     return messages;
   }
@@ -163,6 +170,78 @@ export class PrivateMessagesService {
     ) {
       message.sender = { id: '0', name: 'System' };
     }
+    return message;
+  }
+
+  /**
+   * Returns a specific private message by id.
+   * @param id The private message's id.
+   * @param session The session resource.
+   * @returns The private message.
+   */
+  async findById(
+    id: string,
+    session: SessionResource,
+  ): Promise<PrivateMessageReadResource> {
+    const url = `${MESSAGE_GET_URL}${id}`;
+    const { data } = await this.httpService.get(url, {
+      cookie: session.cookie,
+    });
+    return this.parseMessage(id, data);
+  }
+
+  parseMessage(id: string, html: string): PrivateMessageReadResource {
+    const titleMatches = html.match(privateMessagesRegex.message.title);
+    if (!titleMatches || titleMatches.length < 1) {
+      throw new Error('Unable to retrieve message title.');
+    }
+    const title = titleMatches[1];
+    const folderMatches = html.match(privateMessagesRegex.message.folder);
+    if (!folderMatches || folderMatches.length < 1) {
+      throw new Error('Unable to retrieve message folder.');
+    }
+    let folder: PrivateMessageFolder = PrivateMessageFolder.inbound;
+    switch (folderMatches[1]) {
+      case 'Ausgang':
+        folder = PrivateMessageFolder.inbound;
+        break;
+      case 'System':
+        folder = PrivateMessageFolder.system;
+        break;
+      default:
+        folder = PrivateMessageFolder.inbound;
+    }
+    const dateMatches = html.match(privateMessagesRegex.message.date);
+    if (!dateMatches || dateMatches.length < 1) {
+      throw new Error('Unable to retrieve message date.');
+    }
+    const date = dateMatches[1];
+    const contentMatches = html.match(privateMessagesRegex.message.content);
+    if (!contentMatches || contentMatches.length < 1) {
+      throw new Error('unable to retrieve message content.');
+    }
+    const content = contentMatches[1];
+
+    const senderIdMatches = html.match(privateMessagesRegex.message.senderId);
+    const senderNameMatches = html.match(
+      privateMessagesRegex.message.senderName,
+    );
+    let sender: UserResource | undefined = undefined;
+    if (senderIdMatches && senderNameMatches) {
+      sender = { id: senderIdMatches[1], name: senderNameMatches[1] };
+    }
+
+    const recipient: UserResource | undefined = undefined;
+
+    const message: PrivateMessageReadResource = {
+      id,
+      title,
+      date,
+      folder,
+      content,
+      sender,
+      recipient,
+    };
     return message;
   }
 }

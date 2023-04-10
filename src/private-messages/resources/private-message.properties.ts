@@ -38,4 +38,9 @@ export const privateMessageProperties = {
       'The sender of the private message. Only provided for inbound messages.',
     example: { id: '1268185', name: 'Ameisenfutter' },
   } as ApiPropertyOptions,
+
+  content: {
+    description: 'The content of the private message.',
+    example: 'Hello world!',
+  } as ApiPropertyOptions,
 };

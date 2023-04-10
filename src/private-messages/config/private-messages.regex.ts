@@ -9,4 +9,13 @@ export const privateMessagesRegex = {
       /(?:<a href='http:\/\/my.mods.de\/\d*' target='_blank'>(.*?)<\/a>)/,
     date: /(?:<td.*?style='width: 15%'>(.*)<\/td>)/,
   },
+  message: {
+    senderId: /(?=Absender.*?my.mods.de\/(.*?)\')/,
+    senderName: /(?=Absender.*?target='_blank'>(.*?)<\/a>)/,
+    date: /(?=Gesendet.*?<b>(.*?)<\/td>)/,
+    title: /(?=Betreff.*?<b>(.*?)<\/td>)/,
+    folder: /(?=Ordner.*?class='bold'>(.*?)<\/a>)/,
+    content:
+      /(?=<td\s(?:colspan='3'|class='b')\s(?:colspan='3'|class='b')>(.*?)<\/td>)/,
+  },
 };

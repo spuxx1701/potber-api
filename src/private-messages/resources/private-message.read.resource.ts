@@ -24,4 +24,7 @@ export class PrivateMessageReadResource {
 
   @ApiProperty(privateMessageProperties.sender)
   sender?: UserResource;
+
+  @ApiProperty(privateMessageProperties.content)
+  content?: string;
 }
