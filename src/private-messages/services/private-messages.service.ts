@@ -34,19 +34,18 @@ export class PrivateMessagesService {
     session: SessionResource,
     options?: { folder?: PrivateMessageFolder; unread?: boolean },
   ): Promise<PrivateMessageReadResource[]> {
-    switch (options.folder) {
-      case PrivateMessageFolder.inbound:
-        return this.getFolder(LIST_INBOUND_URL, session, options);
-      case PrivateMessageFolder.outbound:
-        return this.getFolder(LIST_OUTBOUND_URL, session, options);
-      case PrivateMessageFolder.system:
-        return this.getFolder(LIST_SYSTEM_URL, session, options);
-      default:
-        return [
-          ...(await this.getFolder(LIST_INBOUND_URL, session, options)),
-          ...(await this.getFolder(LIST_OUTBOUND_URL, session, options)),
-          ...(await this.getFolder(LIST_SYSTEM_URL, session, options)),
-        ];
+    if (options?.folder === PrivateMessageFolder.inbound) {
+      return this.getFolder(LIST_INBOUND_URL, session, options);
+    } else if (options?.folder === PrivateMessageFolder.outbound) {
+      return this.getFolder(LIST_OUTBOUND_URL, session, options);
+    } else if (options?.folder === PrivateMessageFolder.system) {
+      return this.getFolder(LIST_SYSTEM_URL, session, options);
+    } else {
+      return [
+        ...(await this.getFolder(LIST_INBOUND_URL, session, options)),
+        ...(await this.getFolder(LIST_OUTBOUND_URL, session, options)),
+        ...(await this.getFolder(LIST_SYSTEM_URL, session, options)),
+      ];
     }
   }
 
