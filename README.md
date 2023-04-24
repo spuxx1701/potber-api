@@ -53,4 +53,4 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-This software is [MIT licensed](LICENSE).
+This software is [GNU licensed](LICENSE).
