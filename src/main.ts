@@ -28,6 +28,6 @@ async function bootstrap() {
     swaggerOptions,
   });
 
-  await app.listen(3000);
+  await app.listen(configService.get<number>('APP_PORT'));
 }
 bootstrap();

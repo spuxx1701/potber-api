@@ -8,6 +8,7 @@ import { JwtResource } from './resources/jwt.resource';
 import { HttpService } from 'src/http/http.service';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { EncodingService } from 'src/encoding/encoding.service';
+import { UsersService } from 'src/users/services/users.service';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
     private readonly xmljs: XmlJsService,
     private readonly jwtService: JwtService,
     private readonly encodingService: EncodingService,
+    private readonly usersService: UsersService,
   ) {}
 
   async login(loginResource: LoginResource): Promise<JwtResource> {
@@ -112,10 +114,10 @@ export class AuthService {
   async getSessionDetails(cookie: string): Promise<SessionResource> {
     try {
       const userId = await this.getUserId(cookie);
-      const { username, avatarUrl } = await this.getProfileData(userId);
+      const { name, avatarUrl } = await this.usersService.findById(userId);
       const session: SessionResource = {
         userId,
-        username,
+        username: name,
         avatarUrl,
         cookie,
       };
@@ -145,33 +147,5 @@ export class AuthService {
       throw new Error('Unable to retrieve user id.');
     }
     return userId;
-  }
-
-  /**
-   * Calls the given user's profile page to extract the username and avatar.
-   * @param userId The user id.
-   * @param cookie The session cookie.
-   */
-  async getProfileData(
-    userId: string,
-  ): Promise<{ username: string; avatarUrl: string }> {
-    const { data } = await this.httpService.get(
-      `${forumConfig.USER_PAGE_URL}${userId}`,
-    );
-    const usernameMatches = data.match(/(?:(Profil\:\s)(.*)(<\/title>))/);
-    if (!usernameMatches || usernameMatches.length < 3) {
-      throw new Error('Unable to retrieve username.');
-    }
-    const username = this.encodingService.decodeText(
-      usernameMatches[2],
-    ) as string;
-    const avatarUrlMatches = data.match(
-      /(?:(<img\ssrc="\/\/forum.mods.de\/bb\/)(.*)("\sclass="avatar"))/,
-    );
-    if (!avatarUrlMatches || avatarUrlMatches.length < 3) {
-      throw new Error('Unable to retrieve avatar url.');
-    }
-    const avatarUrl = avatarUrlMatches[2];
-    return { username, avatarUrl };
   }
 }

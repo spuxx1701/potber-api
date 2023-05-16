@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [1.1.0] - unreleased
+## [1.2.0] - unreleased
+
+### Added
+
+- Added /users/:id route.
+
+### Changed
+
+- The API now outputs all avatar URLs as absolute URLs.
+- The application was moved to a kubernetes environment. By that, the application gained several beneficial features like high availability or rolling updates.
+- Deployment is now handled via Flux GitOps pipelines. Prior environments have been replaced with a staging and a production environment. Deployment to staging is triggerd via commits to master. Deployment to production is triggered via releasing semantic versioning tags.
+
+## [1.1.0] - 2023-04-01
 
 ### Added
 
