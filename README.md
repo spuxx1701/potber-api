@@ -27,6 +27,25 @@ $ cd potber-api
 $ npm install
 ```
 
+### Setting up the environment
+
+The application expects a couple of environment variables to be set. In a local environment you may provide them by adding an `.env` file into the root folder and copy the following values. Note that `AUTH_JWT_SECRET` can be any kind of string. It will be used for encrypt the session JWT.
+
+```env
+# App
+APP_CLIENT_URL=http://localhost:4200
+APP_API_URL=http://localhost:3000
+
+# Swagger
+SWAGGER_TEST_THREAD_ID=219289
+
+# CORS
+CORS_ALLOWED_ORIGINS=http://localhost:4200
+
+# Authentication
+AUTH_JWT_SECRET=***
+```
+
 ### Running the app
 
 ```bash
