@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
@@ -29,8 +29,17 @@ export class UsersService {
     return this.extractUserProfile(id, data);
   }
 
+  /**
+   * Extracts the user profile data from the given html.
+   * @param id The user's id.
+   * @param html The html string.
+   * @returns The user profile.
+   */
   extractUserProfile(id: string, html: string): UserResource {
     const nameMatches = html.match(/(?:(Profil\:\s)(.*)(<\/title>))/);
+    if (!nameMatches) {
+      throw usersExceptions.findById.notFound;
+    }
     const name = this.encodingService.decodeText(nameMatches[2]) as string;
     const lastLoginMatches = html.match(
       /(?:(Zuletzt im Board:<\/td>\n.*>)(.*)(<\/td>))/,

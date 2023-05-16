@@ -2,9 +2,13 @@ import { Test } from '@nestjs/testing';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { UserResource } from '../resources/user.resource';
 import { UsersService } from './users.service';
-import { userXmlMockData } from './users.service.spec.includes';
+import {
+  userProfileMockData,
+  userXmlMockData,
+} from './users.service.spec.includes';
 import { EncodingModule } from 'src/encoding/encoding.module';
 import { HttpModule } from 'src/http/http.module';
+import { NotFoundException } from '@nestjs/common';
 
 describe('Users | UsersService', () => {
   let usersService: UsersService;
@@ -17,6 +21,33 @@ describe('Users | UsersService', () => {
     }).compile();
     usersService = await moduleRef.resolve(UsersService);
     xmljs = await moduleRef.resolve(XmlJsService);
+  });
+
+  describe('extractUserProfile', () => {
+    it('should extract the user profile from the html string', () => {
+      const expected: UserResource = {
+        id: '1268185',
+        name: 'Ameisenfutter',
+        avatarUrl:
+          'https://forum.mods.de/bb/avatare/upload/U1268185--small.png',
+        lastLogin: '16.05.2023 11:57',
+        activity: 'online',
+        status: 'aktiv',
+      };
+      const actual = usersService.extractUserProfile(
+        userProfileMockData.online.id,
+        userProfileMockData.online.html,
+      );
+      expect(actual).toStrictEqual(expected);
+    });
+
+    it('should throw NotFoundException if the user could not be found', () => {
+      const id = '1179058';
+      const input = 'Benutzer 1179058 1179058 nicht gefunden!';
+      expect(() => {
+        usersService.extractUserProfile(id, input);
+      }).toThrowError(NotFoundException);
+    });
   });
 
   describe('transformUser', () => {
