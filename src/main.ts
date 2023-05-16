@@ -8,6 +8,7 @@ import {
   swaggerOptions,
   swaggerUri,
 } from './config/swagger.config';
+import { Logger } from '@nestjs/common';
 
 /* istanbul ignore file */
 async function bootstrap() {
@@ -28,6 +29,8 @@ async function bootstrap() {
     swaggerOptions,
   });
 
-  await app.listen(configService.get<number>('APP_PORT'));
+  const port = configService.get<number>('APP_PORT');
+  await app.listen(port);
+  Logger.log(`Application is listening on port ${port}.`, 'NestApplication');
 }
 bootstrap();
