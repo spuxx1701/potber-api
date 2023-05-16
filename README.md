@@ -33,6 +33,7 @@ The application expects a couple of environment variables to be set. In a local 
 
 ```env
 # App
+APP_PORT=3000
 APP_CLIENT_URL=http://localhost:4200
 APP_API_URL=http://localhost:3000
 
