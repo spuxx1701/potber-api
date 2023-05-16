@@ -1,9 +1,10 @@
-name: production
+name: staging
 
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - v*
+    branches:
+      - master
 
 jobs:
   types:
@@ -21,8 +22,5 @@ jobs:
       - lint
       - test
     uses: spuxx1701/ci-cd/.github/workflows/release_image.yml@v2.0
-    with:
-      dockerfile: Dockerfile.staging
     secrets:
       dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
-  
