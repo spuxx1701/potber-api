@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Run as non-root
-USER node
+USER 1000
 
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
