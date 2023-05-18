@@ -1,6 +1,5 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,

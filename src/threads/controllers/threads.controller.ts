@@ -28,7 +28,6 @@ import { ThreadsService } from '../services/threads.service';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
-const testThreadId = process.env.SWAGGER_TEST_THREAD_ID;
 
 @Controller('threads')
 @ApiTags('Threads')
