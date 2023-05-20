@@ -37,16 +37,46 @@ export class PrivateMessagesService {
     options?: { folder?: PrivateMessageFolder; unread?: boolean },
   ): Promise<PrivateMessageReadResource[]> {
     if (options?.folder === PrivateMessageFolder.inbound) {
-      return this.getFolder(LIST_INBOUND_URL, session, options);
+      return this.getFolder(
+        LIST_INBOUND_URL,
+        session,
+        PrivateMessageFolder.inbound,
+        options,
+      );
     } else if (options?.folder === PrivateMessageFolder.outbound) {
-      return this.getFolder(LIST_OUTBOUND_URL, session, options);
+      return this.getFolder(
+        LIST_OUTBOUND_URL,
+        session,
+        PrivateMessageFolder.outbound,
+        options,
+      );
     } else if (options?.folder === PrivateMessageFolder.system) {
-      return this.getFolder(LIST_SYSTEM_URL, session, options);
+      return this.getFolder(
+        LIST_SYSTEM_URL,
+        session,
+        PrivateMessageFolder.system,
+        options,
+      );
     } else {
       return [
-        ...(await this.getFolder(LIST_INBOUND_URL, session, options)),
-        ...(await this.getFolder(LIST_OUTBOUND_URL, session, options)),
-        ...(await this.getFolder(LIST_SYSTEM_URL, session, options)),
+        ...(await this.getFolder(
+          LIST_INBOUND_URL,
+          session,
+          PrivateMessageFolder.inbound,
+          options,
+        )),
+        ...(await this.getFolder(
+          LIST_OUTBOUND_URL,
+          session,
+          PrivateMessageFolder.outbound,
+          options,
+        )),
+        ...(await this.getFolder(
+          LIST_SYSTEM_URL,
+          session,
+          PrivateMessageFolder.system,
+          options,
+        )),
       ];
     }
   }
@@ -60,12 +90,13 @@ export class PrivateMessagesService {
   async getFolder(
     url: string,
     session: SessionResource,
+    folder: PrivateMessageFolder,
     options?: { unread?: boolean },
   ): Promise<PrivateMessageReadResource[]> {
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
     });
-    return this.parseMessageList(data, session, PrivateMessageFolder.outbound, {
+    return this.parseMessageList(data, session, folder, {
       unread: options?.unread,
     });
   }
