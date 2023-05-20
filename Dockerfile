@@ -16,5 +16,8 @@ COPY . .
 # Creates a "dist" folder with the production build
 RUN npm run build
 
+# Run as non-root
+USER 1000
+
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]
