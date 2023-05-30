@@ -6,6 +6,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 export interface RequestOptions {
   cookie?: string;
   headers?: object;
+  decode?: boolean;
 }
 
 @Injectable()
@@ -15,16 +16,21 @@ export class HttpService {
   /**
    * Triggers an outgoing GET request.
    * @param url The url.
-   * @param options The request options.
+   * @param options.cookie (optional) The session cookie.
+   * @param options.headers (optional) Additional request headers.
+   * @param options.decode (optional) Whether the response should be decoded from ISO-8859-15 to UTF-8.
    * @returns The response object.
    */
   async get(url: string, options?: RequestOptions) {
-    return firstValueFrom(
+    const { cookie, headers, decode } = { decode: true, ...options };
+    const response = await firstValueFrom(
       this.httpService
         .get(url, {
+          responseEncoding: decode ? 'binary' : undefined,
+          responseType: decode ? 'arraybuffer' : undefined,
           headers: {
-            Cookie: options?.cookie,
-            ...options?.headers,
+            Cookie: cookie,
+            ...headers,
           },
         })
         .pipe(
@@ -33,6 +39,12 @@ export class HttpService {
           }),
         ),
     );
+    if (decode) {
+      const decoder = new TextDecoder('iso-8859-15');
+      const text = decoder.decode(response.data);
+      response.data = text;
+    }
+    return response;
   }
 
   /**
