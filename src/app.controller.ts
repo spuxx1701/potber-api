@@ -3,7 +3,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { swaggerUri } from './config/swagger.config';
 
 @Controller()
-@ApiTags('Index')
+@ApiTags('Root')
 export class AppController {
   @Get()
   @ApiOperation({
