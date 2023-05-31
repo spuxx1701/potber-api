@@ -28,6 +28,7 @@ describe('Users | UsersService', () => {
       const expected: UserResource = {
         id: '1268185',
         name: 'Ameisenfutter',
+        rank: 'Spamkaiser',
         avatarUrl:
           'https://forum.mods.de/bb/avatare/upload/U1268185--small.png',
         lastLogin: '16.05.2023 11:57',
