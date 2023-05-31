@@ -37,8 +37,7 @@ export class EncodingService {
    * @returns The decoded result.
    */
   decodeText(input: string) {
-    // Decode latin-9
-    let result = this.decode(input);
+    let result = input;
     result = this.unescapeHtml(result);
     return result;
   }
@@ -52,19 +51,6 @@ export class EncodingService {
     let result = input;
     for (const encodingEntry of this.encodingTable) {
       result = result.replaceAll(encodingEntry.decoded, encodingEntry.encoded);
-    }
-    return result;
-  }
-
-  /**
-   * Decodes all characters according to the encoding table.
-   * @param input The input string.
-   * @returns The decoded result.
-   */
-  decode(input: string) {
-    let result = input;
-    for (const encodingEntry of this.encodingTable) {
-      result = result.replaceAll(encodingEntry.encoded, encodingEntry.decoded);
     }
     return result;
   }

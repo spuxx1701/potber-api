@@ -22,7 +22,7 @@ export class HttpService {
    * @returns The response object.
    */
   async get(url: string, options?: RequestOptions) {
-    const { cookie, headers, decode } = { decode: true, ...options };
+    const { cookie, headers, decode } = { decode: false, ...options };
     const response = await firstValueFrom(
       this.httpService
         .get(url, {

@@ -95,6 +95,7 @@ export class PrivateMessagesService {
   ): Promise<PrivateMessageReadResource[]> {
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
+      decode: true,
     });
     return this.parseMessageList(data, session, folder, {
       unread: options?.unread,
@@ -217,6 +218,7 @@ export class PrivateMessagesService {
     const url = `${MESSAGE_GET_URL}${id}`;
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
+      decode: true,
     });
     return this.parseMessage(id, data);
   }

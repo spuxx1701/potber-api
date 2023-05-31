@@ -144,6 +144,7 @@ export class PostsService {
   ): Promise<string> {
     const { data } = await this.httpService.get(url, {
       cookie: session.cookie,
+      decode: true,
     });
     if (/Keine Zutrittsberechtigung/.test(data)) {
       throw new ForbiddenException();

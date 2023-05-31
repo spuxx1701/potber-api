@@ -25,6 +25,9 @@ export class UsersService {
     if (!id) throw usersExceptions.findById.invalidId;
     const { data } = await this.httpService.get(
       `${forumConfig.USER_PAGE_URL}${id}`,
+      {
+        decode: true,
+      },
     );
     return this.extractUserProfile(id, data);
   }
