@@ -1,13 +1,15 @@
 export const privateMessagesRegex = {
   list: {
-    unread: /(?:<tr class="hh">(.*)<\/tr>)/g,
-    read: /(?:<tr class="h">(.*)<\/tr>)/g,
+    rowUnread: /(?:<tr class="hh">(.*)<\/tr>)/g,
+    rowRead: /(?:<tr class="h">(.*)<\/tr>)/g,
     id: /(?:<a href='\?a=2&mid=(\d*)'>)/,
     title: /(?:<a href='\?a=2&mid=\d*'>(.*?)<\/a>)/,
     recipientOrSenderId: /(?:<a href='http:\/\/my.mods.de\/(\d*)')/,
     recipientOrSenderName:
       /(?:<a href='http:\/\/my.mods.de\/\d*' target='_blank'>(.*?)<\/a>)/,
     date: /(?:<td.*?style='width: 15%'>(.*)<\/td>)/,
+    important: /alt='(Wichtige\sNachricht|Neue\swichtige\sNachricht)'/,
+    unread: /alt='(Neue\sNachricht|Neue\swichtige\sNachricht)'/,
   },
   message: {
     senderId: /(?=Absender.*?my.mods.de\/(.*?)\')/,
@@ -17,5 +19,7 @@ export const privateMessagesRegex = {
     folder: /(?=Ordner.*?class='bold'>(.*?)<\/a>)/,
     content:
       /(?:<td\s(?:colspan='3'|class='b')\s(?:colspan='3'|class='b')>(.*?)<\/td>)/s,
+    important: /class='important'/,
+    unread: /class='unread'/,
   },
 };

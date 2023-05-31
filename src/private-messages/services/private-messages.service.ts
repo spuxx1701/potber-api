@@ -7,6 +7,7 @@ import { SessionResource } from 'src/auth/resources/session.resource';
 import { privateMessagesRegex } from '../config/private-messages.regex';
 import { PrivateMessageFolder } from '../types';
 import { UserResource } from 'src/users/resources/user.resource';
+import { isDefined } from 'class-validator';
 
 const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
 const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
@@ -122,11 +123,11 @@ export class PrivateMessagesService {
     const messages: PrivateMessageReadResource[] = [];
     const unreadMatches =
       options?.unread !== false
-        ? html.matchAll(privateMessagesRegex.list.unread)
+        ? html.matchAll(privateMessagesRegex.list.rowUnread)
         : [];
     const readMatches =
       options?.unread !== true
-        ? html.matchAll(privateMessagesRegex.list.read)
+        ? html.matchAll(privateMessagesRegex.list.rowRead)
         : [];
     const createMessage = (match: RegExpMatchArray) => {
       try {
@@ -139,10 +140,10 @@ export class PrivateMessagesService {
       }
     };
     for (const match of unreadMatches) {
-      messages.push({ ...createMessage(match), unread: true });
+      messages.push({ ...createMessage(match) });
     }
     for (const match of readMatches) {
-      messages.push({ ...createMessage(match), unread: false });
+      messages.push({ ...createMessage(match) });
     }
     return messages;
   }
@@ -173,8 +174,19 @@ export class PrivateMessagesService {
       throw new Error('Unable to retrieve message date.');
     }
     const date = dateMatches[2];
+    const importantMatches = html.match(privateMessagesRegex.list.important);
+    const important = isDefined(importantMatches);
+    const unreadMatches = html.match(privateMessagesRegex.list.unread);
+    const unread = isDefined(unreadMatches);
 
-    const message: PrivateMessageReadResource = { id, title, date, folder };
+    const message: PrivateMessageReadResource = {
+      id,
+      title,
+      date,
+      folder,
+      important,
+      unread,
+    };
 
     // Retrieving the sender/recipient may fail. If it does, we will assume
     // that 'System' is the sender/recipient.
@@ -254,6 +266,12 @@ export class PrivateMessagesService {
       throw new Error('unable to retrieve message content.');
     }
     const content = contentMatches[1];
+    const unreadMatches = isDefined(
+      html.match(privateMessagesRegex.message.unread),
+    );
+    const unread = isDefined(unreadMatches);
+    const importantMatches = html.match(privateMessagesRegex.message.important);
+    const important = isDefined(importantMatches);
 
     const senderIdMatches = html.match(privateMessagesRegex.message.senderId);
     const senderNameMatches = html.match(
@@ -274,6 +292,8 @@ export class PrivateMessagesService {
       content,
       sender,
       recipient,
+      important,
+      unread,
     };
     return message;
   }

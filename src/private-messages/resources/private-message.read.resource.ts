@@ -17,7 +17,10 @@ export class PrivateMessageReadResource {
   folder: PrivateMessageFolder;
 
   @ApiProperty(privateMessageProperties.unread)
-  unread?: boolean;
+  unread: boolean;
+
+  @ApiProperty(privateMessageProperties.important)
+  important: boolean;
 
   @ApiProperty(privateMessageProperties.recipient)
   recipient?: UserResource;

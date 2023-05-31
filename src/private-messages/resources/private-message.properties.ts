@@ -24,7 +24,12 @@ export const privateMessageProperties = {
 
   unread: {
     description: 'Whether the private message has not yet been read.',
-    examples: [true, false, undefined],
+    examples: [true, false],
+  } as ApiPropertyOptions,
+
+  important: {
+    description: 'Whether the private message has been flagged as important.',
+    examples: [true, false],
   } as ApiPropertyOptions,
 
   recipient: {
