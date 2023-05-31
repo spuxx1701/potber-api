@@ -16,6 +16,6 @@ export const privateMessagesRegex = {
     title: /(?=Betreff.*?<b>(.*?)<\/td>)/,
     folder: /(?=Ordner.*?class='bold'>(.*?)<\/a>)/,
     content:
-      /(?=<td\s(?:colspan='3'|class='b')\s(?:colspan='3'|class='b')>(.*?)<\/td>)/,
+      /(?:<td\s(?:colspan='3'|class='b')\s(?:colspan='3'|class='b')>(.*?)<\/td>)/s,
   },
 };
