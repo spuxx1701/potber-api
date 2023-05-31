@@ -61,9 +61,12 @@ export class UsersService {
       /(?:(<img\ssrc="\/\/forum.mods.de\/bb\/)(.*)("\sclass="avatar"))/,
     );
     const avatarUrl = this.parseAvatarUrl(avatarUrlMatches[2]);
+    const rankMatches = html.match(/<span class="rang">(.*)<\/span>/);
+    const rank = rankMatches[1];
     const user: UserResource = {
       id,
       name,
+      rank,
       lastLogin,
       activity,
       status,

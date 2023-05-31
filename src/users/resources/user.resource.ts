@@ -20,6 +20,12 @@ export class UserResource {
   avatarUrl?: string;
 
   @ApiProperty({
+    description: "The user's rank.",
+    example: 'Spamkönig',
+  })
+  rank?: string;
+
+  @ApiProperty({
     description:
       "When the user has logged in last. Information might be private depending on user's settings. Schema is 'dd.mm.yyyy hh:mm' without timezone information. Timezone is always 'Europe/Berlin' (CET or CEST).",
     example: '02.04.2023 13:55',
