@@ -13,6 +13,7 @@ import { PostsService } from 'src/posts/services/posts.services';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { ThreadResource } from '../resources/thread.resource';
 import { ThreadPageResource } from '../resources/thread-page.resource';
+import { EncodingService } from 'src/encoding/encoding.service';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}thread.php`;
 
@@ -24,6 +25,7 @@ export class ThreadsService {
   constructor(
     private readonly httpService: HttpService,
     private readonly xmljs: XmlJsService,
+    private readonly encodingService: EncodingService,
     @Inject(forwardRef(() => PostsService))
     private readonly postsService: PostsService,
   ) {}
@@ -148,6 +150,10 @@ export class ThreadsService {
       ),
       page: this.transformThreadPage(this.xmljs.getElement('posts', threadXml)),
     } as ThreadResource;
+    if (thread.title)
+      thread.title = this.encodingService.decodeText(thread.title);
+    if (thread.subtitle)
+      thread.subtitle = this.encodingService.decodeText(thread.subtitle);
     return thread;
   }
 

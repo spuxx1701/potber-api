@@ -4,11 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [1.3.0] - unreleased
+## [1.3.0] - 2023-06-02
 
 ### Changed
 
 - Node version pinned to 16.
+
+### Fixed
+
+- Thread titles and subtitles that include HTML entities will now be parsed properly.
 
 ## [1.2.0] - 2023-06-02
 
