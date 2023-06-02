@@ -24,6 +24,10 @@ describe('Private Messages | PrivateMessagesService', () => {
     );
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('findMany', () => {
     it('should return all inbound messages', async () => {
       container.httpService.mockGet(privateMessagesMockData.inbound);
@@ -32,7 +36,6 @@ describe('Private Messages | PrivateMessagesService', () => {
           folder: PrivateMessageFolder.inbound,
         }),
       ).toHaveLength(3);
-      jest.clearAllMocks();
     });
 
     it('should only return unread inbound messages', async () => {
@@ -43,11 +46,10 @@ describe('Private Messages | PrivateMessagesService', () => {
           unread: true,
         }),
       ).toHaveLength(1);
-      jest.clearAllMocks();
     });
   });
 
-  it('should only return inbound messages', async () => {
+  it('should only return read inbound messages', async () => {
     container.httpService.mockGet(privateMessagesMockData.inbound);
     expect(
       await service.findMany(container.session, {
@@ -55,7 +57,41 @@ describe('Private Messages | PrivateMessagesService', () => {
         unread: false,
       }),
     ).toHaveLength(2);
-    jest.clearAllMocks();
+  });
+
+  it('should return all outbound messages', async () => {
+    container.httpService.mockGet(privateMessagesMockData.outbound);
+    expect(
+      await service.findMany(container.session, {
+        folder: PrivateMessageFolder.outbound,
+      }),
+    ).toHaveLength(3);
+  });
+
+  it('should return all system messages', async () => {
+    container.httpService.mockGet(privateMessagesMockData.system);
+    expect(
+      await service.findMany(container.session, {
+        folder: PrivateMessageFolder.system,
+      }),
+    ).toHaveLength(3);
+  });
+
+  it('should return all messages', async () => {
+    // We'll use the same HTML response and expect it to returned three times
+    container.httpService.mockGet(privateMessagesMockData.inbound);
+    expect(await service.findMany(container.session)).toHaveLength(9);
+  });
+
+  it('should skip message list items that cannot be parsed', async () => {
+    container.httpService.mockGet(
+      privateMessagesMockData.inboundWithCorruptedMessageListItem,
+    );
+    expect(
+      await service.findMany(container.session, {
+        folder: PrivateMessageFolder.inbound,
+      }),
+    ).toHaveLength(2);
   });
 
   it('should throw a NotFoundException when attempting to return a message with an invalid id (forbidden or non-existing)', async () => {

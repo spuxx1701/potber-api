@@ -138,13 +138,16 @@ export class PrivateMessagesService {
           `An error occured while parsing a private message header for user '${session.username}' (${error.message}). The message will be skipped.`,
           this.constructor.name,
         );
+        return undefined;
       }
     };
     for (const match of unreadMatches) {
-      messages.push({ ...createMessage(match) });
+      const message = createMessage(match);
+      if (message) messages.push(message);
     }
     for (const match of readMatches) {
-      messages.push({ ...createMessage(match) });
+      const message = createMessage(match);
+      if (message) messages.push(message);
     }
     return messages;
   }
@@ -174,7 +177,7 @@ export class PrivateMessagesService {
     if (!dateMatches || dateMatches.length < 2) {
       throw new Error('Unable to retrieve message date.');
     }
-    const date = dateMatches[2];
+    const date = dateMatches[1];
     const importantMatches = html.match(privateMessagesRegex.list.important);
     const important = isDefined(importantMatches);
     const unreadMatches = html.match(privateMessagesRegex.list.unread);

@@ -58,7 +58,7 @@ export const privateMessagesMockData = {
             <select name="sel">
               <option value="0">Alle markierten Nachrichten...
               <option value="0">
-              <option value="del">L�schen
+              <option value="del">Löschen
               <option value="mrd">Als gelesen markieren
               <option value="mur">Als ungelesen markieren
               <option value='2'>Verschieben nach Ausgang
@@ -67,7 +67,7 @@ export const privateMessagesMockData = {
           </form>
           <br>
           <div class='note'>
-            Probleme/Bugs/Fragen/Vorschl�ge/Ideen zum PM-System?
+            Probleme/Bugs/Fragen/Vorschläge/Ideen zum PM-System?
             &lt;
             <script> afa = 'enos'; bbz = 'de'; r6c = 'mods'; document.write('<a href="mailto:' + afa + '@' + r6c + '.' + bbz + '">'); </script>
             <img src='/bb/pm/img/enosmail.gif' valign="top"></a>&gt; [<a href='?a=5&rcpt=28377'>pm</a>]
@@ -82,6 +82,135 @@ export const privateMessagesMockData = {
   </body>
   
   </html><!--  q -->`,
+
+  outbound: `<body>
+    <table border="0" cellpadding="0" cellspacing="10" class="vat">
+  
+      <tr>
+        <td rowspan="2">&nbsp;</td>
+        <td colspan="3" class="w">
+          <h1>PMs</h1>
+          <h2>Ausgang</h2>
+        </td>
+      </tr>
+  
+      <tr>
+        <td class="w">
+          <form action='?a=22&cid=1' method='post' name='f'>
+            <small>In diesem Ordner: <b>3</b> (insgesamt <b>3</b>) von insgesamt maximal <b>20000</b>
+              Nachrichten.</small><br>
+            <table border='0' cellpadding='4' cellspacing='1' class='w'>
+              <tr class='b'>
+                <td>?</t>
+                <td class='icon'>Status</td>
+                <td>Betreff</td>
+                <td>Absender</td>
+                <td>Gesendet</td>
+              </tr>
+              <tr class="hh"><td align='center'><input type='checkbox' value='1' name='chk_msg_123'></td><td class='icon'><div><img src='/bb/pm/img/msg/message-new.gif' alt='Neue Nachricht' title='Neue Nachricht'></div></td><td class="bold" style='width: 40%'><a href='?a=2&mid=123'>Ungelesene Nachricht</a></td><td class="bold" style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td class="bold" style='width: 15%'>22:23 8.4.2023</td></tr>
+              <tr class="h"><td align='center'><input type='checkbox' value='1' name='chk_msg_456'></td><td class='icon'><div><img src='/bb/pm/img/msg/message.png' alt='Nachricht' title='Nachricht'></div></td><td style='width: 40%'><a href='?a=2&mid=456'>Gelesene Nachricht 1</a></td><td style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td style='width: 15%'>16:01 31.3.2023</td></tr>
+              <tr class="h"><td align='center'><input type='checkbox' value='1' name='chk_msg_789'></td><td class='icon'><div><img src='/bb/pm/img/msg/message.png' alt='Nachricht' title='Nachricht'></div></td><td style='width: 40%'><a href='?a=2&mid=789'>Gelesene Nachricht 2</a></td><td style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td style='width: 15%'>15:59 31.3.2023</td></tr>
+              <tr>
+                <td colspan='5' class='b'><a href='#'
+                    onClick='for (var i = 0; i < document.f.elements.length; i++) document.f.elements[i].checked ^= 1;'>Alle
+                    markieren</a></td>
+              </tr>
+            </table><br>
+          </form>
+          <br>
+        </td>
+      </tr>
+  
+    </table>
+  </body>
+  
+  </html><!--  q -->`,
+
+  system: `<body>
+    <table border="0" cellpadding="0" cellspacing="10" class="vat">
+  
+      <tr>
+        <td rowspan="2">&nbsp;</td>
+        <td colspan="3" class="w">
+          <h1>PMs</h1>
+          <h2>System</h2>
+        </td>
+      </tr>
+  
+      <tr>
+        <td class="w">
+          <form action='?a=22&cid=1' method='post' name='f'>
+            <small>In diesem Ordner: <b>3</b> (insgesamt <b>3</b>) von insgesamt maximal <b>20000</b>
+              Nachrichten.</small><br>
+            <table border='0' cellpadding='4' cellspacing='1' class='w'>
+              <tr class='b'>
+                <td>?</t>
+                <td class='icon'>Status</td>
+                <td>Betreff</td>
+                <td>Absender</td>
+                <td>Gesendet</td>
+              </tr>
+              <tr class="hh"><td align='center'><input type='checkbox' value='1' name='chk_msg_123'></td><td class='icon'><div><img src='/bb/pm/img/msg/message-new.gif' alt='Neue Nachricht' title='Neue Nachricht'></div></td><td class="bold" style='width: 40%'><a href='?a=2&mid=123'>Ungelesene Nachricht</a></td><td class="bold" style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td class="bold" style='width: 15%'>22:23 8.4.2023</td></tr>
+              <tr class="h"><td align='center'><input type='checkbox' value='1' name='chk_msg_456'></td><td class='icon'><div><img src='/bb/pm/img/msg/message.png' alt='Nachricht' title='Nachricht'></div></td><td style='width: 40%'><a href='?a=2&mid=456'>Gelesene Nachricht 1</a></td><td style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td style='width: 15%'>16:01 31.3.2023</td></tr>
+              <tr class="h"><td align='center'><input type='checkbox' value='1' name='chk_msg_789'></td><td class='icon'><div><img src='/bb/pm/img/msg/message.png' alt='Nachricht' title='Nachricht'></div></td><td style='width: 40%'><a href='?a=2&mid=789'>Gelesene Nachricht 2</a></td><td style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td style='width: 15%'>15:59 31.3.2023</td></tr>
+              <tr>
+                <td colspan='5' class='b'><a href='#'
+                    onClick='for (var i = 0; i < document.f.elements.length; i++) document.f.elements[i].checked ^= 1;'>Alle
+                    markieren</a></td>
+              </tr>
+            </table><br>
+          </form>
+          <br>
+        </td>
+      </tr>
+  
+    </table>
+  </body>
+  
+  </html><!--  q -->`,
+
+  inboundWithCorruptedMessageListItem: `<body>
+  <table border="0" cellpadding="0" cellspacing="10" class="vat">
+
+    <tr>
+      <td rowspan="2">&nbsp;</td>
+      <td colspan="3" class="w">
+        <h1>PMs</h1>
+        <h2>System</h2>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="w">
+        <form action='?a=22&cid=1' method='post' name='f'>
+          <small>In diesem Ordner: <b>3</b> (insgesamt <b>3</b>) von insgesamt maximal <b>20000</b>
+            Nachrichten.</small><br>
+          <table border='0' cellpadding='4' cellspacing='1' class='w'>
+            <tr class='b'>
+              <td>?</t>
+              <td class='icon'>Status</td>
+              <td>Betreff</td>
+              <td>Absender</td>
+              <td>Gesendet</td>
+            </tr>
+            <tr class="hh"><td align='center'><input type='checkbox' value='1' name='chk_msg_123'></td><td class='icon'><div><img src='/bb/pm/img/msg/message-new.gif' alt='Neue Nachricht' title='Neue Nachricht'></div></td><td class="bold" style='width: 40%'><a href='CANTPARSETHIS'>Ungelesene Nachricht</a></td><td class="bold" style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td class="bold" style='width: 15%'>22:23 8.4.2023</td></tr>
+            <tr class="h"><td align='center'><input type='checkbox' value='1' name='chk_msg_456'></td><td class='icon'><div><img src='/bb/pm/img/msg/message.png' alt='Nachricht' title='Nachricht'></div></td><td style='width: 40%'><a href='?a=2&mid=456'>Gelesene Nachricht 1</a></td><td style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td style='width: 15%'>16:01 31.3.2023</td></tr>
+            <tr class="h"><td align='center'><input type='checkbox' value='1' name='chk_msg_789'></td><td class='icon'><div><img src='/bb/pm/img/msg/message.png' alt='Nachricht' title='Nachricht'></div></td><td style='width: 40%'><a href='?a=2&mid=789'>Gelesene Nachricht 2</a></td><td style='width: 40%'><a href='https://my.mods.de/1268185' target='_blank'>Ameisenfutter</a></td><td style='width: 15%'>15:59 31.3.2023</td></tr>
+            <tr>
+              <td colspan='5' class='b'><a href='#'
+                  onClick='for (var i = 0; i < document.f.elements.length; i++) document.f.elements[i].checked ^= 1;'>Alle
+                  markieren</a></td>
+            </tr>
+          </table><br>
+        </form>
+        <br>
+      </td>
+    </tr>
+
+  </table>
+</body>
+
+</html><!--  q -->`,
 
   invalidId: `<body>
 	<table border="0" cellpadding="0" cellspacing="10" class="vat">
