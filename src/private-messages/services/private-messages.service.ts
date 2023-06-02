@@ -8,6 +8,7 @@ import { privateMessagesRegex } from '../config/private-messages.regex';
 import { PrivateMessageFolder } from '../types';
 import { UserResource } from 'src/users/resources/user.resource';
 import { isDefined } from 'class-validator';
+import { privateMessagesExceptions } from '../config/private-messages.exceptions';
 
 const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
 const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
@@ -235,7 +236,22 @@ export class PrivateMessagesService {
     return this.parseMessage(id, data);
   }
 
+  /**
+   * Parses the given private message HTML document and returns a private message object.
+   * @param id The message id.
+   * @param html The HTML document.
+   * @returns The private message.
+   */
   parseMessage(id: string, html: string): PrivateMessageReadResource {
+    const errorMatches = html.match(privateMessagesRegex.message.error);
+    if (errorMatches) {
+      const wrongIdMatches = html.match(privateMessagesRegex.message.wrongId);
+      if (wrongIdMatches) {
+        throw privateMessagesExceptions.findById.notFound;
+      } else {
+        throw privateMessagesExceptions.findById.unknownError;
+      }
+    }
     const titleMatches = html.match(privateMessagesRegex.message.title);
     if (!titleMatches || titleMatches.length < 1) {
       throw new Error('Unable to retrieve message title.');

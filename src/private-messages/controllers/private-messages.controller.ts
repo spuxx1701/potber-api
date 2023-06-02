@@ -21,6 +21,8 @@ import { PrivateMessagesService } from '../services/private-messages.service';
 import { PrivateMessageReadResource } from '../resources/private-message.read.resource';
 import { PrivateMessageFolder } from '../types';
 import { PrivateMessagesFindManyQuery } from './queries/private-messages.find-many.query';
+import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
+import { privateMessagesExceptions } from '../config/private-messages.exceptions';
 
 @Controller('privateMessages')
 @UseInterceptors(LoggingInterceptor)
@@ -48,6 +50,7 @@ export class PrivateMessagesController {
     type: Boolean,
     required: false,
   })
+  @ApiException(() => Object.values(privateMessagesExceptions.findMany))
   async findMany(
     @Request() request: any,
     @Query(
@@ -74,6 +77,7 @@ export class PrivateMessagesController {
     description: "The private message's unique id.",
     type: String,
   })
+  @ApiException(() => Object.values(privateMessagesExceptions.findById))
   async findById(@Param('id') id: string, @Request() request: any) {
     return this.service.findById(id, request.user);
   }

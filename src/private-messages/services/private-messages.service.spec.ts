@@ -6,6 +6,7 @@ import {
 } from 'test/helpers/create-test-container';
 import { privateMessagesMockData } from 'test/mock-data/private-messages.mock-data';
 import { PrivateMessageFolder } from '../types';
+import { privateMessagesExceptions } from '../config/private-messages.exceptions';
 
 describe('Private Messages | PrivateMessagesService', () => {
   let container: TestContainer;
@@ -55,5 +56,19 @@ describe('Private Messages | PrivateMessagesService', () => {
       }),
     ).toHaveLength(2);
     jest.clearAllMocks();
+  });
+
+  it('should throw a NotFoundException when attempting to return a message with an invalid id (forbidden or non-existing)', async () => {
+    container.httpService.mockGet(privateMessagesMockData.invalidId);
+    await expect(service.findById('123', container.session)).rejects.toThrow(
+      privateMessagesExceptions.findById.notFound,
+    );
+  });
+
+  it('should throw a NotFoundException when attempting to return a message with an invalid id (forbidden or non-existing)', async () => {
+    container.httpService.mockGet(privateMessagesMockData.unknownError);
+    await expect(service.findById('123', container.session)).rejects.toThrow(
+      privateMessagesExceptions.findById.unknownError,
+    );
   });
 });

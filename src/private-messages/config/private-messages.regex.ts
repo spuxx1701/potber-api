@@ -12,6 +12,8 @@ export const privateMessagesRegex = {
     unread: /alt='(Neue\sNachricht|Neue\swichtige\sNachricht)'/,
   },
   message: {
+    error: /<span\sclass="err">/,
+    wrongId: /Falsche\sID/,
     senderId: /(?=Absender.*?my.mods.de\/(.*?)\')/,
     senderName: /(?=Absender.*?target='_blank'>(.*?)<\/a>)/,
     date: /(?=Gesendet.*?<b>(.*?)<\/td>)/,

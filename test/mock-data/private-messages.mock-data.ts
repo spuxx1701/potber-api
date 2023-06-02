@@ -82,4 +82,43 @@ export const privateMessagesMockData = {
   </body>
   
   </html><!--  q -->`,
+
+  invalidId: `<body>
+	<table border="0" cellpadding="0" cellspacing="10" class="vat">
+
+	<tr>
+	<td rowspan="2">&nbsp;</td>
+	<td colspan="3" class="w">
+	  <h1>PMs</h1>
+  <h2>Nachricht lesen</h2>
+	<div class="nav">
+		</div>
+	</td>
+	</tr>
+
+	<tr>
+	<td class="w">
+	  <span class="err"><b>Fehler:</b> Falsche ID</span><br>
+	<br>
+	<div class='note'>
+	Probleme/Bugs/Fragen/Vorschläge/Ideen zum PM-System?
+	&lt;<script> afa = 'enos'; bbz='de'; r6c='mods'; document.write('<a href="mailto:'+afa+'@'+r6c+'.'+bbz+'">'); </script><img src='/bb/pm/img/enosmail.gif' valign="top"></a>&gt; [<a href='?a=5&rcpt=28377'>pm</a>]
+	</div>
+	</td>
+		<td style="background-image: url(/bb/pm/img/px-blue.png); background-repeat: repeat-y">
+	&nbsp;
+	</td>
+	<td class="contacts"><nobr>
+	    <b><u>Kontakte</u>:</b><br><br>
+    <table border='0' cellpadding='0' cellspacing='2' class='vam'>
+
+    <tr class="nobreak"><td><img src='/bb/pm/img/off.png' alt=' ' title='Offline' /> <a href='?a=5&rcpt=14933'>sibuntus</a></td><td align="right">[<span class='note'><a href='http://my.mods.de/14933' target='_blank' title='Profil anzeigen'>?</a></span>]</td></tr>
+    </table>
+	</nobr></td>
+		</tr>
+
+	</table>
+	</body>`,
+
+  unknownError: `<span class="err"></span>`,
 };
