@@ -8,6 +8,7 @@ import { threadXmlMockData } from './threads.service.spec.includes';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { ThreadPageResource } from '../resources/thread-page.resource';
 import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
+import { EncodingModule } from 'src/encoding/encoding.module';
 
 describe('Threads | ThreadsService', () => {
   let threadsService: ThreadsService;
@@ -15,7 +16,7 @@ describe('Threads | ThreadsService', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [HttpModule, PostsModule],
+      imports: [HttpModule, PostsModule, EncodingModule],
       providers: [XmlJsService, ThreadsService],
     }).compile();
     threadsService = await moduleRef.resolve(ThreadsService);
