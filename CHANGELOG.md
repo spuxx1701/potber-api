@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [1.3.0] - unreleased
+
+### Changed
+
+- Node version pinned to 16.
+
 ## [1.2.0] - 2023-06-02
 
 ### Added
