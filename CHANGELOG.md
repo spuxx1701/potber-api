@@ -8,7 +8,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 
+- Added /privateMessages annd /privateMessages/:id GET routes.
 - Added /users/:id route.
+- Added /healthz route for kubernetes.
 
 ### Changed
 
