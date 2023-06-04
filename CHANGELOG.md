@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [1.3.1] - unreleased
 
+### Changed
+
+- Improved documentation in SwaggerUI endpoint.
+
 ### Fixed
 
 - Attempting to open a private message that is not within your mailbox will now return 404 instead of 500.
