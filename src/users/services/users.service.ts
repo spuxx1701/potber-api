@@ -50,9 +50,7 @@ export class UsersService {
     const lastLogin = lastLoginMatches[2] || undefined;
     const activityMatches = html.match(/(?:(Status:<\/td>\n.*>)(.*)(<\/td>))/);
     const onlineMatches = html.match(/(?:(<span class="online">)(.*)<\/span>)/);
-    const activity =
-      activityMatches[2]?.replace('�ber', 'über').trim() ||
-      onlineMatches[2]?.trim();
+    const activity = activityMatches[2]?.trim() || onlineMatches[2]?.trim();
     const statusMatches = html.match(
       /(?:(Accountstatus:<\/td>\n.*>)(.*)(<\/td>))/,
     );
@@ -62,7 +60,7 @@ export class UsersService {
     );
     const avatarUrl = this.parseAvatarUrl(avatarUrlMatches[2]);
     const rankMatches = html.match(/<span class="rang">(.*)<\/span>/);
-    const rank = rankMatches[1];
+    const rank = this.encodingService.unescapeHtml(rankMatches[1]);
     const user: UserResource = {
       id,
       name,

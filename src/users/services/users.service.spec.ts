@@ -24,22 +24,14 @@ describe('Users | UsersService', () => {
   });
 
   describe('extractUserProfile', () => {
-    it('should extract the user profile from the html string', () => {
-      const expected: UserResource = {
-        id: '1268185',
-        name: 'Ameisenfutter',
-        rank: 'Spamkaiser',
-        avatarUrl:
-          'https://forum.mods.de/bb/avatare/upload/U1268185--small.png',
-        lastLogin: '16.05.2023 11:57',
-        activity: 'online',
-        status: 'aktiv',
-      };
-      const actual = usersService.extractUserProfile(
-        userProfileMockData.online.id,
-        userProfileMockData.online.html,
-      );
-      expect(actual).toStrictEqual(expected);
+    it('should extract all user profiles from their html documents', () => {
+      for (const mockDataEntry of userProfileMockData) {
+        const actual = usersService.extractUserProfile(
+          mockDataEntry.id,
+          mockDataEntry.html,
+        );
+        expect(actual).toStrictEqual(mockDataEntry.expected);
+      }
     });
 
     it('should throw NotFoundException if the user could not be found', () => {
