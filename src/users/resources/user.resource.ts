@@ -46,6 +46,12 @@ export class UserResource {
   status?: string;
 
   @ApiProperty({
+    description: "The age of the user's account.",
+    example: '15.10.2007 19:44 (5755 Tage)',
+  })
+  age?: string;
+
+  @ApiProperty({
     description:
       "The group id. This probably encodes the user's role, but that's not certain.",
   })

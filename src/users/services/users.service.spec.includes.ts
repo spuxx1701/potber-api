@@ -148,6 +148,7 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
       lastLogin: '16.05.2023 11:57',
       activity: 'online',
       status: 'aktiv',
+      age: '15.10.2007 19:44 (5691 Tage)',
     },
   },
   {
@@ -248,6 +249,7 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
       lastLogin: undefined,
       activity: 'war heute online',
       status: 'aktiv',
+      age: '17.02.2002 00:00 (7822 Tage)',
     },
   },
   {
@@ -259,7 +261,7 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
     <!-- L 0 -->
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
-      <title>mods.de Profil: November&nbsp;Rain</title>
+      <title>mods.de Profil: FooBar</title>
       <link href="/p/lib/css/infobar.css?20200406" rel="stylesheet" type="text/css" />
       <link href="/p/lib/css/profile.css?20210401" rel="stylesheet" type="text/css" />
       <script src="/p/lib/js/profile.js?20200406" type="text/javascript"></script>
@@ -284,8 +286,8 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
       </td>
       <td class="attrn">Benutzername:</td>
       <td class="attrv">
-                  <div class="backlink"><a href="//my.mods.de/November Rain">my.mods.de/November Rain</a></div>
-        November&nbsp;Rain	</td>
+                  <div class="backlink"><a href="//my.mods.de/FooBar">my.mods.de/FooBar</a></div>
+        FooBar	</td>
     </tr><tr class="color2">
       <td class="attrn">Dabei seit:</td>
       <td class="attrv">30.08.2004 19:58 (6896 Tage)</td>
@@ -354,12 +356,13 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
     </html>`,
     expected: {
       id: '1083723',
-      name: 'November Rain',
+      name: 'FooBar',
       rank: 'Stammhelper',
       avatarUrl: 'https://forum.mods.de/bb/avatare/arctic.gif',
       lastLogin: undefined,
       activity: 'offline seit über sieben Monaten',
       status: 'aktiv',
+      age: '30.08.2004 19:58 (6896 Tage)',
     },
   },
 ];

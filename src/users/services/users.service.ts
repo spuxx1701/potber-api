@@ -39,11 +39,12 @@ export class UsersService {
    * @returns The user profile.
    */
   extractUserProfile(id: string, html: string): UserResource {
+    html = this.encodingService.decodeText(html);
     const nameMatches = html.match(/(?:(Profil\:\s)(.*)(<\/title>))/);
     if (!nameMatches) {
       throw usersExceptions.findById.notFound;
     }
-    const name = this.encodingService.decodeText(nameMatches[2]) as string;
+    const name = nameMatches[2];
     const lastLoginMatches = html.match(
       /(?:(Zuletzt im Board:<\/td>\n.*>)(.*)(<\/td>))/,
     );
@@ -60,7 +61,11 @@ export class UsersService {
     );
     const avatarUrl = this.parseAvatarUrl(avatarUrlMatches[2]);
     const rankMatches = html.match(/<span class="rang">(.*)<\/span>/);
-    const rank = this.encodingService.unescapeHtml(rankMatches[1]);
+    const rank = rankMatches[1];
+    const ageMatches = html.match(
+      /Dabei\sseit:<\/td>(?:\s*)<td class="attrv">(.*)<\/td>/,
+    );
+    const age = ageMatches[1];
     const user: UserResource = {
       id,
       name,
@@ -69,6 +74,7 @@ export class UsersService {
       activity,
       status,
       avatarUrl,
+      age,
     };
     return user;
   }
