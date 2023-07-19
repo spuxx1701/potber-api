@@ -9,7 +9,6 @@ export const swaggerConfig = new DocumentBuilder()
   .setDescription(
     `potber-api is a web server that connects to https://forum.mods.de. It's purpose is to provide a functional, modern and RESTful JSON API for clients.`,
   )
-  .setBasePath('/')
   .setContact('Ameisenfutter', 'https://spuxx.dev', 'hi@spuxx.dev')
   .setLicense(
     'GNU licensed',
