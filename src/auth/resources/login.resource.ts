@@ -16,7 +16,7 @@ export class LoginResource {
     example: 'password',
   })
   @IsString()
-  @MaxLength(50)
+  @MaxLength(100)
   password: string;
 
   @ApiProperty({
