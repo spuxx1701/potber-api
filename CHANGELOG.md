@@ -4,13 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [1.4.1] - 2023-07-21
-
-### Changed
-
-- Passwords may now be up to 100 characters long.
-
-## [1.4.0] - 2023-07-19
+## [1.4.0] - 2023-07-21
 
 ### Added
 
@@ -19,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 
 - Improved documentation in SwaggerUI endpoint.
+- Passwords may now be up to 100 characters long.
 
 ### Fixed
 
