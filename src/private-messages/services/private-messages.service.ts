@@ -201,7 +201,10 @@ export class PrivateMessagesService {
       privateMessagesRegex.list.recipientOrSenderName,
     );
     if (recipientOrSenderIdMatches && privateMessagesRegex) {
-      if (folder === PrivateMessageFolder.inbound) {
+      if (
+        folder === PrivateMessageFolder.inbound ||
+        folder === PrivateMessageFolder.system
+      ) {
         message.sender = {
           id: recipientOrSenderIdMatches[1],
           name: recipientOrSenderNameMatches[1],
