@@ -287,9 +287,7 @@ export class PrivateMessagesService {
       throw new Error('unable to retrieve message content.');
     }
     const content = contentMatches[1];
-    const unreadMatches = isDefined(
-      html.match(privateMessagesRegex.message.unread),
-    );
+    const unreadMatches = html.match(privateMessagesRegex.message.unread);
     const unread = isDefined(unreadMatches);
     const importantMatches = html.match(privateMessagesRegex.message.important);
     const important = isDefined(importantMatches);
@@ -313,7 +311,19 @@ export class PrivateMessagesService {
       };
     }
 
-    const recipient: UserResource | undefined = undefined;
+    let recipient: UserResource | undefined = undefined;
+    const recipientIdMatches = html.match(
+      privateMessagesRegex.message.recipientId,
+    );
+    const recipientNameMatches = html.match(
+      privateMessagesRegex.message.recipientName,
+    );
+    if (recipientIdMatches && recipientNameMatches) {
+      recipient = {
+        id: recipientIdMatches[1],
+        name: recipientNameMatches[1],
+      };
+    }
 
     const message: PrivateMessageReadResource = {
       id,

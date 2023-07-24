@@ -17,6 +17,8 @@ export const privateMessagesRegex = {
     senderId: /(?=Absender.*?my.mods.de\/(.*?)\')/,
     senderName: /(?=Absender.*?target='_blank'>(.*?)<\/a>)/,
     senderAvatarUrl: /<img\ssrc='(.*)'\salt='Avatar'/,
+    recipientId: /(?=Empf&auml;nger.*?my.mods.de\/(.*?)\')/,
+    recipientName: /(?=Empf&auml;nger.*?target='_blank'.*?>(.*?)<\/a>)/,
     date: /(?=Gesendet.*?<b>(.*?)<\/td>)/,
     title: /(?=Betreff.*?<b>(.*?)<\/td>)/,
     folder: /(?=Ordner.*?class='bold'>(.*?)<\/a>)/,

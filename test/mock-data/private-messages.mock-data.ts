@@ -263,25 +263,12 @@ export const privateMessagesMockData = {
         </td>
           <td style="background-image: url(/bb/pm/img/px-blue.png); background-repeat: repeat-y">
         &nbsp;
-        </td>
-        <td class="contacts"><nobr>
-            <b><u>Kontakte</u>:</b><br><br>
-          <table border='0' cellpadding='0' cellspacing='2' class='vam'>
-      
-          <tr class="nobreak"><td><img src='/bb/pm/img/off.png' alt=' ' title='Offline' /> <a href='?a=5&rcpt=14933'>sibuntus</a></td><td align="right">[<span class='note'><a href='http://my.mods.de/14933' target='_blank' title='Profil anzeigen'>?</a></span>]</td></tr>
-          </table>
-        </nobr></td>
-          </tr>
-      
-        </table>
-        </body>
-      
-        </html><!--  q -->`,
+        </td>`,
         expected: {
           id: '123',
           title: 'hello world',
           content: 'hello ameisenfutter!',
-          unread: true,
+          unread: false,
           date: '22:23 8.4.2023',
           important: false,
           folder: PrivateMessageFolder.system,
@@ -320,32 +307,47 @@ export const privateMessagesMockData = {
         </td>
           <td style="background-image: url(/bb/pm/img/px-blue.png); background-repeat: repeat-y">
         &nbsp;
-        </td>
-        <td class="contacts"><nobr>
-            <b><u>Kontakte</u>:</b><br><br>
-          <table border='0' cellpadding='0' cellspacing='2' class='vam'>
-      
-          <tr class="nobreak"><td><img src='/bb/pm/img/off.png' alt=' ' title='Offline' /> <a href='?a=5&rcpt=14933'>sibuntus</a></td><td align="right">[<span class='note'><a href='http://my.mods.de/14933' target='_blank' title='Profil anzeigen'>?</a></span>]</td></tr>
-          </table>
-        </nobr></td>
-          </tr>
-      
-        </table>
-        </body>
-      
-        </html><!--  q -->'`,
+        </td>`,
         expected: {
           id: '999065',
           date: '20:44 23.12.2022',
           folder: PrivateMessageFolder.inbound,
           important: true,
-          unread: true,
+          unread: false,
           title: 'Hochgeladener CB wurde freigeschaltet',
           content: `Der CB den du hochgeladen hattest, wurde soeben von einem Admin freigeschaltet.<br />
       <br />
       Du kannst den neuen CB nun in deinem Profil auswählen.<br />
       `,
           recipient: undefined,
+          sender: undefined,
+        },
+      },
+      {
+        html: `<tr>
+        <td class="w">
+        <table border='0' cellpadding='4' cellspacing='1' class='w'>
+        <tr> <td rowspan='5' align='center' width='120' class='hx vam' style='padding: 4px 4px 4px 4px'><img src='/bb/./avatare/upload/U1268185--small.png' alt='Avatar' /></td> <td class='h'>Betreff</td> <td class='hh'><b>Foo</td> </tr>
+        <tr> <td class='h'>Empf&auml;nger</td> <td class='hh'><a href='http://my.mods.de/33690' target='_blank' class='bold'>dantoX</a>&nbsp;</td> </tr>
+        <tr> <td class='h'>Gesendet</td> <td class='hh'><b>16:01 7.1.2023</td> </tr>
+        <tr> <td class='h'>Ordner</td> <td class='hh'><a href='?a=0&cid=2' class='bold'>Ausgang</a>&nbsp; <span class='small'>(Verschieben nach...  &raquo;<a href='?a=20&mid=999430&cid=1'>Eingang</a> &raquo;<a href='?a=20&mid=999430&cid=3'>System</a>)</span></td> </tr>
+        <tr> <td class='h'>Optionen</td> <td class='hh'><b> <a href='?a=3&mid=999430'>L&ouml;schen</a>  &middot; <a href='?a=5&reuse=999430'>Wieder verwenden</a> </b></td> </tr>
+        <tr> <td class='b' colspan='2'></td> <td class='b'></td> </tr>
+      <tr> <td colspan='3' class='sentcopy'>Dies ist die Kopie einer von dir gesendeten Nachricht.</td> </tr>
+      <tr> <td colspan='3' class='b'>Foo bar</td> </tr>  <tr> <td colspan='3' class='h'></td> </tr>
+      </table>`,
+        expected: {
+          id: '999430',
+          date: '16:01 7.1.2023',
+          title: 'Foo',
+          folder: PrivateMessageFolder.outbound,
+          recipient: {
+            id: '33690',
+            name: 'dantoX',
+          },
+          important: false,
+          unread: false,
+          content: 'Foo bar',
           sender: undefined,
         },
       },
@@ -375,18 +377,7 @@ export const privateMessagesMockData = {
 	</td>
 		<td style="background-image: url(/bb/pm/img/px-blue.png); background-repeat: repeat-y">
 	&nbsp;
-	</td>
-	<td class="contacts"><nobr>
-	    <b><u>Kontakte</u>:</b><br><br>
-    <table border='0' cellpadding='0' cellspacing='2' class='vam'>
-
-    <tr class="nobreak"><td><img src='/bb/pm/img/off.png' alt=' ' title='Offline' /> <a href='?a=5&rcpt=14933'>sibuntus</a></td><td align="right">[<span class='note'><a href='http://my.mods.de/14933' target='_blank' title='Profil anzeigen'>?</a></span>]</td></tr>
-    </table>
-	</nobr></td>
-		</tr>
-
-	</table>
-	</body>`,
+	</td>`,
 
     unknownError: `<span class="err"></span>`,
   },
