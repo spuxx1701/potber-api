@@ -271,13 +271,11 @@ export class PrivateMessagesService {
     let folder: PrivateMessageFolder = PrivateMessageFolder.inbound;
     switch (folderMatches[1]) {
       case 'Ausgang':
-        folder = PrivateMessageFolder.inbound;
+        folder = PrivateMessageFolder.outbound;
         break;
       case 'System':
         folder = PrivateMessageFolder.system;
         break;
-      default:
-        folder = PrivateMessageFolder.inbound;
     }
     const dateMatches = html.match(privateMessagesRegex.message.date);
     if (!dateMatches || dateMatches.length < 1) {
