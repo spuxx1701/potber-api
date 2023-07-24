@@ -16,6 +16,7 @@ export const privateMessagesRegex = {
     wrongId: /Falsche\sID/,
     senderId: /(?=Absender.*?my.mods.de\/(.*?)\')/,
     senderName: /(?=Absender.*?target='_blank'>(.*?)<\/a>)/,
+    senderAvatarUrl: /<img\ssrc='(.*)'\salt='Avatar'/,
     date: /(?=Gesendet.*?<b>(.*?)<\/td>)/,
     title: /(?=Betreff.*?<b>(.*?)<\/td>)/,
     folder: /(?=Ordner.*?class='bold'>(.*?)<\/a>)/,

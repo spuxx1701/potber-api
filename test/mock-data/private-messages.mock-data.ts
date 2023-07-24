@@ -1,5 +1,10 @@
+import { PrivateMessageReadResource } from 'src/private-messages/resources/private-message.read.resource';
+import { PrivateMessageFolder } from 'src/private-messages/types';
+import { HtmlMockDataEntry } from 'test/types';
+
 export const privateMessagesMockData = {
-  inbound: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+  list: {
+    inbound: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   <html>
   
   <head>
@@ -83,7 +88,7 @@ export const privateMessagesMockData = {
   
   </html><!--  q -->`,
 
-  outbound: `<body>
+    outbound: `<body>
     <table border="0" cellpadding="0" cellspacing="10" class="vat">
   
       <tr>
@@ -126,7 +131,7 @@ export const privateMessagesMockData = {
   
   </html><!--  q -->`,
 
-  system: `<body>
+    system: `<body>
     <table border="0" cellpadding="0" cellspacing="10" class="vat">
   
       <tr>
@@ -169,7 +174,7 @@ export const privateMessagesMockData = {
   
   </html><!--  q -->`,
 
-  inboundWithCorruptedMessageListItem: `<body>
+    inboundWithCorruptedMessageListItem: `<body>
   <table border="0" cellpadding="0" cellspacing="10" class="vat">
 
     <tr>
@@ -211,8 +216,86 @@ export const privateMessagesMockData = {
 </body>
 
 </html><!--  q -->`,
+  },
+  single: {
+    messages: [
+      {
+        html: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
+      
+        <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <link rel='stylesheet' href='/bb/pm/pm.css?20200407' type='text/css'>
+        <title>PMs> Nachricht lesen> hello world</title>
+          <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+      
+            <body>
+        <table border="0" cellpadding="0" cellspacing="10" class="vat">
+      
+        <tr>
+        <td rowspan="2">&nbsp;</td>
+        <td colspan="3" class="w">
+          <h1>PMs</h1>
+        <h2>Nachricht lesen</h2>
+        <div class="nav">
+        <b>[Aktionen: </b> <a href='?a=5'><img src='/bb/pm/img/write.gif' alt='Verfassen'>&nbsp;Verfassen</a> <b>|</b> <a href='?a=7'><img src='/bb/pm/img/settings.gif' alt='Einstellungen/Ordner'>&nbsp;Einstellungen/Ordner</a> <b>|</b> <a href='?a=1'><img src='/bb/pm/img/logout.gif' alt='Logout'>&nbsp;Logout</a> <b>|</b> <a href='/bb/'><img src='/bb/pm/img/forum.gif' alt='Forum' />&nbsp;Zum Forum</a> <b>]</b><br/><b>[Ordner:</b></b> <a href='?a=0&cid=1'><img src='/bb/pm/img/folders/folder.gif' alt='Eigener Ordner'>&nbsp;Eingang</a><span class="small"> (<b class=''>284</b>)</span> <b>|</b> <a href='?a=0&cid=2'><img src='/bb/pm/img/folders/folder.gif' alt='Eigener Ordner'>&nbsp;Ausgang</a><span class="small"> (<b class=''>8</b>)</span> <b>|</b> <a href='?a=0&cid=3' class="marked"><img src='/bb/pm/img/folders/folder.gif' alt='Eigener Ordner'>&nbsp;System</a><span class="small"> (<b class=''>2</b>)</span> <b>]</b><br/><br/>	</div>
+        </td>
+        </tr>
+      
+        <tr>
+        <td class="w">
+        <table border='0' cellpadding='4' cellspacing='1' class='w'>
+        <tr> <td rowspan='5' align='center' width='120' class='hx vam' style='padding: 4px 4px 4px 4px'><img src='/bb/./avatare/arctic.gif' alt='Avatar' /></td> <td class='h'>Betreff</td> <td class='hh'><b>hello world</td> </tr>
+        <tr> <td class='h'>Absender</td> <td class='hh'><b><a href='http://my.mods.de/1342460' target='_blank'>[potber]äöü²</a></b>&nbsp;<span class='small'> (In Kontaktliste <a href='?a=16&uu=1342460'>aufnehmen</a>) (Diesen User <a href='?a=25&ignore=1342460'>ignorieren</a>)</span></td> </tr>
+        <tr> <td class='h'>Gesendet</td> <td class='hh'><b>22:23 8.4.2023</td> </tr>
+        <tr> <td class='h'>Ordner</td> <td class='hh'><a href='?a=0&cid=3' class='bold'>System</a>&nbsp; <span class='small'>(Verschieben nach...  &raquo;<a href='?a=20&mid=1001566&cid=1'>Eingang</a> &raquo;<a href='?a=20&mid=1001566&cid=2'>Ausgang</a>)</span></td> </tr>
+        <tr> <td class='h'>Optionen</td> <td class='hh'><b> <a href='?a=3&mid=1001566'>L&ouml;schen</a>  &middot; <a href='?a=5&reply=1001566'>Antworten</a> &middot; <a href='?a=5&forward=1001566'>Weiterleiten</a> &middot; <a href='?a=22&mid1=1001566&cid=3&sel=mur'>Als ungelesen markieren</a> </b></td> </tr>
+        <tr> <td class='b' colspan='2'></td> <td class='b'></td> </tr>
+      <tr> <td colspan='3' class='b'>hello ameisenfutter!</td> </tr>  <tr> <td colspan='3' class='h'></td> </tr>
+      </table>
+        <br>
+        <div class='note'>
+        Probleme/Bugs/Fragen/Vorschläge/Ideen zum PM-System?
+        &lt;<script> afa = 'enos'; bbz='de'; r6c='mods'; document.write('<a href="mailto:'+afa+'@'+r6c+'.'+bbz+'">'); </script><img src='/bb/pm/img/enosmail.gif' valign="top"></a>&gt; [<a href='?a=5&rcpt=28377'>pm</a>]
+        </div>
+        </td>
+          <td style="background-image: url(/bb/pm/img/px-blue.png); background-repeat: repeat-y">
+        &nbsp;
+        </td>
+        <td class="contacts"><nobr>
+            <b><u>Kontakte</u>:</b><br><br>
+          <table border='0' cellpadding='0' cellspacing='2' class='vam'>
+      
+          <tr class="nobreak"><td><img src='/bb/pm/img/off.png' alt=' ' title='Offline' /> <a href='?a=5&rcpt=14933'>sibuntus</a></td><td align="right">[<span class='note'><a href='http://my.mods.de/14933' target='_blank' title='Profil anzeigen'>?</a></span>]</td></tr>
+          </table>
+        </nobr></td>
+          </tr>
+      
+        </table>
+        </body>
+      
+        </html><!--  q -->`,
+        expected: {
+          id: '123',
+          title: 'hello world',
+          content: 'hello ameisenfutter!',
+          unread: true,
+          date: '22:23 8.4.2023',
+          important: false,
+          folder: PrivateMessageFolder.system,
+          recipient: undefined,
+          sender: {
+            id: '1342460',
+            name: '[potber]äöü²',
+            avatarUrl: 'https://forum.mods.de/bb/avatare/arctic.gif',
+          },
+        },
+      },
+    ] as HtmlMockDataEntry<PrivateMessageReadResource>[],
 
-  invalidId: `<body>
+    invalidId: `<body>
 	<table border="0" cellpadding="0" cellspacing="10" class="vat">
 
 	<tr>
@@ -249,5 +332,6 @@ export const privateMessagesMockData = {
 	</table>
 	</body>`,
 
-  unknownError: `<span class="err"></span>`,
+    unknownError: `<span class="err"></span>`,
+  },
 };

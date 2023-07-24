@@ -9,6 +9,7 @@ import { PrivateMessageFolder } from '../types';
 import { UserResource } from 'src/users/resources/user.resource';
 import { isDefined } from 'class-validator';
 import { privateMessagesExceptions } from '../config/private-messages.exceptions';
+import { parseAvatarUrl } from 'src/utility/forum.utility';
 
 const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
 const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
@@ -301,7 +302,17 @@ export class PrivateMessagesService {
     );
     let sender: UserResource | undefined = undefined;
     if (senderIdMatches && senderNameMatches) {
-      sender = { id: senderIdMatches[1], name: senderNameMatches[1] };
+      const senderAvatarUrlMatches = html.match(
+        privateMessagesRegex.message.senderAvatarUrl,
+      );
+      let avatarUrl: string | undefined;
+      if (senderAvatarUrlMatches)
+        avatarUrl = parseAvatarUrl(senderAvatarUrlMatches[1]);
+      sender = {
+        id: senderIdMatches[1],
+        name: senderNameMatches[1],
+        avatarUrl,
+      };
     }
 
     const recipient: UserResource | undefined = undefined;

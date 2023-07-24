@@ -17,6 +17,7 @@ import { PostPreviewResource } from '../resources/post.preview.resource';
 import { PostResource } from '../resources/post.resource';
 import { ThreadsService } from 'src/threads/services/threads.service';
 import { EncodingService } from 'src/encoding/encoding.service';
+import { parseAvatarUrl } from 'src/utility/forum.utility';
 
 @Injectable()
 export class PostsService {
@@ -246,9 +247,7 @@ export class PostsService {
         'id',
         this.xmljs.getElement('in-board', postXml),
       ),
-      avatarUrl: this.usersService.parseAvatarUrl(
-        this.xmljs.getElementCdata('avatar', postXml),
-      ),
+      avatarUrl: parseAvatarUrl(this.xmljs.getElementCdata('avatar', postXml)),
     } as PostResource;
     post.contentHidden = !post.message;
     if (post.message)
