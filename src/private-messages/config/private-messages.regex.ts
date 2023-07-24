@@ -20,8 +20,7 @@ export const privateMessagesRegex = {
     date: /(?=Gesendet.*?<b>(.*?)<\/td>)/,
     title: /(?=Betreff.*?<b>(.*?)<\/td>)/,
     folder: /(?=Ordner.*?class='bold'>(.*?)<\/a>)/,
-    content:
-      /(?:<td\s(?:colspan='3'|class='b')\s(?:colspan='3'|class='b')>(.*?)<\/td>)/s,
+    content: /(?:(?:colspan='\d'\sclass='b')>([\s|\S]*?)<\/td>)/s,
     important: /class='important'/,
     unread: /class='unread'/,
   },

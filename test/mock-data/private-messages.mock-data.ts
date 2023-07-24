@@ -293,6 +293,62 @@ export const privateMessagesMockData = {
           },
         },
       },
+      {
+        html: `'<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+        <html>
+      
+        <tr>
+        <td class="w">
+        <table border='0' cellpadding='4' cellspacing='1' class='w'>
+        <tr>  <td class='h'>Betreff</td> <td class='hh'><b>Hochgeladener CB wurde freigeschaltet</td> </tr>
+        <tr> <td class='h'>Absender</td> <td class='hh'><b>System</b>&nbsp;<span class='small'></span></td> </tr>
+        <tr> <td class='h'>Gesendet</td> <td class='hh'><b>20:44 23.12.2022</td> </tr>
+        <tr> <td class='h'>Ordner</td> <td class='hh'><a href='?a=0&cid=1' class='bold'>Eingang</a>&nbsp; <span class='small'>(Verschieben nach...  &raquo;<a href='?a=20&mid=999065&cid=2'>Ausgang</a> &raquo;<a href='?a=20&mid=999065&cid=3'>System</a>)</span></td> </tr>
+        <tr> <td class='h'>Optionen</td> <td class='hh'><b> <a href='?a=3&mid=999065'>L&ouml;schen</a>  &middot; <a href='?a=5&forward=999065'>Weiterleiten</a> &middot; <a href='?a=22&mid1=999065&cid=1&sel=mur'>Als ungelesen markieren</a> </b></td> </tr>
+        <tr> <td class='b' ></td> <td class='b'></td> </tr>
+        <tr> <td colspan='2' class='important'>Diese Nachricht hat hohe Priorit&auml;t.</td> </tr>
+      <tr> <td colspan='2' class='b'>Der CB den du hochgeladen hattest, wurde soeben von einem Admin freigeschaltet.<br />
+      <br />
+      Du kannst den neuen CB nun in deinem Profil auswählen.<br />
+      </td> </tr>  <tr> <td colspan='2' class='h'></td> </tr>
+      </table>
+        <br>
+        <div class='note'>
+        Probleme/Bugs/Fragen/Vorschläge/Ideen zum PM-System?
+        &lt;<script> afa = 'enos'; bbz='de'; r6c='mods'; document.write('<a href="mailto:'+afa+'@'+r6c+'.'+bbz+'">'); </script><img src='/bb/pm/img/enosmail.gif' valign="top"></a>&gt; [<a href='?a=5&rcpt=28377'>pm</a>]
+        </div>
+        </td>
+          <td style="background-image: url(/bb/pm/img/px-blue.png); background-repeat: repeat-y">
+        &nbsp;
+        </td>
+        <td class="contacts"><nobr>
+            <b><u>Kontakte</u>:</b><br><br>
+          <table border='0' cellpadding='0' cellspacing='2' class='vam'>
+      
+          <tr class="nobreak"><td><img src='/bb/pm/img/off.png' alt=' ' title='Offline' /> <a href='?a=5&rcpt=14933'>sibuntus</a></td><td align="right">[<span class='note'><a href='http://my.mods.de/14933' target='_blank' title='Profil anzeigen'>?</a></span>]</td></tr>
+          </table>
+        </nobr></td>
+          </tr>
+      
+        </table>
+        </body>
+      
+        </html><!--  q -->'`,
+        expected: {
+          id: '999065',
+          date: '20:44 23.12.2022',
+          folder: PrivateMessageFolder.inbound,
+          important: true,
+          unread: true,
+          title: 'Hochgeladener CB wurde freigeschaltet',
+          content: `Der CB den du hochgeladen hattest, wurde soeben von einem Admin freigeschaltet.<br />
+      <br />
+      Du kannst den neuen CB nun in deinem Profil auswählen.<br />
+      `,
+          recipient: undefined,
+          sender: undefined,
+        },
+      },
     ] as HtmlMockDataEntry<PrivateMessageReadResource>[],
 
     invalidId: `<body>
