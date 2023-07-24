@@ -35,6 +35,7 @@ import { PostLinkResource } from '../resources/post.link.resource';
 import { PostResource } from '../resources/post.resource';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostsService } from '../services/posts.services';
+import { PostQuoteResource } from '../resources/post.quote.resource';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -59,19 +60,11 @@ export class PostsController {
     example: '219289',
     type: String,
   })
-  @ApiQuery({
-    name: 'quote',
-    description:
-      "Pass this parameter if you'd like to quote the post. The post content will then be returned with quote tags.",
-    required: false,
-    type: Boolean,
-  })
   @ApiOkResponse({
     description: 'The given post.',
     type: PostResource,
   })
   @ApiException(() => [
-    postsExceptions.quoteMustBeBoolean,
     NotFoundException,
     UnauthorizedException,
     ForbiddenException,
@@ -80,16 +73,31 @@ export class PostsController {
     @Param('id') id: string,
     @Request() request: any,
     @Query('threadId') threadId: string,
-    @Query('quote') quote?: 'true' | 'false',
   ): Promise<PostResource> {
     if (!isNumberString(threadId)) {
       throw postsExceptions.invalidThreadId;
     }
-    if (isDefined(quote) && !isBooleanString(quote))
-      throw postsExceptions.quoteMustBeBoolean;
-    return this.service.findOne(id, threadId, request.user, {
-      quote: quote === 'true' ? true : false,
-    });
+    return this.service.findOne(id, threadId, request.user);
+  }
+
+  @Get(':id/quote')
+  @ApiOperation({ summary: 'Quote a specific post.' })
+  @ApiParam({
+    name: 'id',
+    description: "The post's id.",
+    example: '1249813752',
+    type: String,
+  })
+  @ApiOkResponse({
+    description: "The quoted post's message in quote tags.",
+    type: PostQuoteResource,
+  })
+  @ApiException(() => Object.values(postsExceptions.quote))
+  async quote(
+    @Param('id') id: string,
+    @Request() request: any,
+  ): Promise<PostQuoteResource> {
+    return this.service.quote(id, request.user);
   }
 
   @Post()

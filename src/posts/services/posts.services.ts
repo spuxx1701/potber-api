@@ -18,6 +18,7 @@ import { PostResource } from '../resources/post.resource';
 import { ThreadsService } from 'src/threads/services/threads.service';
 import { EncodingService } from 'src/encoding/encoding.service';
 import { parseAvatarUrl } from 'src/utility/forum.utility';
+import { PostQuoteResource } from '../resources/post.quote.resource';
 
 @Injectable()
 export class PostsService {
@@ -41,11 +42,32 @@ export class PostsService {
     id: string,
     threadId: string,
     session: SessionResource,
-    options?: {
-      quote?: boolean;
-    },
   ): Promise<PostResource> {
-    return this.threadsService.findPost(threadId, id, session, options);
+    return this.threadsService.findPost(threadId, id, session);
+  }
+
+  /**
+   * Quotes the given post.
+   * @param id The post id.
+   * @param session The session resource.
+   * @returns The quoted post's message in quote tags.
+   */
+  async quote(
+    id: string,
+    session: SessionResource,
+  ): Promise<PostQuoteResource> {
+    const url = `${forumConfig.FORUM_URL}newreply.php?PID=${id}`;
+    const { data } = await this.httpService.get(url, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    const regex = /<textarea\sname='message'[\s|\S]*?'>([\s|\S]*)<\/textarea>/i;
+    const messageMatches = data.match(regex);
+    if (!messageMatches || !messageMatches[1]) {
+      throw postsExceptions.quote.notFound;
+    }
+    const message = this.encodingService.unescapeHtml(messageMatches[1]);
+    return { message };
   }
 
   /**

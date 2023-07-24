@@ -84,7 +84,6 @@ export class ThreadsService {
     threadId: string,
     postId: string,
     session: SessionResource,
-    options?: { quote?: boolean },
   ): Promise<PostResource> {
     // Since findOne does all required checks, we can simply assume that we
     // receive the page and specific post at this point.
@@ -92,9 +91,6 @@ export class ThreadsService {
     const post = (thread.page as ThreadPageResource).posts.find(
       (post) => post.id === postId,
     ) as PostResource;
-    if (options?.quote) {
-      post.message = `[quote=${post.threadId},${post.id},\"${post.author.name}\"][b]\n${post.message}\n[/b][/quote]`;
-    }
     return post;
   }
 

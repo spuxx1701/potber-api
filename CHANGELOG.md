@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [1.4.1] - unreleased
+## [2.0.0] - unreleased
 
+# Changed
+
+- 💥 Breaking: Quoting a post now works via the `/posts/:id/quote` endpoint. The `quote` query parameter on the `/posts/:id` has been removed.
 - Private messages may now include the sender's avatar URL.
 - Various fixes and improvements to private messages.
 
