@@ -11,7 +11,7 @@ You can find the OpenAPI documentation here:
 - [Test environment](https://test-api.potber.de/swagger)
 - [Production environment](https://api.potber.de/swagger)
 
-Even though the API was built primarily for serving the [potber client](https://github.com/spuxx1701/potber-client), it is perfectly capable of serving other usescases in mind. If you need your application added to the API's allowed origins, feel free to contact me.
+Even though the API was built primarily for serving the [potber client](https://github.com/spuxx1701/potber-client), it was designed with the ability of serving other usescases in mind. If you need your application's hostname added to the API's allowed origins, feel free to contact me.
 
 ### ⚠ About accessing the API ⚠
 
