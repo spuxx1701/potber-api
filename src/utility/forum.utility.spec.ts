@@ -13,4 +13,8 @@ describe('parseAvatarUrl', () => {
       'https://forum.mods.de/bb/avatare/upload/U3035--e-razor.png';
     expect(parseAvatarUrl(input)).toBe(expected);
   });
+
+  it('should return undefined if avatar URL is undefined', () => {
+    expect(parseAvatarUrl(undefined)).toBe(undefined);
+  });
 });

@@ -7,8 +7,9 @@ import { forumConfig } from 'src/config/forum.config';
  * @param rawUrl The raw URL.
  * @returns The parsed absolute URL.
  */
-export function parseAvatarUrl(rawUrl: string): string {
+export function parseAvatarUrl(rawUrl: string): string | undefined {
   let path = rawUrl;
+  if (!path) return;
   // Remove '/bb/./'
   path = path.replace('/bb/./', '');
   // Remove './' from avatarUrl

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.0.1] - 2023-09-05
+
+### Fixed
+
+- The page no longer breaks when it conains a post by a deleted user (due to that post not having an avatar).
+
 ## [2.0.0] - 2023-07-24
 
 ### Changed
