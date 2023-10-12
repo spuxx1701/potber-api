@@ -11,7 +11,7 @@ export class AppController {
   })
   index() {
     return {
-      title: 'potber API',
+      title: 'potber-api',
       description: 'A RESTful API for forum.mods.de',
       author: {
         name: 'Leopold Hock',

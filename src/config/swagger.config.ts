@@ -4,7 +4,7 @@ import { SwaggerUiOptions } from '@nestjs/swagger/dist/interfaces/swagger-ui-opt
 export const swaggerUri = '/swagger';
 
 export const swaggerConfig = new DocumentBuilder()
-  .setTitle('potber API')
+  .setTitle('potber-api')
   .setVersion(process.env.npm_package_version)
   .setDescription(
     `potber-api is a web server that connects to https://forum.mods.de. It's purpose is to provide a functional, modern and RESTful JSON API for clients.`,
