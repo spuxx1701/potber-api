@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.0.2] - 2023-10-12
+
+### Fixed
+
+- HTML is now properly parsed when returning private message contents.
+
 ## [2.0.1] - 2023-09-05
 
 ### Fixed

@@ -286,7 +286,7 @@ export class PrivateMessagesService {
     if (!contentMatches || contentMatches.length < 1) {
       throw new Error('unable to retrieve message content.');
     }
-    const content = contentMatches[1];
+    const content = this.encodingService.unescapeHtml(contentMatches[1]);
     const unreadMatches = html.match(privateMessagesRegex.message.unread);
     const unread = isDefined(unreadMatches);
     const importantMatches = html.match(privateMessagesRegex.message.important);
