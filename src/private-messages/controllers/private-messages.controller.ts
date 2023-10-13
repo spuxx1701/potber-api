@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Param,
+  Put,
   Query,
   Request,
   UseGuards,
@@ -10,6 +11,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiOkResponse,
   ApiOperation,
   ApiParam,
   ApiQuery,
@@ -23,6 +25,7 @@ import { PrivateMessageFolder } from '../types';
 import { PrivateMessagesFindManyQuery } from './queries/private-messages.find-many.query';
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import { privateMessagesExceptions } from '../config/private-messages.exceptions';
+import { PrivateMessagesMoveToFolderQuery } from './queries/private-messages.move-to-folder.query';
 
 @Controller('privateMessages')
 @UseInterceptors(LoggingInterceptor)
@@ -50,7 +53,12 @@ export class PrivateMessagesController {
     type: Boolean,
     required: false,
   })
-  // @ApiException(() => Object.values(privateMessagesExceptions.findMany))
+  @ApiOkResponse({
+    description: 'The list of private messages.',
+    type: PrivateMessageReadResource,
+    isArray: true,
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.findMany))
   async findMany(
     @Request() request: any,
     @Query(
@@ -77,8 +85,54 @@ export class PrivateMessagesController {
     description: "The private message's unique id.",
     type: String,
   })
-  // @ApiException(() => [...Object.values(privateMessagesExceptions.findById)])
+  @ApiOkResponse({
+    description: 'The private message.',
+    type: PrivateMessageReadResource,
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.findById))
   async findById(@Param('id') id: string, @Request() request: any) {
     return this.service.findById(id, request.user);
+  }
+
+  @Put(':id/markAsUnread')
+  @ApiOperation({
+    summary: 'Marks a private message as unread.',
+    description:
+      "Marks a private message as unread. To mark it as 'read' again, simply call GET '/privateMessages/{id}'.",
+  })
+  @ApiOkResponse({
+    description: 'The private message has been marked as unread.',
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.markAsRead))
+  async markAsUnread(@Param('id') id: string, @Request() request: any) {
+    return this.service.markAsUnread(id, request.user);
+  }
+
+  @Put(':id/moveToFolder')
+  @ApiOperation({
+    summary: 'Moves a private message to the specified folder.',
+  })
+  @ApiQuery({
+    name: 'folder',
+    description: 'The target folder.',
+    enum: PrivateMessageFolder,
+  })
+  @ApiOkResponse({
+    description: 'The private message has been marked as unread.',
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.markAsRead))
+  async moveToFolder(
+    @Param('id') id: string,
+    @Query(
+      new ValidationPipe({
+        transform: true,
+        whitelist: true,
+        forbidNonWhitelisted: true,
+      }),
+    )
+    query: PrivateMessagesMoveToFolderQuery,
+    @Request() request: any,
+  ) {
+    return this.service.moveToFolder(id, query.folder, request.user);
   }
 }

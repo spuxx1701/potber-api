@@ -1,4 +1,8 @@
-import { NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 
 export const privateMessagesExceptions = {
   findMany: {
@@ -7,6 +11,16 @@ export const privateMessagesExceptions = {
   findById: {
     unauthorized: new UnauthorizedException(),
     notFound: new NotFoundException(),
-    unknownError: new Error('Unknown error occured while parsing message.'),
+    unknownError: new InternalServerErrorException(
+      'Unknown error occured while parsing message.',
+    ),
+  },
+  markAsRead: {
+    unauthorized: new UnauthorizedException(),
+    notFound: new NotFoundException(),
+  },
+  moveToFolder: {
+    unauthorized: new UnauthorizedException(),
+    notFound: new NotFoundException(),
   },
 };

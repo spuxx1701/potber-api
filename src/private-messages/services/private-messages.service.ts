@@ -338,4 +338,65 @@ export class PrivateMessagesService {
     };
     return message;
   }
+
+  /**
+   * Marks a given message as 'unread'. To mark the message as 'read' again,
+   * simply call `findById`.
+   * @param id The private message's id.
+   * @param session The session resource.
+   */
+  async markAsUnread(id: string, session: SessionResource) {
+    const url = `${forumConfig.FORUM_URL}pm/?a=22&mid1=${id}&cid=1&sel=mur`;
+    const { data } = await this.httpService.get(url, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    if (
+      data.includes('Die markierten Nachrichten wurden als ungelesen markiert')
+    ) {
+      return;
+    } else if (data.includes('PM nicht gefunden')) {
+      throw privateMessagesExceptions.markAsRead.notFound;
+    } else {
+      throw new Error('Unable to mark private message as unread.');
+    }
+  }
+
+  /**
+   * Moves the given message to the specified folder.
+   * @param id The private message's id.
+   * @param folder The target folder.
+   * @param session The session resource.
+   */
+  async moveToFolder(
+    id: string,
+    folder: PrivateMessageFolder,
+    session: SessionResource,
+  ) {
+    let folderNumber: 1 | 2 | 3;
+    switch (folder) {
+      case PrivateMessageFolder.outbound:
+        folderNumber = 2;
+        break;
+      case PrivateMessageFolder.system:
+        folderNumber = 3;
+        break;
+      default:
+        folderNumber = 1;
+    }
+    const url = `${forumConfig.FORUM_URL}pm/?a=20&mid=${id}&cid=${folderNumber}`;
+    const { data } = await this.httpService.get(url, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    if (
+      data.includes('Die markierten Nachrichten wurden als ungelesen markiert')
+    ) {
+      return;
+    } else if (data.includes('PM nicht gefunden')) {
+      throw privateMessagesExceptions.markAsRead.notFound;
+    } else {
+      throw new Error('Unable to mark private message as unread.');
+    }
+  }
 }

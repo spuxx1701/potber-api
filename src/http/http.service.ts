@@ -44,7 +44,7 @@ export class HttpService {
       const text = decoder.decode(response.data);
       response.data = text;
     }
-    return response;
+    return response as { data: string; headers: Record<string, string> };
   }
 
   /**
