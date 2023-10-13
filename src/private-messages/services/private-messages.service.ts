@@ -389,11 +389,9 @@ export class PrivateMessagesService {
       cookie: session.cookie,
       decode: true,
     });
-    if (
-      data.includes('Die markierten Nachrichten wurden als ungelesen markiert')
-    ) {
+    if (data.includes('Die Nachricht wurde verschoben')) {
       return;
-    } else if (data.includes('PM nicht gefunden')) {
+    } else if (data.includes('Falsche ID')) {
       throw privateMessagesExceptions.markAsRead.notFound;
     } else {
       throw new Error('Unable to mark private message as unread.');
