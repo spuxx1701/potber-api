@@ -23,4 +23,7 @@ export const privateMessagesExceptions = {
     unauthorized: new UnauthorizedException(),
     notFound: new NotFoundException(),
   },
+  delete: {
+    unauthorized: new UnauthorizedException(),
+  },
 };

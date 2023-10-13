@@ -394,7 +394,28 @@ export class PrivateMessagesService {
     } else if (data.includes('Falsche ID')) {
       throw privateMessagesExceptions.markAsRead.notFound;
     } else {
-      throw new Error('Unable to mark private message as unread.');
+      throw new Error('Unable to move private message.');
+    }
+  }
+
+  /**
+   * Deletes the private message.
+   * @param id The private message's id.
+   * @param session The session resource.
+   */
+  async delete(id: string, session: SessionResource) {
+    const url = `${forumConfig.FORUM_URL}pm/?a=4&mid=${id}`;
+    const { data } = await this.httpService.get(url, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    if (
+      data.includes('Die Nachricht wird gel&ouml;scht... fertig.') ||
+      data.includes('Falsche ID')
+    ) {
+      return;
+    } else {
+      throw new Error('Unable to delete private message.');
     }
   }
 }

@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   Put,
@@ -134,5 +135,16 @@ export class PrivateMessagesController {
     @Request() request: any,
   ) {
     return this.service.moveToFolder(id, query.folder, request.user);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Deletes a private mssage.' })
+  @ApiOkResponse({
+    description:
+      'The private message has been deleted or did not exist in the first place.',
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.delete))
+  async delete(@Param('id') id: string, @Request() request: any) {
+    return this.service.delete(id, request.user);
   }
 }

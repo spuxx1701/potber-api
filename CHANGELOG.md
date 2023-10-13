@@ -8,8 +8,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 
-- Implemented `/privateMessages/:id/markAsUnread` endpoint.
-- Implemented `/privateMessages/:id/moveToFolder` endpoint.
+- Implemented `PUT /privateMessages/:id/markAsUnread` endpoint.
+- Implemented `PUT /privateMessages/:id/moveToFolder` endpoint.
+- Implemented `DELETE /privateMessages/:id` endpoint.
 
 ### Fixed
 
