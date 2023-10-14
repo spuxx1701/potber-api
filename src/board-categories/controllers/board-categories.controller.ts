@@ -19,7 +19,7 @@ import { BoardCategoryResource } from '../resources/board-category.resource';
 import { BoardCategoriesService } from '../services/board-categories.service';
 
 @Controller('boardCategories')
-@ApiTags('Board categories')
+@ApiTags('Boards')
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
@@ -29,6 +29,9 @@ export class BoardCategoriesController {
   @Get()
   @ApiOperation({
     summary: 'Returns all board categories that you have access to.',
+    description: `Returns all board categories that you have access to. Boards are grouped within board categories, so if you want to get all boards, you need to call this endpoint and then iterate over the categories.
+    
+    🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'The board categories.',

@@ -38,7 +38,12 @@ export class ThreadsController {
   constructor(private readonly service: ThreadsService) {}
 
   @Get(':id')
-  @ApiOperation({ summary: 'Gets a thread by id.' })
+  @ApiOperation({
+    summary: 'Gets a thread by id.',
+    description: `Gets a thread by id.
+    
+    🔒 Protected`,
+  })
   @ApiParam({
     name: 'id',
     description: "The thread's id.",

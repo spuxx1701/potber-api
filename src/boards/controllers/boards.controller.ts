@@ -35,6 +35,9 @@ export class BoardsController {
   @Get(':id')
   @ApiOperation({
     summary: 'Gets a board by id.',
+    description: `Gets a board by id.
+    
+    🔒 Protected`,
   })
   @ApiParam({
     name: 'id',

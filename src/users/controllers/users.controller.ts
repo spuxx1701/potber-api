@@ -20,7 +20,9 @@ export class UsersController {
   @Get(':id')
   @ApiOperation({
     summary: "Returns a user's profile.",
-    description: '🔓 Does not require authentication.',
+    description: `Returns a user's profile.
+    
+    🔓 Open Access`,
   })
   @ApiParam({
     name: 'id',

@@ -37,8 +37,8 @@ export class AuthController {
     summary: 'Sign into the board.',
     description: `Signs you into the board and returns an response body containing a JWT (https://jwt.io/). To terminate the session,
       simply delete the JWT (e.g. by deleting the cookie that holds it). To authenticate yourself on Swagger UI, copy the access_token
-      from the response object, click the 'Authorize' button on the top of the page, parse your token and hit 'Login'.
-      To terminate the session, hit 'Logout'.
+      from the response object, click the 'Authorize' button on the top of the page, parse your token and hit 'Login'. To terminate the session, hit 'Logout'.
+      For more information on how to create and maintain a session, refer to the README.      
       
       🔓 Open Access`,
   })

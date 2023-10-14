@@ -36,7 +36,12 @@ export class BookmarksController {
   constructor(private readonly service: BookmarksService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Returns all your bookmarks.' })
+  @ApiOperation({
+    summary: 'Returns all your bookmarks.',
+    description: `Returns all your bookmarks.
+    
+    🔒 Protected`,
+  })
   @ApiOkResponse({
     description: 'The bookmarks array',
     type: BookmarkResource,
@@ -49,8 +54,10 @@ export class BookmarksController {
 
   @Get('summary')
   @ApiOperation({
-    summary:
-      'Returns the bookmarks summary. Contains slightly more information than the pure bookmarks list.',
+    summary: 'Returns the bookmarks summary.',
+    description: `Returns the bookmarks summary. Contains slightly more information than the pure bookmarks list.
+      
+    🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'The bookmarks summary.',
@@ -64,7 +71,10 @@ export class BookmarksController {
 
   @Post()
   @ApiOperation({
-    summary: 'Creates a new bookmark. Must provide the post id and thread id.',
+    summary: 'Creates a new bookmark.',
+    description: `Creates a new bookmark. You must provide both the post id and thread id.
+    
+    🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'The bookmark was created.',
@@ -82,6 +92,9 @@ export class BookmarksController {
   @Delete(':id')
   @ApiOperation({
     summary: 'Deletes the given bookmark.',
+    description: `Deletes the given bookmark.
+    
+    🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'The bookmark was deleted.',

@@ -39,6 +39,9 @@ export class PrivateMessagesController {
   @Get()
   @ApiOperation({
     summary: 'Returns a list of private messages.',
+    description: `Returns a list of private messages.
+    
+    🔒 Protected`,
   })
   @ApiQuery({
     name: 'folder',
@@ -80,6 +83,9 @@ export class PrivateMessagesController {
   @Get(':id')
   @ApiOperation({
     summary: 'Returns a single private message.',
+    description: `Returns a single private message.
+    
+    🔒 Protected`,
   })
   @ApiParam({
     name: 'id',
@@ -98,8 +104,9 @@ export class PrivateMessagesController {
   @Put(':id/markAsUnread')
   @ApiOperation({
     summary: 'Marks a private message as unread.',
-    description:
-      "Marks a private message as unread. To mark it as 'read' again, simply call GET '/privateMessages/{id}'.",
+    description: `Marks a private message as unread. To mark it as 'read' again, simply call GET '/privateMessages/{id}'.
+      
+      🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'The private message has been marked as unread.',
@@ -111,7 +118,10 @@ export class PrivateMessagesController {
 
   @Put(':id/moveToFolder')
   @ApiOperation({
-    summary: 'Moves a private message to the specified folder.',
+    summary: 'Moves a private message.',
+    description: `Moves a private message to the specified folder.
+    
+    🔒 Protected`,
   })
   @ApiQuery({
     name: 'folder',
@@ -138,7 +148,12 @@ export class PrivateMessagesController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Deletes a private mssage.' })
+  @ApiOperation({
+    summary: 'Deletes a private mssage.',
+    description: `Deletes a private mssage.
+    
+    🔒 Protected`,
+  })
   @ApiOkResponse({
     description:
       'The private message has been deleted or did not exist in the first place.',

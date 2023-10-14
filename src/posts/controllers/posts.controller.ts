@@ -23,7 +23,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { isDefined, isNumberString, isBooleanString } from 'class-validator';
+import { isNumberString } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import {
@@ -46,7 +46,12 @@ export class PostsController {
   constructor(private readonly service: PostsService) {}
 
   @Get(':id')
-  @ApiOperation({ summary: 'Gets a specific post by its thread and post ids.' })
+  @ApiOperation({
+    summary: 'Gets a specific post by its thread and post ids.',
+    description: `Gets a specific post by its thread and post ids. The thead id is required since the forum unfortunately offers no way of retrieving a post without it.
+    
+    🔒 Protected`,
+  })
   @ApiParam({
     name: 'id',
     description: "The post's id.",
@@ -61,7 +66,7 @@ export class PostsController {
     type: String,
   })
   @ApiOkResponse({
-    description: 'The given post.',
+    description: 'The post.',
     type: PostResource,
   })
   @ApiException(() => [
@@ -81,7 +86,12 @@ export class PostsController {
   }
 
   @Get(':id/quote')
-  @ApiOperation({ summary: 'Quote a specific post.' })
+  @ApiOperation({
+    summary: 'Quote a specific post.',
+    description: `Quote a specific post. Will return the message of the specific post in qutoe tags.
+    
+    🔒 Protected`,
+  })
   @ApiParam({
     name: 'id',
     description: "The post's id.",
@@ -104,6 +114,9 @@ export class PostsController {
   @UsePipes(validationPipe)
   @ApiOperation({
     summary: 'Creates a new post.',
+    description: `Creates a new post.
+    
+    🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'Some details that lead to the newly created post.',
@@ -123,7 +136,12 @@ export class PostsController {
   }
 
   @Put(':id')
-  @ApiOperation({ summary: 'Updates a post.' })
+  @ApiOperation({
+    summary: 'Updates a post.',
+    description: `Updates a post.
+    
+    🔒 Protected`,
+  })
   @ApiParam({
     name: 'id',
     description: "The post's id.",
