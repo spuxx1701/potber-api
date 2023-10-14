@@ -30,7 +30,7 @@ To properly create and maintain a session, follow these steps:
 4. If you receive HTTP status code `401` you either didn't include the correct header or the token expired. You can simply get a new token by calling `/auth/login` again. If you're unsure, test whether your token is valid by calling `GET /auth/session`.
 5. To terminate the session, simply get rid of the token (e.g. by deleting the cookie).
 
-TIP: Check the token at [jwt.io](https://jwt.io) to understand what it contains and when it will expire.
+> 💡 Tip: Check the token at [jwt.io](https://jwt.io) to understand what it contains and when it will expire.
 
 ## Development
 
