@@ -8,14 +8,29 @@ potber-api is a RESTful API for the german board [forum.mods.de](https://forum.m
 
 You can find the OpenAPI documentation here:
 
-- [Test environment](https://test-api.potber.de/swagger)
+- [Staging environment](https://test-api.potber.de/swagger)
 - [Production environment](https://api.potber.de/swagger)
 
-Even though the API was built primarily for serving the [potber client](https://github.com/spuxx1701/potber-client), it was designed with the ability of serving other usescases in mind. If you need your application's hostname added to the API's allowed origins, feel free to contact me.
+### CORS
 
-### ⚠ About accessing the API ⚠
+Even though the API was built primarily for serving [potber-client](https://github.com/spuxx1701/potber-client), it was designed with the ability of serving other usescases in mind. If you need your application's hostname added to the API's allowed origins, feel free to contact me.
 
-In contrast to the original forum and its API, almost all potber-api routes require you to be signed in. Since potber-api follows modern standards and patterns, it also makes it much easier to extract a lot of data. Thus, restricting access to forum members was done to decrease the risk of abuse. If a route does not require authentication, it's stated explicitely in the API documentation.
+### Authentication & authorization
+
+In contrast to the original forum and its API, almost all potber-api routes require you to be signed in. Since potber-api follows modern standards and patterns, it also makes it much easier to extract a lot of data. Thus, restricting access to forum members was done to decrease the risk of abuse. To find out whether a route requires authentication, check the route description for one of the following tags:
+
+- `🔒 Protected` - You need to be signed in to access this route.
+- `🔓 Open Access` - This route can be used without signing in.
+
+To properly create and maintain a session, follow these steps:
+
+1. Send a `POST` request to `/auth/login` including a body that follows the [expected schema](http://localhost:3000/swagger#/Authentication/AuthController_login).
+2. In case of a successful login (the response will have HTTP status code `200`), retrieve the entire `access_token` value from the response body and store it (e.g. in a cookie).
+3. In all subsequent requests, you need to include the retrieved value as a [Bearer token](https://datatracker.ietf.org/doc/html/rfc6750) in the [Authorization HTTP header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization). Make sure to maintain the following syntax (replace `<access_token>` with the retrieved value): `Authorization: Bearer <access_token>`
+4. If you receive HTTP status code `401` you either didn't include the correct header or the token expired. You can simply get a new token by calling `/auth/login` again. If you're unsure, test whether your token is valid by calling `GET /auth/session`.
+5. To terminate the session, simply get rid of the token (e.g. by deleting the cookie).
+
+TIP: Check the token at [jwt.io](https://jwt.io) to understand what it contains and when it will expire.
 
 ## Development
 

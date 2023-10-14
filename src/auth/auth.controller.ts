@@ -35,13 +35,15 @@ export class AuthController {
   @Post('login')
   @ApiOperation({
     summary: 'Sign into the board.',
-    description: `Signs you into the board and returns an 'Authorization' header containing a JWT (https://jwt.io/). To terminate the session,
-      simply delete the JWT (e.g. by deleting the cookie that holds it). To authenticate yourself on swagger UI, copy the access_token
+    description: `Signs you into the board and returns an response body containing a JWT (https://jwt.io/). To terminate the session,
+      simply delete the JWT (e.g. by deleting the cookie that holds it). To authenticate yourself on Swagger UI, copy the access_token
       from the response object, click the 'Authorize' button on the top of the page, parse your token and hit 'Login'.
-      To terminate the session, hit 'Logout'.`,
+      To terminate the session, hit 'Logout'.
+      
+      🔓 Open Access`,
   })
   @ApiOkResponse({
-    description: 'Login was successful.',
+    description: 'Successful login response containing the JWT (access_token).',
     status: 200,
     type: JwtResource,
   })
@@ -56,8 +58,9 @@ export class AuthController {
   @Get('session')
   @ApiOperation({
     summary: 'Returns information about the active session.',
-    description:
-      'Decodes the JWT and returns its content. Will return 401 if the request does not contain a valid JWT.',
+    description: `Looks for an 'Authorization' header in the response containing a JWT, decodes the JWT and then returns its content. Will return 401 if the request does not contain a valid JWT.
+      
+      🔒 Protected`,
   })
   @ApiOkResponse({
     description: 'The session details.',

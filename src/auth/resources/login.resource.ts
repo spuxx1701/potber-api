@@ -23,7 +23,7 @@ export class LoginResource {
     description:
       'The session lifetime. Example values are 3600 (one hour), 86400 (one day), 604800 (one month) or 31536000 (one year).',
     examples: [3600, 86400, 604800, 31536000],
-    default: 3600,
+    default: 86400,
   })
   @Validate(IsValidLifetime)
   lifetime: number | string;

@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { swaggerUri } from './config/swagger.config';
 
 @Controller()
@@ -8,6 +8,12 @@ export class AppController {
   @Get()
   @ApiOperation({
     summary: 'Returns the index document. Contains information about the API.',
+    description: `Returns the index document. Contains information about the API.
+    
+    🔓 Open Access`,
+  })
+  @ApiOkResponse({
+    description: 'The index document.',
   })
   index() {
     return {
@@ -31,6 +37,12 @@ export class AppController {
   @Get('healthz')
   @ApiOperation({
     summary: 'Returns the current health of the API.',
+    description: `Returns the current health of the API. This is mainly used by kubernetes to check the server's status, but you may also use this for the same purpose.
+    
+    🔓 Open Access`,
+  })
+  @ApiOkResponse({
+    description: 'The server status.',
   })
   health() {
     return {
