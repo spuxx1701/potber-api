@@ -16,8 +16,6 @@ describe('Private Messages | PrivateMessagesService', () => {
     container = await createTestContainer({
       imports: [EncodingModule],
       providers: [PrivateMessagesService],
-      mockHttp: true,
-      mockSession: true,
     });
     service = await container.module.resolve<PrivateMessagesService>(
       PrivateMessagesService,

@@ -23,8 +23,6 @@ describe('Posts', () => {
           imports: [EncodingModule, XmlApiModule],
           controllers: [PostsController],
           providers: [PostsService, UsersService, ThreadsService],
-          mockHttp: true,
-          mockSession: true,
         });
         controller = container.module.get<PostsController>(PostsController);
       });
