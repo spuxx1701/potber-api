@@ -1,8 +1,9 @@
-# potber-api
-
-## Description
-
-potber-api is a RESTful API for the german board [forum.mods.de](https://forum.mods.de) built with [Nest](https://github.com/nestjs/nest). The API is a modern JSON API that comes with full OpenAPI documentation and follows REST meticulously.
+<p align="center">
+<img src="./.logo/1080x480_round.png" alt="potber logo" height="200" />
+</p>
+<p align="center">
+A RESTful API for the german board <a href="https://forum.mods.de" target="_blank">forum.mods.de</a> built with <a href="https://github.com/nestjs/nest" target="_blank">Nest</a>. The API is a modern JSON API that comes with full OpenAPI documentation and follows REST meticulously. If you're looking for potber-client, you can find it <a hef="https://github.com/spuxx1701/potber-client" target="_blank">here</a>.
+</p>
 
 ## How to use the API
 
