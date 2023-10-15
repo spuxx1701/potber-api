@@ -4,13 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [2.1.0] - unrelease
+## [2.1.0] - unreleased
 
 ### Added
 
 - Implemented `PUT /privateMessages/:id/markAsUnread` endpoint.
 - Implemented `PUT /privateMessages/:id/moveToFolder` endpoint.
 - Implemented `DELETE /privateMessages/:id` endpoint.
+
+### Changed
+
+- New branding: The application is now called 'potify-api' and can be reached 'https://api.p0tify.de'.
 
 ### Fixed
 
