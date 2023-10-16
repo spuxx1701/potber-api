@@ -19,26 +19,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { Request } from 'express';
 import { defaultMockSession } from 'test/mocks/session';
 import { createMockServer } from 'test/msw/create-mock-server';
-
-/**
- * `TestContainer` provides a simulated Nest.js application for testing purposes.
- * It essentially wraps Nest's `Test.createTestContainer()`, but offers a customized
- * API for easier use and access.
- * @param module The testing module.
- * @param app (optional) The nest application. Will be undefined unless end-to-end testing was enabled during the call of `createTestContainer()`.
- * @param mockServer (optional) The `msw` mock server. Will be undefined unless end-to-end testing was enabled during the call of `createTestContainer()`.
- * @param session (optional) The mocked session. Will be undefined unless `mockSession` was provided during the call of `createTestContainer()`.
- */
-export class TestContainer {
-  module: TestingModule;
-  app?: INestApplication;
-  mockServer?: SetupServer;
-  session?: SessionResource;
-
-  constructor(init: Partial<TestContainer>) {
-    Object.assign(this, init);
-  }
-}
+import { TestContainer } from './test-container';
 
 /**
  * Creates a new `TestContainer` instance that allows integrated and end-to-end testing.
@@ -143,7 +124,7 @@ export async function createTestContainer(options: {
     mockServer = createMockServer(requestHandlers);
   }
 
-  return new TestContainer({
+  return TestContainer.create({
     module,
     app,
     mockServer,

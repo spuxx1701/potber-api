@@ -1,4 +1,4 @@
-import { createTestContainer } from 'test/helpers/create-test-container';
+import { createTestContainer } from 'test/container';
 import { AppController } from './app.controller';
 import { fakeRequest } from 'test/helpers/fake-request';
 import { INestApplication } from '@nestjs/common';

@@ -1,7 +1,4 @@
-import {
-  TestContainer,
-  createTestContainer,
-} from 'test/helpers/create-test-container';
+import { TestContainer, createTestContainer } from 'test/container';
 import { PostsController } from './posts.controller';
 import { XmlApiModule } from 'src/xml-api/xml-api.module';
 import { EncodingModule } from 'src/encoding/encoding.module';
@@ -18,18 +15,18 @@ describe('Posts', () => {
       let container: TestContainer;
       let controller: PostsController;
 
-      beforeEach(async () => {
-        container = await createTestContainer({
-          imports: [EncodingModule, XmlApiModule],
-          controllers: [PostsController],
-          providers: [PostsService, UsersService, ThreadsService],
-        });
-        controller = container.module.get<PostsController>(PostsController);
-      });
+      // beforeEach(async () => {
+      //   container = await createTestContainer({
+      //     imports: [EncodingModule, XmlApiModule],
+      //     controllers: [PostsController],
+      //     providers: [PostsService, UsersService, ThreadsService],
+      //   });
+      //   controller = container.module.get<PostsController>(PostsController);
+      // });
 
-      afterEach(() => {
-        jest.clearAllMocks();
-      });
+      // afterEach(() => {
+      //   jest.clearAllMocks();
+      // });
 
       describe('quote', () => {
         it('foo', () => {

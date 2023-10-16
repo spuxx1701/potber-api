@@ -1,7 +1,3 @@
-import {
-  TestContainer,
-  createTestContainer,
-} from 'test/helpers/create-test-container';
 import { AuthController } from './auth.controller';
 import { AuthService } from '../services/auth.service';
 import { fakeRequest } from 'test/helpers/fake-request';
@@ -12,6 +8,7 @@ import { UsersService } from 'src/users/services/users.service';
 import { HttpModule } from 'src/http/http.module';
 import { authHandlers } from 'test/msw/handlers/auth/auth.handlers';
 import { defaultMockSession } from 'test/mocks/session';
+import { TestContainer, createTestContainer } from 'test/container';
 
 describe('Auth | AuthController', () => {
   let container: TestContainer;

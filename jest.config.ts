@@ -19,6 +19,7 @@ const config: Config = {
     'types',
   ],
   testEnvironment: 'node',
+  setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
 };
 
 export default config;

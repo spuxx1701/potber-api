@@ -1,9 +1,6 @@
 import { PrivateMessagesService } from './private-messages.service';
 import { EncodingModule } from 'src/encoding/encoding.module';
-import {
-  TestContainer,
-  createTestContainer,
-} from 'test/helpers/create-test-container';
+import { TestContainer, createTestContainer } from 'test/container';
 import { privateMessagesMockData } from 'test/mock-data/private-messages.mock-data';
 import { PrivateMessageFolder } from '../types';
 import { privateMessagesExceptions } from '../config/private-messages.exceptions';
