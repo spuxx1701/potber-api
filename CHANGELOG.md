@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 
 - New branding: The application is now called 'potify-api' and can be reached 'https://api.p0tify.de'.
+- Performance improvements: Session validation no longer triggers redundant requests. Instead, the content of the JWT is no longer being validated (only the JWT itself is being validated) and additional validation is left to `foru.mpds.de`.
 
 ### Fixed
 

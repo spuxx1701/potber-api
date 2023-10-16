@@ -20,11 +20,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: SessionResource) {
-    // Call the board landing page with the payload's cookie and check whether
-    // the user ids match.
-    const session = await this.authService.getSessionDetails(payload.cookie);
-    if (session.userId === payload.userId) {
+    // We can't really validate the session without noticable performance loss due to subsequent HTTP requests and
+    // validation will be handled by the board itself to begin with. All we'll do here is validating whether
+    // the session contains required properties.
+    if (payload.userId && payload.cookie && Date.now() <= payload.exp * 1000)
       return payload;
-    } else throw authExceptions.invalidSession;
+    else throw authExceptions.invalidSession;
   }
 }
