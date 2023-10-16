@@ -7,24 +7,25 @@ import {
   Type,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { MockHttpService } from './mock-http-service';
 import { SessionResource } from 'src/auth/resources/session.resource';
-import { HttpService } from 'src/http/http.service';
 import { defaultMockSession } from './mock-session';
+import { ConfigModule } from '@nestjs/config';
+import { RequestHandler, rest } from 'msw';
+import { SetupServer, setupServer } from 'msw/node';
 
 /**
  * `TestContainer` provides a simulated Nest.js application for testing purposes.
  * It essentially wraps Nest's `Test.createTestContainer()`, but offers a customized
  * API for easier use and access.
  * @param module The testing module.
- * @param httpService The mocked `HttpService` that is used to mock outgoing HTTP requests.
  * @param app (optional) The nest application. Will be undefined unless end-to-end testing was enabled during the call of `createTestContainer()`.
+ * @param mockServer (optional) The `msw` mock server. Will be undefined unless end-to-end testing was enabled during the call of `createTestContainer()`.
  * @param session (optional) The mocked session. Will be undefined unless `mockSession` was provided during the call of `createTestContainer()`.
  */
 export class TestContainer {
   module: TestingModule;
-  httpService: MockHttpService;
   app?: INestApplication;
+  mockServer?: SetupServer;
   session?: SessionResource;
 
   constructor(init: Partial<TestContainer>) {
@@ -39,6 +40,8 @@ export class TestContainer {
  * @param options.controller (optional) A list of controllers you need for testing.
  * @param options.logger (optional) A custom logger can be provided. Helpful when you want to spy on logging functionality.
  * @param options.enableEndToEnd (optional) If enabled, the container will provide an environment that is capable of testing end-to-end.
+ * @param options.requestHandlers (optional) An list of request handlers to set as default handlers for the `msw` mock server. Has no effect if end-to-end testing was not enabled.
+ * @param options.disableConfig (optional) If disabled, the container will not load the default config.
  * @returns
  */
 export async function createTestContainer(options: {
@@ -53,6 +56,8 @@ export async function createTestContainer(options: {
   logger?: LoggerService;
   mockSession?: Partial<SessionResource>;
   enableEndToEnd?: boolean;
+  requestHandlers?: RequestHandler<any>[];
+  disableDefaultConfig?: boolean;
 }) {
   const {
     imports,
@@ -61,18 +66,24 @@ export async function createTestContainer(options: {
     logger,
     mockSession,
     enableEndToEnd,
+    disableDefaultConfig,
+    requestHandlers,
   } = {
     imports: [],
     providers: [],
     controllers: [],
+    requestHandlers: [
+      rest.get('dummy-handler', (req, res, ctx) => {
+        return res(ctx.status(200));
+      }),
+    ],
     mockSession: { ...defaultMockSession },
     ...options,
   };
 
-  providers.push({
-    provide: HttpService,
-    useClass: MockHttpService,
-  });
+  if (!disableDefaultConfig) {
+    imports.push(ConfigModule.forRoot({ isGlobal: true }));
+  }
 
   let builder = Test.createTestingModule({
     imports,
@@ -85,19 +96,19 @@ export async function createTestContainer(options: {
   }
 
   const module = await builder.compile();
-  const httpService = module.get<HttpService>(
-    HttpService,
-  ) as any as MockHttpService;
 
   let app: INestApplication | undefined;
+  let mockServer: SetupServer | undefined;
   if (enableEndToEnd) {
     app = await createEndToEndNestApplication(module);
+    mockServer = setupServer(...requestHandlers);
+    mockServer.listen();
   }
 
   return new TestContainer({
     module,
-    httpService,
     app,
+    mockServer,
     session: mockSession as SessionResource,
   });
 }

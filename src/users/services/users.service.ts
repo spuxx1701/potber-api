@@ -47,14 +47,16 @@ export class UsersService {
     }
     const name = nameMatches[2];
     const lastLoginMatches = html.match(
-      /(?:(Zuletzt im Board:<\/td>\n.*>)(.*)(<\/td>))/,
+      /(?:(Zuletzt im Board:<\/td>\s*<td.*>)(.*)(<\/td>))/,
     );
     const lastLogin = lastLoginMatches[2] || undefined;
-    const activityMatches = html.match(/(?:(Status:<\/td>\n.*>)(.*)(<\/td>))/);
+    const activityMatches = html.match(
+      /(?:(Status:<\/td>\s*<td.*>)(.*)(<\/td>))/,
+    );
     const onlineMatches = html.match(/(?:(<span class="online">)(.*)<\/span>)/);
     const activity = activityMatches[2]?.trim() || onlineMatches[2]?.trim();
     const statusMatches = html.match(
-      /(?:(Accountstatus:<\/td>\n.*>)(.*)(<\/td>))/,
+      /(?:(Accountstatus:<\/td>\s*<td.*>)(.*)(<\/td>))/,
     );
     const status = statusMatches[2];
     const avatarUrlMatches = html.match(

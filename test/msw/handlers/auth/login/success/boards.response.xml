@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<categories xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://forum.mods.de/bb/forum.xsd"
+  current-user-id="1342456"
+  count="10">
+  <category id="6">
+    <name>
+      <![CDATA[Allgemeines]]>
+    </name>
+    <description>
+      <![CDATA[Seitenübergreifende Themen]]>
+    </description>
+    <boards count="4">
+      <board id="138">
+        <name>
+          <![CDATA[COVID-19 Forum]]>
+        </name>
+        <description>
+          <![CDATA[Alles rund um den Coronavirus (SARS-CoV-2)]]>
+        </description>
+        <number-of-threads value='18' />
+        <number-of-replies value='70346' />
+        <in-category id="6" />
+        <lastpost>
+          <post>
+            <user id="1243094">
+              <![CDATA[monischnucki]]>
+            </user>
+            <date timestamp="1697441742">16.10.2023 09:35:42</date>
+            <in-thread id="218466">
+              <![CDATA[COVID-19 Allgemeine Diskussion II]]>
+            </in-thread>
+            <in-board id="138" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="21088">
+            <![CDATA[Che Guevara]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="139">
+        <name>
+          <![CDATA[Ukraine Krieg]]>
+        </name>
+        <description>
+          <![CDATA[News und Allgemeines]]>
+        </description>
+        <number-of-threads value='6' />
+        <number-of-replies value='29045' />
+        <in-category id="6" />
+        <lastpost>
+          <post>
+            <user id="14088">
+              <![CDATA[Bombur]]>
+            </user>
+            <date timestamp="1697437956">16.10.2023 08:32:36</date>
+            <icon id="41" />
+            <in-thread id="219030">
+              <![CDATA[Allgemeine Diskussion zum Ukraine Krieg]]>
+            </in-thread>
+            <in-board id="139" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="1147398">
+            <![CDATA[Abso]]>
+          </user>
+          <user id="21088">
+            <![CDATA[Che Guevara]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="14">
+        <name>
+          <![CDATA[Public Offtopic]]>
+        </name>
+        <description>
+          <![CDATA[für das was nicht passt und sonstige geistige Höhenflüge]]>
+        </description>
+        <number-of-threads value='46762' />
+        <number-of-replies value='14183548' />
+        <in-category id="6" />
+        <lastpost>
+          <post>
+            <user id="9077">
+              <![CDATA[Aspe]]>
+            </user>
+            <date timestamp="1697444394">16.10.2023 10:19:54</date>
+            <in-thread id="219390">
+              <![CDATA[Erklärbär]]>
+            </in-thread>
+            <in-board id="14" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="1157313">
+            <![CDATA[Irdorath]]>
+          </user>
+          <user id="27923">
+            <![CDATA[statixx]]>
+          </user>
+          <user id="1279561">
+            <![CDATA[Teh Wizard of Aiz]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="16">
+        <name>
+          <![CDATA[Offtopic- und Funforum]]>
+        </name>
+        <description>
+          <![CDATA[legendär elitär]]>
+        </description>
+        <number-of-threads value='402' />
+        <number-of-replies value='39293' />
+        <in-category id="6" />
+        <lastpost>
+          <post>
+            <user id="6379">
+              <![CDATA[Shooter]]>
+            </user>
+            <date timestamp="1696834524">09.10.2023 08:55:24</date>
+            <in-thread id="218263">
+              <![CDATA[20 Jahr]]>
+            </in-thread>
+            <in-board id="16" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="2822">
+            <![CDATA[Insaniac]]>
+          </user>
+          <user id="52461">
+            <![CDATA[Wahooka]]>
+          </user>
+        </moderators>
+      </board>
+    </boards>
+  </category>
+  <category id="7">
+    <name>
+      <![CDATA[Counter-Strike / Half-Life 2]]>
+    </name>
+    <description>
+      <![CDATA[Alles rund um Valves Spiele]]>
+    </description>
+    <boards count="7">
+      <board id="18">
+        <name>
+          <![CDATA[Hauptforum]]>
+        </name>
+        <description>
+          <![CDATA[Alles rund ums Thema Counter-Strike!]]>
+        </description>
+        <number-of-threads value='11771' />
+        <number-of-replies value='133645' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="2863">
+              <![CDATA[Chefcook]]>
+            </user>
+            <date timestamp="1670117641">04.12.2022 02:34:01</date>
+            <in-thread id="183163">
+              <![CDATA[Suche altes Bild aus dem S-o-R]]>
+            </in-thread>
+            <in-board id="18" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="1061026">
+            <![CDATA[cLam]]>
+          </user>
+          <user id="50262">
+            <![CDATA[Flipz]]>
+          </user>
+          <user id="1050777">
+            <![CDATA[oveR]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="19">
+        <name>
+          <![CDATA[CS-Help]]>
+        </name>
+        <description>
+          <![CDATA[Sorgen und Nöte mit CS?]]>
+        </description>
+        <number-of-threads value='40617' />
+        <number-of-replies value='302454' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="69385">
+              <![CDATA[-rantanplan-]]>
+            </user>
+            <date timestamp="1687033907">17.06.2023 22:31:47</date>
+            <in-thread id="207298">
+              <![CDATA['' C S - H E L P E R S '' XIII ©]]>
+            </in-thread>
+            <in-board id="19" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="40503">
+            <![CDATA[CaesarCommodus]]>
+          </user>
+          <user id="1061026">
+            <![CDATA[cLam]]>
+          </user>
+          <user id="39997">
+            <![CDATA[WU]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="70">
+        <name>
+          <![CDATA[Half-Life 2/Portal]]>
+        </name>
+        <description>
+          <![CDATA[Über Brechstangen und farbige Portale]]>
+        </description>
+        <number-of-threads value='2529' />
+        <number-of-replies value='83139' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="1243094">
+              <![CDATA[monischnucki]]>
+            </user>
+            <date timestamp="1693385920">30.08.2023 10:58:40</date>
+            <in-thread id="218022">
+              <![CDATA[Das Ende: Teil 20]]>
+            </in-thread>
+            <in-board id="70" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="80334">
+            <![CDATA[Robotronic]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="113">
+        <name>
+          <![CDATA[Team Fortress 2]]>
+        </name>
+        <description>
+          <![CDATA[Wenn der Heavy mit dem Pyro...]]>
+        </description>
+        <number-of-threads value='356' />
+        <number-of-replies value='50420' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="1266989">
+              <![CDATA[eXc3ption]]>
+            </user>
+            <date timestamp="1513025174">11.12.2017 21:46:14</date>
+            <in-thread id="206354">
+              <![CDATA[Zis is ze Ultimate TF2, Junge!]]>
+            </in-thread>
+            <in-board id="113" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="60121">
+            <![CDATA[ribo]]>
+          </user>
+          <user id="22825">
+            <![CDATA[Traxer]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="122">
+        <name>
+          <![CDATA[Left 4 Dead]]>
+        </name>
+        <description>
+          <![CDATA[Multiplayer-Shooter-Zombie-Mayhem]]>
+        </description>
+        <number-of-threads value='116' />
+        <number-of-replies value='30739' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="103144">
+              <![CDATA[tschy2m]]>
+            </user>
+            <date timestamp="1304164950">30.04.2011 14:02:30</date>
+            <in-thread id="196874">
+              <![CDATA[hackfressen!]]>
+            </in-thread>
+            <in-board id="122" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="1199098">
+            <![CDATA[blind`]]>
+          </user>
+          <user id="1206830">
+            <![CDATA[red]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="20">
+        <name>
+          <![CDATA[Config/Alias/Bind/Scripts Forum]]>
+        </name>
+        <description>
+          <![CDATA[Scripting, Binding & Commands]]>
+        </description>
+        <number-of-threads value='8252' />
+        <number-of-replies value='64182' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="60121">
+              <![CDATA[ribo]]>
+            </user>
+            <date timestamp="1654278982">03.06.2022 19:56:22</date>
+            <icon id="54" />
+            <in-thread id="200352">
+              <![CDATA[» ScriptPoker «]]>
+            </in-thread>
+            <in-board id="20" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="1206830">
+            <![CDATA[red]]>
+          </user>
+          <user id="60121">
+            <![CDATA[ribo]]>
+          </user>
+        </moderators>
+      </board>
+      <board id="44">
+        <name>
+          <![CDATA[Taktik, Bots und Crosshairs]]>
+        </name>
+        <description>
+          <![CDATA[Taktiken, Tips und Tricks Maps & Bots und Crosshairs diskutieren]]>
+        </description>
+        <number-of-threads value='1888' />
+        <number-of-replies value='13561' />
+        <in-category id="7" />
+        <lastpost>
+          <post>
+            <user id="1341732">
+              <![CDATA[Jovial]]>
+            </user>
+            <date timestamp="1588000939">27.04.2020 17:22:19</date>
+            <in-thread id="206675">
+              <![CDATA[welchen bot brauche ich?]]>
+            </in-thread>
+            <in-board id="44" />
+          </post>
+        </lastpost>
+        <moderators>
+          <user id="12936">
+            <![CDATA[El Barto]]>
+          </user>
+        </moderators>
+      </board>
+    </boards>
+  </category>
+</categories>

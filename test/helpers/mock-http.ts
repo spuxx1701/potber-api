@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Global, Injectable, Module } from '@nestjs/common';
 import { RequestOptions } from 'https';
 
+/**
+ * `MockHttpService` provides a simple API that allows mocking outgoing HTTP requests.
+ */
 @Injectable()
 export class MockHttpService {
   get(url: string, options?: RequestOptions): { data: any } {
@@ -34,3 +38,14 @@ export class MockHttpService {
     );
   }
 }
+
+@Module({
+  providers: [
+    {
+      provide: HttpService,
+      useClass: MockHttpService,
+    },
+  ],
+  exports: [HttpService],
+})
+export class MockHttpModule {}

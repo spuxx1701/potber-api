@@ -3,6 +3,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpCode,
   Post,
   Request,
   UnauthorizedException,
@@ -18,12 +19,12 @@ import {
 } from '@nestjs/swagger';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { validationPipe } from 'src/validation/validation.pipe';
-import { authExceptions } from './auth.exceptions';
-import { AuthService } from './auth.service';
-import { JwtAuthGuard } from './guards/jwt.guard';
-import { JwtResource } from './resources/jwt.resource';
-import { LoginResource } from './resources/login.resource';
-import { SessionResource } from './resources/session.resource';
+import { authExceptions } from '../config/auth.exceptions';
+import { AuthService } from '../services/auth.service';
+import { JwtAuthGuard } from '../guards/jwt.guard';
+import { JwtResource } from '../resources/jwt.resource';
+import { LoginResource } from '../resources/login.resource';
+import { SessionResource } from '../resources/session.resource';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -33,6 +34,7 @@ export class AuthController {
   constructor(private readonly service: AuthService) {}
 
   @Post('login')
+  @HttpCode(200)
   @ApiOperation({
     summary: 'Sign into the board.',
     description: `Signs you into the board and returns an response body containing a JWT (https://jwt.io/). To terminate the session,

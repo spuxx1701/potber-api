@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>mods.de Login</title>
+    <meta http-equiv="Content-Type"
+      content="text/html; charset=iso-8859-15" />
+    <link rel="stylesheet"
+      href="lib/base.css" />
+  </head>
+  <body>
+    <div class="box success">
+      <h1>Erfolgreich eingeloggt.</h1>
+      <iframe src='//forum.mods.de/SSO.php?UID=1342456&login=foo&lifetime=86400&'
+        style='display:none; width:0; height:0'
+        class='hide'></iframe>
+      <iframe src='//my.mods.de/p/SSO.php?UID=1342456&login=bar&lifetime=86400&'
+        style='display:none; width:0; height:0'
+        class='hide'></iframe>
+    </div>
+  </body>
+</html>

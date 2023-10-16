@@ -4,8 +4,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { EncodingModule } from 'src/encoding/encoding.module';
 import { HttpModule } from 'src/http/http.module';
 import { XmlApiModule } from 'src/xml-api/xml-api.module';
-import { AuthController } from './auth.controller';
-import { AuthService } from './auth.service';
+import { AuthController } from './controllers/auth.controller';
+import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
 

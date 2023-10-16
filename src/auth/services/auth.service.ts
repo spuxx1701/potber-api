@@ -1,10 +1,10 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { forumConfig } from 'src/config/forum.config';
-import { authExceptions } from './auth.exceptions';
-import { LoginResource } from './resources/login.resource';
-import { SessionResource } from './resources/session.resource';
+import { authExceptions } from '../config/auth.exceptions';
+import { LoginResource } from '../resources/login.resource';
+import { SessionResource } from '../resources/session.resource';
 import { JwtService } from '@nestjs/jwt';
-import { JwtResource } from './resources/jwt.resource';
+import { JwtResource } from '../resources/jwt.resource';
 import { HttpService } from 'src/http/http.service';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
 import { EncodingService } from 'src/encoding/encoding.service';
@@ -101,7 +101,7 @@ export class AuthService {
       // Since the first cookie tends to not work, we use the second one
       return `${cookie[1].split(';')[0]}`;
     } else {
-      throw new Error('Did not find receive two session cookie.');
+      throw new Error('Did not receive two session cookies.');
     }
   }
 

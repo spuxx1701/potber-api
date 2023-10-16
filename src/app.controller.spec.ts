@@ -1,6 +1,6 @@
 import { createTestContainer } from 'test/helpers/create-test-container';
 import { AppController } from './app.controller';
-import { fakeGetRequest } from 'test/helpers/fake-requests';
+import { fakeRequest } from 'test/helpers/fake-request';
 import { INestApplication } from '@nestjs/common';
 
 describe('App | AppController', () => {
@@ -15,7 +15,7 @@ describe('App | AppController', () => {
 
   describe('GET /', () => {
     it('should return some information about the api', async () => {
-      const request = fakeGetRequest(app, '/');
+      const request = fakeRequest(app, 'GET', '/');
       const response = await request.send();
       expect(response.statusCode).toBe(200);
       expect(response.body).toHaveProperty('title');
@@ -26,7 +26,7 @@ describe('App | AppController', () => {
 
   describe('GET /healthz', () => {
     it('should return the status of the api', async () => {
-      const request = fakeGetRequest(app, '/healthz');
+      const request = fakeRequest(app, 'GET', '/healthz');
       const response = await request.send();
       expect(response.statusCode).toBe(200);
       expect(response.body).toStrictEqual({ status: 'ok' });
