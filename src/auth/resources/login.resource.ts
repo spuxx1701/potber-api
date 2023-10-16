@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength, Validate } from 'class-validator';
-import { IsValidLifetime } from '../validators/lifetime.validator';
+import { IsInt, IsString, MaxLength } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class LoginResource {
   @ApiProperty({
@@ -25,6 +25,7 @@ export class LoginResource {
     examples: [3600, 86400, 604800, 31536000],
     default: 86400,
   })
-  @Validate(IsValidLifetime)
-  lifetime: number | string;
+  @Type(() => Number)
+  @IsInt()
+  lifetime: number;
 }
