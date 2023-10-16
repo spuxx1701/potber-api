@@ -44,7 +44,7 @@ export class AuthService {
       this.checkForLoginSuccess(data);
       const cookieUrl = this.getSessionCookieUrl(data);
       const cookie = await this.getSessionCookie(cookieUrl);
-      const session = await this.getSessionDetails(cookie);
+      const session = await this.createSession(cookie);
       Logger.log(
         `User '${session.username}' has signed in.`,
         this.constructor.name,
@@ -106,12 +106,12 @@ export class AuthService {
   }
 
   /**
-   * Calls the forum landing page with the given session cookie and retrieves
-   * details about the current session.
+   * Calls the forum landing page with the given session cookie and creates a new session
+   * using the retrieved details.
    * @param cookie The session cookie.
-   * @returns The session details.
+   * @returns The session.
    */
-  async getSessionDetails(cookie: string): Promise<SessionResource> {
+  async createSession(cookie: string): Promise<SessionResource> {
     try {
       const userId = await this.getUserId(cookie);
       const { name, avatarUrl } = await this.usersService.findById(userId);
