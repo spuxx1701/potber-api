@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- Performance improvements: Session validation no longer triggers redundant requests. Instead, the content of the JWT is no longer being validated (only the JWT itself is being validated) and additional validation is left to `foru.mpds.de`.
+- Performance improvements: Session validation no longer triggers redundant requests. Instead, the content of the JWT is no longer being validated (only the JWT itself is being validated) and additional validation is left to `forum.mods.de`.
 
 ### Fixed
 
