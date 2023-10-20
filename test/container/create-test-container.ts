@@ -75,11 +75,13 @@ export async function createTestContainer(options: {
   }
 
   if (enableEndToEnd) {
+    // Create a temporary secret for testing purposes
+    process.env.AUTH_JWT_SECRET = crypto.randomUUID();
     // Load necessary components for authentication to work
     imports.push(
       JwtModule.registerAsync({
         useFactory: async () => ({
-          secret: 'not-an-actual-secret',
+          secret: process.env.AUTH_JWT_SECRET,
         }),
       }),
     );
