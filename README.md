@@ -5,6 +5,9 @@
 A RESTful API for the german board <a href="https://forum.mods.de" target="_blank">forum.mods.de</a> built with <a href="https://github.com/nestjs/nest" target="_blank">Nest</a>. The API is a modern JSON API that comes with full OpenAPI documentation and follows REST meticulously. If you're looking for potber-client, you can find it <a href="https://github.com/spuxx1701/potber-client" target="_blank">here</a>.
 </p>
 
+![Production Builds](https://github.com/github/docs/actions/workflows/production.yml/badge.svg)
+![Staging Builds](https://github.com/github/docs/actions/workflows/staging.yml/badge.svg)
+
 ## How to use the API
 
 You can find the OpenAPI documentation here:
