@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -8,6 +9,7 @@ import {
   Request,
   UseGuards,
   UseInterceptors,
+  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import {
@@ -26,9 +28,11 @@ import { PrivateMessageFolder } from '../types';
 import { PrivateMessagesFindManyQuery } from './queries/private-messages.find-many.query';
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import { privateMessagesExceptions } from '../config/private-messages.exceptions';
-import { PrivateMessagesMoveToFolderQuery } from './queries/private-messages.move-to-folder.query';
+import { PrivateMessagesMoveToFolderResource } from '../resources/private-message.move-to-folder.resource';
+import { validationPipe } from 'src/validation/validation.pipe';
 
 @Controller('privateMessages')
+@UsePipes(validationPipe)
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
@@ -134,17 +138,10 @@ export class PrivateMessagesController {
   @ApiException(() => Object.values(privateMessagesExceptions.markAsRead))
   async moveToFolder(
     @Param('id') id: string,
-    @Query(
-      new ValidationPipe({
-        transform: true,
-        whitelist: true,
-        forbidNonWhitelisted: true,
-      }),
-    )
-    query: PrivateMessagesMoveToFolderQuery,
+    @Body() body: PrivateMessagesMoveToFolderResource,
     @Request() request: any,
   ) {
-    return this.service.moveToFolder(id, query.folder, request.user);
+    return this.service.moveToFolder(id, body.folder, request.user);
   }
 
   @Delete(':id')
