@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Implemented `PUT /privateMessages/:id/markAsUnread` endpoint.
 - Implemented `PUT /privateMessages/:id/moveToFolder` endpoint.
 - Implemented `DELETE /privateMessages/:id` endpoint.
+- Implemented `POST /posts/:id/report` endpoint.
 
 ### Changed
 

@@ -36,6 +36,7 @@ import { PostResource } from '../resources/post.resource';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostsService } from '../services/posts.services';
 import { PostQuoteResource } from '../resources/post.quote.resource';
+import { PostReportResource } from '../resources/post.report.resource';
 
 @Controller('posts')
 @ApiTags('Posts')
@@ -163,5 +164,31 @@ export class PostsController {
     @Request() request: any,
   ) {
     return this.service.update(id, new PostWriteResource(body), request.user);
+  }
+
+  @Post(':id/report')
+  @UsePipes(validationPipe)
+  @ApiOperation({
+    summary: 'Reports a post.',
+    description: `Reports a post. The report will be received by the corresponding board's moderators.
+    
+    🔒 Protected`,
+  })
+  @ApiParam({
+    name: 'id',
+    description: "The post's id.",
+    type: String,
+  })
+  @ApiOkResponse({
+    description: 'The post has been reported successfully.',
+    type: PostLinkResource,
+  })
+  @ApiException(() => Object.values(postsExceptions.report))
+  async report(
+    @Param('id') id: string,
+    @Body() body: PostReportResource,
+    @Request() request: any,
+  ) {
+    return this.service.report(id, body.cause, request.user);
   }
 }

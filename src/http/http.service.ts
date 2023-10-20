@@ -5,7 +5,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 
 export interface RequestOptions {
   cookie?: string;
-  headers?: object;
+  headers?: Record<string, string>;
   decode?: boolean;
 }
 

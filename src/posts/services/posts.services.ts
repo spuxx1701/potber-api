@@ -335,4 +335,48 @@ export class PostsService {
     }
     return undefined;
   }
+
+  /**
+   * Report a specific post.
+   * @param id The post id.
+   * @param cause The cause for the report.
+   */
+  async report(
+    id: string,
+    cause: string,
+    session: SessionResource,
+  ): Promise<void> {
+    return this.sendReport(id, cause, session.cookie);
+  }
+
+  /**
+   * Triggers the actual request to send the report.
+   * @param id The post id.
+   * @param cause The cause for the report.
+   */
+  async sendReport(id: string, cause: string, cookie: string): Promise<void> {
+    const url = `${forumConfig.FORUM_URL}reportpost.php`;
+    const payload = `action=insert&SID=&PID=${id}&report_cause=${this.encodingService.encodeText(
+      cause,
+    )}`;
+    const { data }: { data: string } = await this.httpService.post(
+      url,
+      payload,
+      {
+        cookie,
+        headers: {
+          Referer: `${url}?PID=${id}`,
+        },
+      },
+    );
+    if (data.includes('Meldung gesendet!')) {
+      return;
+    } else if (data.includes('Dieser Beitrag wurde bereits von einem User')) {
+      throw postsExceptions.report.alreadyReported;
+    } else if (data.includes('nicht korrekt')) {
+      throw postsExceptions.report.notFound;
+    } else {
+      throw postsExceptions.report.unknown;
+    }
+  }
 }
