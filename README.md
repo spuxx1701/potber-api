@@ -17,7 +17,7 @@ You can find the OpenAPI documentation here:
 
 ### CORS
 
-Even though the API was built primarily for serving [potber-client](https://github.com/spuxx1701/potber-client), it was designed with the ability of serving other usescases in mind. If you need your application's hostname added to the API's allowed origins, feel free to contact me.
+Even though the API was built primarily for serving [potber-client](https://github.com/spuxx1701/potber-client), it was designed with the ability of serving other usescases in mind. If you need your application's hostname added to the API's allowed origins, feel free to contact me. This is only required for browser-based consumers like websites. If you're building a server or a native application, you can start using `potber-api` right away!
 
 ### Authentication & authorization
 
