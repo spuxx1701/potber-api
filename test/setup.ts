@@ -1,5 +1,5 @@
 import { TestContainer } from './container/test-container';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
 
 beforeAll(() => {
   // Create a randomly-generated temporary secret for testing purposes
