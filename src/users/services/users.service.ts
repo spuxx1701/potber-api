@@ -92,6 +92,7 @@ export class UsersService {
       id: this.xmljs.getAttribute('id', userElement),
       groupId: this.xmljs.getAttribute('group-id', userElement),
       name: this.xmljs.getElement('cdata', userElement)?.cdata,
+      locked: this.xmljs.getAttribute('locked', userElement) === '1',
     };
     return user;
   }

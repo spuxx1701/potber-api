@@ -56,4 +56,10 @@ export class UserResource {
       "The group id. This probably encodes the user's role, but that's not certain.",
   })
   groupId?: string;
+
+  @ApiProperty({
+    description:
+      'Whether the user account has been locked (temporarily or permanently).',
+  })
+  locked?: boolean;
 }
