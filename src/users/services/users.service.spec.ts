@@ -52,6 +52,7 @@ describe('Users | UsersService', () => {
         id: '1100939',
         name: 'Icefeldt',
         groupId: undefined,
+        locked: false,
       };
       expect(actual).toEqual(expected);
     });
@@ -64,6 +65,7 @@ describe('Users | UsersService', () => {
         id: '1341645',
         name: 'Real_Futti',
         groupId: '3',
+        locked: false,
       };
       expect(actual).toEqual(expected);
     });

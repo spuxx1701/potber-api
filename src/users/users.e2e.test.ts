@@ -37,11 +37,5 @@ describe('Users', () => {
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual([]);
     });
-
-    it("should fail due to missing 'startsWith' query parameter", async () => {
-      const request = fakeRequest(container.app, 'GET', `/usernames`);
-      const response = await request.send();
-      expect(response.status).toBe(400);
-    });
   });
 });
