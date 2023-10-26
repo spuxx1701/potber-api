@@ -1,35 +1,38 @@
-import {
-  BadRequestException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { appExceptions } from 'src/config/app.exceptions';
 
 export const privateMessagesExceptions = {
   findMany: {
     unauthorized: appExceptions.unauthorized,
+    unknownError: appExceptions.unknown,
   },
   findById: {
     unauthorized: appExceptions.unauthorized,
+    unknownError: appExceptions.unknown,
     notFound: new NotFoundException(),
-    unknownError: new InternalServerErrorException(
-      'Unknown error occured while parsing message.',
-    ),
+  },
+  replyOrForward: {
+    unauthorized: appExceptions.unauthorized,
+    unknownError: appExceptions.unknown,
+    notFound: new NotFoundException(),
   },
   markAsRead: {
     unauthorized: appExceptions.unauthorized,
+    unknownError: appExceptions.unknown,
     notFound: new NotFoundException(),
   },
   moveToFolder: {
     unauthorized: appExceptions.unauthorized,
+    unknownError: appExceptions.unknown,
     notFound: new NotFoundException(),
   },
   delete: {
     unauthorized: appExceptions.unauthorized,
+    unknownError: appExceptions.unknown,
   },
   send: {
     unauthorized: appExceptions.unauthorized,
-    invalidUser: new BadRequestException('Recipient does not exist.'),
     unknown: appExceptions.unknown,
+    invalidUser: new BadRequestException('Recipient does not exist.'),
   },
 };

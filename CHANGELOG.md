@@ -11,6 +11,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - Author profiles now include information about whether the author's account has been locked.
 - Implemented `GET /usernames` endpoint. This endpoint returns filterable lists of usernames.
 - Implemented `POST /privateMessages` endpoint.
+- Implemented `GET /privateMessages/:id/reply` endpoint.
+- Implemented `GET /privateMessages/:id/forward` endpoint.
 
 ## [2.1.0] - 2023-10-20
 

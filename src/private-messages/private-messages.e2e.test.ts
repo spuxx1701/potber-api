@@ -84,4 +84,92 @@ describe('Private Messages | e2e', () => {
       expect(response.body.message).toBe('Recipient does not exist.');
     });
   });
+
+  describe('GET /privateMessages/:id/reply', () => {
+    it('should succeed', async () => {
+      container.mockServer.use(
+        ...privateMessagesHandlers.replyOrForward.success,
+      );
+      const request = fakeRequest(
+        container.app,
+        'GET',
+        '/privateMessages/123/reply',
+      );
+      const response = await request.send();
+      expect(response.status).toBe(200);
+      expect(response.body.recipientName).toBe('[potber]Kantholz');
+      expect(response.body.title).toContain('Hello World!');
+      expect(response.body.content).toContain(
+        '\n------------------------\n[potber]Kantholz schrieb am 26. October 2023 um 17:46:58:',
+      );
+    });
+
+    it('should return 401', async () => {
+      const request = fakeRequest(
+        container.app,
+        'GET',
+        '/privateMessages/123/reply',
+        { mockSession: false },
+      );
+      const response = await request.send();
+      expect(response.status).toBe(401);
+    });
+
+    it('should return 404 due to invalid message id', async () => {
+      container.mockServer.use(
+        ...privateMessagesHandlers.replyOrForward.notFound,
+      );
+      const request = fakeRequest(
+        container.app,
+        'GET',
+        '/privateMessages/123/reply',
+      );
+      const response = await request.send();
+      expect(response.status).toBe(404);
+    });
+
+    it('should return 500 due to an unknown error', async () => {
+      container.mockServer.use(
+        ...privateMessagesHandlers.replyOrForward.unknown,
+      );
+      const request = fakeRequest(
+        container.app,
+        'GET',
+        '/privateMessages/123/reply',
+      );
+      const response = await request.send();
+      expect(response.status).toBe(500);
+    });
+  });
+
+  describe('GET /privateMessages/:id/forward', () => {
+    it('should succeed', async () => {
+      container.mockServer.use(
+        ...privateMessagesHandlers.replyOrForward.success,
+      );
+      const request = fakeRequest(
+        container.app,
+        'GET',
+        '/privateMessages/123/forward',
+      );
+      const response = await request.send();
+      expect(response.status).toBe(200);
+      expect(response.body.recipientName).toBe('');
+      expect(response.body.title).toContain('Hello World!');
+      expect(response.body.content).toContain(
+        '\n------------------------\n[potber]Kantholz schrieb am 26. October 2023 um 17:46:58:',
+      );
+    });
+
+    it('should return 401', async () => {
+      const request = fakeRequest(
+        container.app,
+        'GET',
+        '/privateMessages/123/forward',
+        { mockSession: false },
+      );
+      const response = await request.send();
+      expect(response.status).toBe(401);
+    });
+  });
 });

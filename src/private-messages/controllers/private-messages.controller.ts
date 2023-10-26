@@ -107,6 +107,50 @@ export class PrivateMessagesController {
     return this.service.findById(id, request.user);
   }
 
+  @Get(':id/reply')
+  @ApiOperation({
+    summary: 'Returns a basic body for replying to the given private message.',
+    description: `Returns a basic body for replying to the given private message. Use this if you want to prefill a form and allow a user to reply to a private message.
+    
+    🔒 Protected`,
+  })
+  @ApiParam({
+    name: 'id',
+    description: "The private message's unique id.",
+    type: String,
+  })
+  @ApiOkResponse({
+    description: 'The prepared private message body.',
+    type: PrivateMessageSendResource,
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.replyOrForward))
+  async respond(@Param('id') id: string, @Request() request: ExpressRequest) {
+    return this.service.replyOrForward(id, request.user, {
+      includeRecipientName: true,
+    });
+  }
+
+  @Get(':id/forward')
+  @ApiOperation({
+    summary: 'Returns a basic body for forwarding the given private message.',
+    description: `Returns a basic body for fowardingthe given private message. Use this if you want to prefill a form and allow a user to forward a private message. Works essentially the same as '/privateMessages/{id}/reply', but doesn't prefill the name of the recipient.
+    
+    🔒 Protected`,
+  })
+  @ApiParam({
+    name: 'id',
+    description: "The private message's unique id.",
+    type: String,
+  })
+  @ApiOkResponse({
+    description: 'The prepared private message body.',
+    type: PrivateMessageSendResource,
+  })
+  @ApiException(() => Object.values(privateMessagesExceptions.replyOrForward))
+  async forward(@Param('id') id: string, @Request() request: ExpressRequest) {
+    return this.service.replyOrForward(id, request.user);
+  }
+
   @Post()
   @ApiOperation({
     summary: 'Creates and sends a private message.',

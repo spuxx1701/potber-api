@@ -11,12 +11,12 @@ import { isDefined } from 'class-validator';
 import { privateMessagesExceptions } from '../config/private-messages.exceptions';
 import { parseAvatarUrl } from 'src/utility/forum.utility';
 import { PrivateMessageSendResource } from '../resources/private-message.send.resource';
-import { appExceptions } from 'src/config/app.exceptions';
 
 const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
 const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
 const LIST_SYSTEM_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=3`;
 const MESSAGE_GET_URL = `${forumConfig.FORUM_URL}pm/?a=2&mid=`;
+const MESSAGE_REPLY_URL = `${forumConfig.FORUM_URL}pm/?a=5&reply=`;
 
 /**
  * Service for retrieving and creating private messages. Since the forum's
@@ -339,6 +339,58 @@ export class PrivateMessagesService {
       unread,
     };
     return message;
+  }
+
+  /**
+   * Returns a basic body for replying to or forwarding a private message.
+   * @param id The private message's id.
+   * @param session The session resource.
+   * @param options.includeRecipientName (optional) Whether the recipient name should be included. Set to 'true' when replying to the message and to 'false' when forwarding the message.
+   * @returns The private message.
+   */
+  async replyOrForward(
+    id: string,
+    session: SessionResource,
+    options?: { includeRecipientName?: boolean },
+  ): Promise<PrivateMessageSendResource> {
+    const url = `${MESSAGE_REPLY_URL}${id}`;
+    const { data } = await this.httpService.get(url, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    return this.parseMessageResponseBody(data, options);
+  }
+
+  /**
+   * Parses the HTML of the reply form into a JSON object that can be used to easily reply to or forward a private message.
+   * @param html The HTML string.
+   * @param options.includeRecipientName (optional) Whether the recipient name should be included. Set to 'true' when replying to the message and to 'false' when forwarding the message.
+   * @returns The message body.
+   */
+  parseMessageResponseBody(
+    html: string,
+    options?: { includeRecipientName?: boolean },
+  ): PrivateMessageSendResource {
+    if (html.includes(`<span class="err"><b>Fehler:</b> Falsche ID</span>`)) {
+      throw privateMessagesExceptions.replyOrForward.notFound;
+    }
+    const recipientNameRegex = /<input name='rcpt'[\s|\S]*?value="(.*?)".*>/i;
+    const recipientNameMatches = html.match(recipientNameRegex);
+    const recipientName = this.encodingService.decodeText(
+      recipientNameMatches[1],
+    );
+    const titleRegex = /<input name='subj'.*value='(.*)'>/i;
+    const titleMatches = html.match(titleRegex);
+    const title = titleMatches[1];
+    const contentRegex = /<textarea.*>([\s|\S]*)<\/textarea>/im;
+    const contentMatches = html.match(contentRegex);
+    const content = this.encodingService.decodeText(contentMatches[1]);
+    const body: PrivateMessageSendResource = {
+      recipientName: options?.includeRecipientName ? recipientName : '',
+      title,
+      content,
+    };
+    return body;
   }
 
   /**
