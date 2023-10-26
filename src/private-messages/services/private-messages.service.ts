@@ -10,6 +10,8 @@ import { UserResource } from 'src/users/resources/user.resource';
 import { isDefined } from 'class-validator';
 import { privateMessagesExceptions } from '../config/private-messages.exceptions';
 import { parseAvatarUrl } from 'src/utility/forum.utility';
+import { PrivateMessageSendResource } from '../resources/private-message.send.resource';
+import { appExceptions } from 'src/config/app.exceptions';
 
 const LIST_INBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=1`;
 const LIST_OUTBOUND_URL = `${forumConfig.FORUM_URL}pm/?a=0&cid=2`;
@@ -416,6 +418,39 @@ export class PrivateMessagesService {
       return;
     } else {
       throw new Error('Unable to delete private message.');
+    }
+  }
+
+  /**
+   * Creates and sends a new private message.
+   * @param message The message.
+   * @param session The session resource.
+   */
+  async send(message: PrivateMessageSendResource, session: SessionResource) {
+    const url = `${forumConfig.FORUM_URL}pm/?a=6`;
+    const payload = this.httpService.createFormDataPayload(
+      {
+        rcpts: '0',
+        rcpt: message.recipientName,
+        subj: message.title,
+        msg: message.content,
+        mf_sc: message.saveCopy ? '1' : '0',
+        submit: 'Senden+%BB',
+      },
+      {
+        encode: true,
+      },
+    );
+    const { data } = await this.httpService.post(url, payload, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    if (data.includes('gesendet... fertig.')) {
+      return;
+    } else if (data.includes('Dieser User existiert nicht')) {
+      throw privateMessagesExceptions.send.invalidUser;
+    } else {
+      throw privateMessagesExceptions.send.unknown;
     }
   }
 }

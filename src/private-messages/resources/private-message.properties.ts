@@ -1,4 +1,4 @@
-import { ApiPropertyOptions } from '@nestjs/swagger';
+import { ApiOperationOptions, ApiPropertyOptions } from '@nestjs/swagger';
 
 export const privateMessageProperties = {
   id: {
@@ -7,7 +7,7 @@ export const privateMessageProperties = {
   } as ApiPropertyOptions,
 
   title: {
-    description: "The private message's title.",
+    description: "The private message's title (or subject).",
     example: 'Hello world!',
   } as ApiPropertyOptions,
 
@@ -38,6 +38,12 @@ export const privateMessageProperties = {
     example: { id: '1268185', name: 'Ameisenfutter' },
   } as ApiPropertyOptions,
 
+  recipientName: {
+    description:
+      'The recipient of the private message. Only the username is required when sending messages.',
+    example: 'Ameisenfutter',
+  } as ApiPropertyOptions,
+
   sender: {
     description:
       'The sender of the private message. Only provided for inbound messages.',
@@ -48,4 +54,10 @@ export const privateMessageProperties = {
     description: 'The content of the private message.',
     example: 'Hello world!',
   } as ApiPropertyOptions,
+
+  saveCopy: {
+    description:
+      "Whether a copy of the message should be saved to the user's 'outbound' folder.",
+    example: false,
+  } as ApiOperationOptions,
 };

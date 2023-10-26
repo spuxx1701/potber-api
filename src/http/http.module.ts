@@ -5,9 +5,10 @@ import {
 import { Module } from '@nestjs/common';
 import { httpConfig, httpRequestInterceptor } from './http.config';
 import { HttpService } from './http.service';
+import { EncodingModule } from 'src/encoding/encoding.module';
 
 @Module({
-  imports: [NestHttpModule.register(httpConfig)],
+  imports: [NestHttpModule.register(httpConfig), EncodingModule],
   exports: [HttpService],
   providers: [HttpService],
 })

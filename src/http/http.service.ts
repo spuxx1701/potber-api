@@ -2,6 +2,7 @@ import { HttpService as NestHttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
+import { EncodingService } from 'src/encoding/encoding.service';
 
 export interface RequestOptions {
   cookie?: string;
@@ -11,7 +12,10 @@ export interface RequestOptions {
 
 @Injectable()
 export class HttpService {
-  constructor(private readonly httpService: NestHttpService) {}
+  constructor(
+    private readonly httpService: NestHttpService,
+    private readonly encodingService: EncodingService,
+  ) {}
 
   /**
    * Triggers an outgoing GET request.
@@ -70,5 +74,28 @@ export class HttpService {
           }),
         ),
     );
+  }
+
+  /**
+   * Creates a form data payload from the given object.
+   * @param data The object that should be used to create the payload.
+   * @param options.encode (optional) Whether string values should be encoded.
+   * @returns The payload string.
+   */
+  createFormDataPayload(data: object, options?: { encode?: true }): string {
+    let payload = '';
+    Object.keys(data).forEach((key, index) => {
+      if (index >= 1) payload += '&';
+      if (data[key]) {
+        if (typeof data[key] === 'string' && options?.encode) {
+          payload += `${key}=${this.encodingService.encodeText(data[key])}`;
+        } else {
+          payload += `${key}=${data[key]}`;
+        }
+      } else {
+        payload += `${key}=`;
+      }
+    });
+    return payload;
   }
 }

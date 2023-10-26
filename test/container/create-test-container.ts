@@ -103,7 +103,7 @@ export async function createTestContainer(options: {
         const request: Request = context.switchToHttp().getRequest();
         const authorization = request.header('Mock-Session');
         if (authorization === JSON.stringify(mockSession)) {
-          request.user = { ...mockSession };
+          request.user = { ...mockSession } as SessionResource;
           return true;
         }
         throw new UnauthorizedException();

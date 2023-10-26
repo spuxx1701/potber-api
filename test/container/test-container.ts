@@ -32,7 +32,7 @@ export class TestContainer {
 
   public static destroy() {
     if (this._instance) {
-      this._instance.mockServer.close();
+      this._instance.mockServer?.close();
       this._instance = undefined;
     }
   }
