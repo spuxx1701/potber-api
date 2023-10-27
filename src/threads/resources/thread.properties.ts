@@ -16,6 +16,18 @@ export const threadProperties = {
     example: 'pot meets ember: Ein mobile-first web client',
   } as ApiPropertyOptions,
 
+  tags: {
+    description: "The thread's tags.",
+    required: false,
+    example: ['gaming', 'games'],
+  } as ApiPropertyOptions,
+
+  icon: {
+    description: "The thread's icon. Empty or '0' means no icon.",
+    required: false,
+    example: '37',
+  } as ApiPropertyOptions,
+
   repliesCount: {
     description: 'The number of replies (posts) that thread received.',
     example: 320,

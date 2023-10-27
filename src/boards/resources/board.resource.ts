@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
-import { ThreadResource } from 'src/threads/resources/thread.resource';
+import { ThreadReadResource } from 'src/threads/resources/thread.read.resource';
 import { UserResource } from 'src/users/resources/user.resource';
 import { boardProperties } from './board.properties';
 
@@ -18,7 +18,7 @@ export class BoardPageResource {
   threadsCount: number;
 
   @ApiProperty({ description: 'The threads.' })
-  threads: ThreadResource[];
+  threads: ThreadReadResource[];
 }
 
 export class BoardResource {

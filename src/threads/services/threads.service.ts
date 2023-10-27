@@ -3,17 +3,20 @@ import {
   forwardRef,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
-import { PostResource } from 'src/posts/resources/post.resource';
+import { PostReadResource } from 'src/posts/resources/post.read.resource';
 import { PostsService } from 'src/posts/services/posts.services';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
-import { ThreadResource } from '../resources/thread.resource';
+import { ThreadReadResource } from '../resources/thread.read.resource';
 import { ThreadPageResource } from '../resources/thread-page.resource';
 import { EncodingService } from 'src/encoding/encoding.service';
+import { ThreadCreateResource } from '../resources/thread.create.resource';
+import { threadsExceptions } from '../config/threads.exceptions';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}thread.php`;
 
@@ -36,7 +39,7 @@ export class ThreadsService {
    * @param session: The session object.
    * @param options (optional) More options.
    */
-  async findOne(
+  async findById(
     id: string,
     session: SessionResource,
     options?: {
@@ -44,11 +47,11 @@ export class ThreadsService {
       page?: number;
       updateBookmark?: boolean;
     },
-  ): Promise<ThreadResource> {
+  ): Promise<ThreadReadResource> {
     let url = `${ENDPOINT_URL}?TID=${id}`;
     if (options?.postId) {
       url += `&PID=${options.postId}`;
-    } else if (options.page) {
+    } else if (options?.page) {
       url += `&page=${options.page}`;
     }
     if (options?.updateBookmark) {
@@ -73,7 +76,7 @@ export class ThreadsService {
   }
 
   /**
-   * Returns the given post. Essentially wraps threadService.findOne(), extracts the post and offers
+   * Returns the given post. Essentially wraps threadService.findById(), extracts the post and offers
    * some additional post-related functionality.
    * @param threadId
    * @param postId
@@ -84,13 +87,13 @@ export class ThreadsService {
     threadId: string,
     postId: string,
     session: SessionResource,
-  ): Promise<PostResource> {
-    // Since findOne does all required checks, we can simply assume that we
+  ): Promise<PostReadResource> {
+    // Since findById does all required checks, we can simply assume that we
     // receive the page and specific post at this point.
-    const thread = await this.findOne(threadId, session, { postId });
+    const thread = await this.findById(threadId, session, { postId });
     const post = (thread.page as ThreadPageResource).posts.find(
       (post) => post.id === postId,
-    ) as PostResource;
+    ) as PostReadResource;
     return post;
   }
 
@@ -99,7 +102,7 @@ export class ThreadsService {
    * @param threadXml The thread XML object.
    * @returns The thread resource.
    */
-  transformThread(threadXml: Element): ThreadResource {
+  transformThread(threadXml: Element): ThreadReadResource {
     if (threadXml.name === 'invalid-thread') {
       throw new NotFoundException();
     } else if (threadXml.name === 'no-access') {
@@ -145,7 +148,7 @@ export class ThreadsService {
         this.xmljs.getElement('lastpost', threadXml),
       ),
       page: this.transformThreadPage(this.xmljs.getElement('posts', threadXml)),
-    } as ThreadResource;
+    } as ThreadReadResource;
     if (thread.title)
       thread.title = this.encodingService.decodeText(thread.title);
     if (thread.subtitle)
@@ -163,7 +166,7 @@ export class ThreadsService {
     if (!threadPageXml.elements || threadPageXml.elements?.length === 0) {
       throw new NotFoundException();
     }
-    const posts: PostResource[] = [];
+    const posts: PostReadResource[] = [];
     for (const postXml of threadPageXml.elements) {
       posts.push(this.postsService.transformPost(postXml as Element));
     }
@@ -189,5 +192,57 @@ export class ThreadsService {
       if (flagValue) return flagValue === '1';
     }
     return undefined;
+  }
+
+  /**
+   * Creates a new thread. See: https://spuxx1701.github.io/mdexml/#newthread.php
+   * @param thread The new thread and opening post.
+   * @param session The session resource.
+   */
+  async create(
+    thread: ThreadCreateResource,
+    session: SessionResource,
+  ): Promise<ThreadReadResource> {
+    const tokenUrl = `${forumConfig.FORUM_URL}newthread.php?BID=${thread.boardId}`;
+    const token = await this.httpService.getSecurityToken(tokenUrl, session);
+
+    const url = `${forumConfig.FORUM_URL}newthread.php`;
+    const payload = this.httpService.createFormDataPayload({
+      BID: thread.boardId,
+      token,
+      thread_title: this.encodingService.encodeText(thread.title),
+      thread_subtitle: this.encodingService.encodeText(thread.subtitle) ?? '',
+      thread_tags: thread.tags.length > 0 ? thread.tags.join('++') : '',
+      thread_icon: thread.icon ?? '0',
+      message: this.encodingService.encodeText(thread.message),
+      thread_converturls: thread.convertUrls ? '1' : '0',
+      thread_disablebbcode: thread.disableBbCode ? '1' : '0',
+      thread_disablesmilies: thread.disableEmojis ? '1' : '0',
+      submit: 'Eintragen',
+    });
+
+    const { data } = await this.httpService.post(url, payload, {
+      cookie: session.cookie,
+    });
+
+    const threadId = this.getNewThreadId(data);
+    const createdThread = await this.findById(threadId, session);
+
+    Logger.log(
+      `User '${session.username}' (${session.userId}) has created thread '${createdThread.id}' in board '${createdThread.boardId}'.`,
+      this.constructor.name,
+    );
+
+    return createdThread;
+  }
+
+  private getNewThreadId(html: string): string {
+    if (html.includes('Du postest zu viel in zu kurzer Zeit')) {
+      throw threadsExceptions.create.tooManyRequests;
+    }
+    const threadIdRegex = /thread\.php\?TID=(\d*)/i;
+    const threadIdMatches = html.match(threadIdRegex);
+    const threadId = threadIdMatches[1];
+    return threadId;
   }
 }

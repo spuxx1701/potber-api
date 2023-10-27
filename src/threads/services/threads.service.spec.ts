@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
 import { HttpModule } from 'src/http/http.module';
 import { PostsModule } from 'src/posts/posts.module';
-import { PostResource } from 'src/posts/resources/post.resource';
-import { ThreadResource } from '../resources/thread.resource';
+import { PostReadResource } from 'src/posts/resources/post.read.resource';
+import { ThreadReadResource } from '../resources/thread.read.resource';
 import { ThreadsService } from './threads.service';
 import { threadXmlMockData } from './threads.service.spec.includes';
 import { XmlJsService } from 'src/xml-api/xml-js.service';
@@ -28,7 +28,7 @@ describe('Threads | ThreadsService', () => {
       const actual = threadsService.transformThread(
         xmljs.parseXml(threadXmlMockData.full).elements[0],
       );
-      const expected: ThreadResource = {
+      const expected: ThreadReadResource = {
         id: '219289',
         title: 'Foo',
         subtitle: 'Bar',
@@ -107,7 +107,7 @@ describe('Threads | ThreadsService', () => {
               threadId: '219289',
               boardId: '14',
             },
-          ] as PostResource[],
+          ] as PostReadResource[],
         } as ThreadPageResource,
       };
       expect(actual).toEqual(expected);

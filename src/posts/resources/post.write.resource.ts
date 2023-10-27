@@ -22,7 +22,7 @@ export class PostWriteResource {
   title?: string;
 
   @ApiProperty(postProperties.icon)
-  @IsString()
+  @IsNumberString()
   @IsIn(postIcons)
   @IsOptional()
   icon?: string;

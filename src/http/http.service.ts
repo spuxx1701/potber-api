@@ -2,6 +2,8 @@ import { HttpService as NestHttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { catchError, firstValueFrom } from 'rxjs';
+import { SessionResource } from 'src/auth/resources/session.resource';
+import { appExceptions } from 'src/config/app.exceptions';
 import { EncodingService } from 'src/encoding/encoding.service';
 
 export interface RequestOptions {
@@ -97,5 +99,28 @@ export class HttpService {
       }
     });
     return payload;
+  }
+
+  /**
+   * Specific actions (like creating or updating posts) require providing a certain security token. That token
+   * can be found in the corresponding HTML forms. Calling this method will scan the document at the given
+   * location for a token and return it.
+   * @param url The url.
+   * @param session The session resource.
+   */
+  async getSecurityToken(
+    url: string,
+    session: SessionResource,
+  ): Promise<string> {
+    const { data } = await this.get(url, {
+      cookie: session.cookie,
+      decode: true,
+    });
+    const tokenMatches = data.match(/(?:(name='token'\svalue=')(.*?)('\s\/>))/);
+    if (tokenMatches && tokenMatches.length >= 3) {
+      return tokenMatches[2] as string;
+    } else {
+      throw appExceptions.unableToGetToken;
+    }
   }
 }

@@ -1,15 +1,18 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
+  Body,
   Controller,
   ForbiddenException,
   Get,
   NotFoundException,
   Param,
+  Post,
   Query,
   Request,
   UnauthorizedException,
   UseGuards,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,16 +26,16 @@ import { isBooleanString, isDefined } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { threadsExceptions } from '../config/threads.exceptions';
-import { ThreadResource } from '../resources/thread.resource';
+import { ThreadReadResource } from '../resources/thread.read.resource';
 import { ThreadsService } from '../services/threads.service';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { ThreadCreateResource } from '../resources/thread.create.resource';
+import { validationPipe } from 'src/validation/validation.pipe';
 
 @Controller('threads')
-@ApiTags('Threads')
+@UsePipes(validationPipe)
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiTags('Threads')
 @ApiBearerAuth('access-token')
 export class ThreadsController {
   constructor(private readonly service: ThreadsService) {}
@@ -79,26 +82,46 @@ export class ThreadsController {
   })
   @ApiOkResponse({
     description: 'The given thread.',
-    type: ThreadResource,
+    type: ThreadReadResource,
   })
   @ApiException(() => [
     NotFoundException,
     UnauthorizedException,
     ForbiddenException,
   ])
-  async findOne(
+  async findById(
     @Param('id') id: string,
-    @Request() request: any,
+    @Request() request: ExpressRequest,
     @Query('postId') postId?: string,
     @Query('page') page?: number,
     @Query('updateBookmark') updateBookmark?: string,
-  ): Promise<ThreadResource> {
+  ): Promise<ThreadReadResource> {
     if (isDefined(updateBookmark) && !isBooleanString(updateBookmark))
       throw threadsExceptions.updateBookmarkMustBeBoolean;
-    return this.service.findOne(id, request.user, {
+    return this.service.findById(id, request.user, {
       postId,
       page,
       updateBookmark: updateBookmark === 'true',
     });
+  }
+
+  @Post()
+  @ApiOperation({
+    summary: 'Creates a new thread.',
+    description: `reates a new thread.
+    
+    🔒 Protected`,
+  })
+  @ApiOkResponse({
+    description: 'The created thread.',
+    type: ThreadReadResource,
+  })
+  @ApiException(() => Object.values(threadsExceptions.create))
+  async create(
+    @Body() body: ThreadCreateResource,
+    @Request() request: ExpressRequest,
+  ): Promise<ThreadReadResource> {
+    const thread = new ThreadCreateResource({ ...body });
+    return this.service.create(thread, request.user);
   }
 }

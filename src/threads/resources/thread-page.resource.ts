@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PostResource } from 'src/posts/resources/post.resource';
+import { PostReadResource } from 'src/posts/resources/post.read.resource';
 
 export class ThreadPageResource {
   @ApiProperty({ description: "The thread's current page." })
@@ -12,5 +12,5 @@ export class ThreadPageResource {
   offset: number;
 
   @ApiProperty({ description: 'The posts on tuis page.' })
-  posts: PostResource[];
+  posts: PostReadResource[];
 }

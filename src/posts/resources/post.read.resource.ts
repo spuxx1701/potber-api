@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserResource } from 'src/users/resources/user.resource';
 import { postProperties } from './post.properties';
 
-export class PostResource {
+export class PostReadResource {
   @ApiProperty(postProperties.id)
   id: string;
 

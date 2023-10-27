@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<thread xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://forum.mods.de/bb/forum.xsd"
+  current-user-id="1268185"
+  id="219501">
+  <title><![CDATA[neuer thread]]></title>
+  <subtitle><![CDATA[dies ist ein neuer thread]]></subtitle>
+  <number-of-replies value='0' />
+  <number-of-hits value='6' />
+  <number-of-pages value='1' />
+  <flags>
+    <is-closed value="0" />
+    <is-sticky value="0" />
+    <is-important value="0" />
+    <is-announcement value="0" />
+    <is-global value="0" />
+    <is-hidden value="0" />
+    <can-close value="0" />
+    <can-hide value="0" />
+    <can-sticky value="0" />
+    <can-hide-posts value="0" />
+  </flags>
+  <in-board id="75" />
+  <firstpost>
+    <post>
+      <user id="1268185"><![CDATA[Ameisenfutter]]></user>
+      <date timestamp="1698344628">26.10.2023 20:23:48</date>
+      <icon id="37" />
+      <in-thread id="219501" />
+      <in-board id="75" />
+    </post>
+  </firstpost>
+  <token-newreply value="5dab8a269bbc3d17606df671a01abe4d" />
+  <posts page="1"
+    offset="0"
+    count="1">
+    <post id="1250038718">
+      <user id="1268185"
+        group-id="3"><![CDATA[Ameisenfutter]]></user>
+      <date timestamp="1698344628">26.10.2023 20:23:48</date>
+      <message>
+        <edited count="0"></edited>
+        <content><![CDATA[das ist der startpost]]></content>
+        <title><![CDATA[dies ist ein neuer thread]]></title>
+      </message>
+      <avatar id="61255"><![CDATA[./avatare/upload/U1268185--small.png]]></avatar>
+      <icon id="37"><![CDATA[./img/icons/icon7.gif]]></icon>
+      <in-thread id="219501"><![CDATA[neuer thread]]></in-thread>
+      <in-board id="75" />
+      <token-setbookmark value="20378729b8981851d7960f26cc45f351" />
+      <token-editreply value="e8ef7aa0d863801ffa59477a8cd9a31c" />
+    </post>
+  </posts>
+</thread>

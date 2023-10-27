@@ -31,7 +31,7 @@ export class BoardsService {
    * @param id The board's id.
    * @param session The session.
    */
-  async findOne(id: string, session: SessionResource, page?: number) {
+  async findById(id: string, session: SessionResource, page?: number) {
     let url = `${ENDPOINT_URL}?BID=${id}`;
     if (page) url += `&page=${page}`;
     const { data } = await this.httpService.get(url, {

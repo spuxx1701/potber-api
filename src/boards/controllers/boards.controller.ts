@@ -60,11 +60,11 @@ export class BoardsController {
     ForbiddenException,
     NotFoundException,
   ])
-  async findOne(
+  async findById(
     @Param('id') id: string,
     @Request() request: any,
     @Query('page') page?: number,
   ): Promise<BoardResource> {
-    return this.service.findOne(id, request.user, page);
+    return this.service.findById(id, request.user, page);
   }
 }

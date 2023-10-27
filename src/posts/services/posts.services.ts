@@ -14,7 +14,7 @@ import { postsExceptions } from '../config/posts.exceptions';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostLinkResource } from '../resources/post.link.resource';
 import { PostPreviewResource } from '../resources/post.preview.resource';
-import { PostResource } from '../resources/post.resource';
+import { PostReadResource } from '../resources/post.read.resource';
 import { ThreadsService } from 'src/threads/services/threads.service';
 import { EncodingService } from 'src/encoding/encoding.service';
 import { parseAvatarUrl } from 'src/utility/forum.utility';
@@ -38,11 +38,11 @@ export class PostsService {
    * @param session The session resource.
    * @returns The post.
    */
-  async findOne(
+  async findById(
     id: string,
     threadId: string,
     session: SessionResource,
-  ): Promise<PostResource> {
+  ): Promise<PostReadResource> {
     return this.threadsService.findPost(threadId, id, session);
   }
 
@@ -79,7 +79,7 @@ export class PostsService {
   async create(
     post: PostWriteResource,
     session: SessionResource,
-  ): Promise<PostResource> {
+  ): Promise<PostReadResource> {
     Logger.log(
       `User '${session.username}' (${session.userId}) is attempting to create a new post in thread '${post.threadId}'.`,
       this.constructor.name,
@@ -103,7 +103,7 @@ export class PostsService {
     id: string,
     post: PostWriteResource,
     session: SessionResource,
-  ): Promise<PostResource> {
+  ): Promise<PostReadResource> {
     Logger.log(
       `User '${session.username}' (${session.userId}) is attempting to edit post ${id} in thread '${post.threadId}'.`,
       this.constructor.name,
@@ -270,7 +270,7 @@ export class PostsService {
         this.xmljs.getElement('in-board', postXml),
       ),
       avatarUrl: parseAvatarUrl(this.xmljs.getElementCdata('avatar', postXml)),
-    } as PostResource;
+    } as PostReadResource;
     post.contentHidden = !post.message;
     if (post.message)
       post.message = this.encodingService.decodeText(post.message);

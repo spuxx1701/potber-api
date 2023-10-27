@@ -3,7 +3,7 @@ import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
 import { ThreadPageResource } from './thread-page.resource';
 import { threadProperties } from './thread.properties';
 
-export class ThreadResource {
+export class ThreadReadResource {
   @ApiProperty(threadProperties.id)
   id: string;
 

@@ -32,7 +32,7 @@ import {
 } from 'src/validation/validation.pipe';
 import { postsExceptions } from '../config/posts.exceptions';
 import { PostLinkResource } from '../resources/post.link.resource';
-import { PostResource } from '../resources/post.resource';
+import { PostReadResource } from '../resources/post.read.resource';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostsService } from '../services/posts.services';
 import { PostQuoteResource } from '../resources/post.quote.resource';
@@ -68,22 +68,22 @@ export class PostsController {
   })
   @ApiOkResponse({
     description: 'The post.',
-    type: PostResource,
+    type: PostReadResource,
   })
   @ApiException(() => [
     NotFoundException,
     UnauthorizedException,
     ForbiddenException,
   ])
-  async findOne(
+  async findById(
     @Param('id') id: string,
     @Request() request: any,
     @Query('threadId') threadId: string,
-  ): Promise<PostResource> {
+  ): Promise<PostReadResource> {
     if (!isNumberString(threadId)) {
       throw postsExceptions.invalidThreadId;
     }
-    return this.service.findOne(id, threadId, request.user);
+    return this.service.findById(id, threadId, request.user);
   }
 
   @Get(':id/quote')
@@ -131,7 +131,7 @@ export class PostsController {
   create(
     @Body() body: PostWriteResource,
     @Request() request: any,
-  ): Promise<PostResource> {
+  ): Promise<PostReadResource> {
     const post = new PostWriteResource({ ...body });
     return this.service.create(post, request.user);
   }
