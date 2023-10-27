@@ -87,6 +87,7 @@ export class ThreadsController {
     @Request() request: ExpressRequest,
     @Query() query: ThreadsFindByIdQuery,
   ): Promise<ThreadReadResource> {
+    console.log(query);
     return this.service.findById(id, request.user, {
       ...query,
     });

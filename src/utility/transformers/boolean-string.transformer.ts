@@ -1,7 +1,11 @@
 import { Transform } from 'class-transformer';
 
-export function TransformBooleanString() {
-  return Transform(({ value }) => {
-    return value === 'true';
+/**
+ * Implicit conversion does not properly convert boolean strings, so we need to
+ * handle those manually.
+ */
+export function TransformBooleanString(key: string) {
+  return Transform(({ obj }) => {
+    return obj[key].toLowerCase() === 'true';
   });
 }

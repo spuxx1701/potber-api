@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.2.1] - 2023-10-27
+
+### Fixed
+
+- Fixed an issue where boolean string would not be transformed properly with implicit transformation enabled.
+
 ## [2.2.0] - 2023-10-27
 
 ### Added

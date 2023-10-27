@@ -7,7 +7,7 @@ export class PrivateMessagesFindManyQuery {
   @IsOptional()
   folder?: PrivateMessageFolder;
 
-  @TransformBooleanString()
+  @TransformBooleanString('unread')
   @IsBoolean()
   @IsOptional()
   unread?: boolean;

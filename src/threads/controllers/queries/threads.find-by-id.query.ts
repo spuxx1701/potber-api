@@ -17,7 +17,7 @@ export class ThreadsFindByIdQuery {
   @IsOptional()
   page?: number;
 
-  @TransformBooleanString()
+  @TransformBooleanString('updateBookmark')
   @IsBoolean()
   @IsOptional()
   updateBookmark: boolean;
