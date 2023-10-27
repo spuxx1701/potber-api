@@ -2,7 +2,6 @@ import {
   Controller,
   Get,
   Request,
-  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';

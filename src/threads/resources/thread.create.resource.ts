@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { threadProperties } from './thread.properties';
 import {
   IsBoolean,
   IsIn,

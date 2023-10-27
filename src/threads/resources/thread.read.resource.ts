@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PostPreviewResource } from 'src/posts/resources/post.preview.resource';
 import { ThreadPageResource } from './thread-page.resource';
-import { threadProperties } from './thread.properties';
 
 export class ThreadReadResource {
   @ApiProperty({ description: "The thread's unique id.", example: '219289' })

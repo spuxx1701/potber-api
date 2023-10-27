@@ -6,7 +6,6 @@ import {
   HttpCode,
   Post,
   Request,
-  UnauthorizedException,
   UseGuards,
   UseInterceptors,
   UsePipes,

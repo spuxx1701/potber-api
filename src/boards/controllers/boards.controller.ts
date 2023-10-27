@@ -1,13 +1,10 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import {
   Controller,
-  ForbiddenException,
   Get,
-  NotFoundException,
   Param,
   Query,
   Request,
-  UnauthorizedException,
   UseGuards,
   UseInterceptors,
   UsePipes,
