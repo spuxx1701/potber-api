@@ -42,7 +42,7 @@ export class BookmarksService {
    * @param session The session resource.
    * @returns The bookmarks resource array.
    */
-  async getBookmarks(session: SessionResource): Promise<BookmarkResource[]> {
+  async findAll(session: SessionResource): Promise<BookmarkResource[]> {
     const summary = await this.getSummary(session);
     return summary.bookmarks;
   }
@@ -137,7 +137,7 @@ export class BookmarksService {
         `Unable to create bookmark on post '${newBookmark.postId}'.`,
       );
     }
-    const bookmarks = await this.getBookmarks(session);
+    const bookmarks = await this.findAll(session);
     const bookmark = bookmarks.find(
       (bookmark) => bookmark.thread.id === newBookmark.threadId,
     );
@@ -166,7 +166,7 @@ export class BookmarksService {
     if (tokenMatches && tokenMatches.length >= 3) {
       return tokenMatches[2];
     } else {
-      throw bookmarksExceptions.invalidPostId;
+      throw bookmarksExceptions.create.invalidPost;
     }
   }
 
@@ -197,7 +197,7 @@ export class BookmarksService {
    * Returns the removeToken that is required to remove a bookmark.
    */
   async getRemoveToken(id: string, session: SessionResource) {
-    const bookmarks = await this.getBookmarks(session);
+    const bookmarks = await this.findAll(session);
     const bookmark = bookmarks.find((bookmark) => bookmark.id === id);
     if (!bookmark) {
       throw new NotFoundException();

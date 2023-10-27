@@ -24,5 +24,5 @@ export const validateSession = (payload: SessionResource) => {
   // the session contains required properties.
   if (payload.userId && payload.cookie && Date.now() <= payload.exp * 1000)
     return payload;
-  else throw authExceptions.invalidSession;
+  else throw authExceptions.validate.invalidSession;
 };

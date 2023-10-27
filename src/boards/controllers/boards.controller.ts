@@ -10,6 +10,7 @@ import {
   UnauthorizedException,
   UseGuards,
   UseInterceptors,
+  UsePipes,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -23,11 +24,15 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { BoardResource } from '../resources/board.resource';
 import { BoardsService } from '../services/boards.service';
+import { validationPipe } from 'src/validation/validation.pipe';
+import { BoardsFindByIdQuery } from './queries/boards.find-by-id.query';
+import { boardsExceptions } from '../config/boards.exceptions';
 
 @Controller('boards')
-@ApiTags('Boards')
+@UsePipes(validationPipe)
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiTags('Boards')
 @ApiBearerAuth('access-token')
 export class BoardsController {
   constructor(private readonly service: BoardsService) {}
@@ -55,16 +60,12 @@ export class BoardsController {
     description: 'The specified board.',
     type: BoardResource,
   })
-  @ApiException(() => [
-    UnauthorizedException,
-    ForbiddenException,
-    NotFoundException,
-  ])
+  @ApiException(() => Object.values(boardsExceptions.findById))
   async findById(
     @Param('id') id: string,
     @Request() request: any,
-    @Query('page') page?: number,
+    @Query() query: BoardsFindByIdQuery,
   ): Promise<BoardResource> {
-    return this.service.findById(id, request.user, page);
+    return this.service.findById(id, request.user, query.page);
   }
 }

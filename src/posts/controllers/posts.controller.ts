@@ -2,15 +2,12 @@ import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator
 import {
   Body,
   Controller,
-  ForbiddenException,
   Get,
-  NotFoundException,
   Param,
   Post,
   Put,
   Query,
   Request,
-  UnauthorizedException,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -23,25 +20,22 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { isNumberString } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import {
-  validationException,
-  validationPipe,
-} from 'src/validation/validation.pipe';
+import { validationPipe } from 'src/validation/validation.pipe';
 import { postsExceptions } from '../config/posts.exceptions';
-import { PostLinkResource } from '../resources/post.link.resource';
 import { PostReadResource } from '../resources/post.read.resource';
 import { PostWriteResource } from '../resources/post.write.resource';
 import { PostsService } from '../services/posts.services';
 import { PostQuoteResource } from '../resources/post.quote.resource';
 import { PostReportResource } from '../resources/post.report.resource';
+import { PostsFindByIdQuery } from './queries/posts.find-by-id.query';
 
 @Controller('posts')
-@ApiTags('Posts')
+@UsePipes(validationPipe)
 @UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
+@ApiTags('Posts')
 @ApiBearerAuth('access-token')
 export class PostsController {
   constructor(private readonly service: PostsService) {}
@@ -70,20 +64,13 @@ export class PostsController {
     description: 'The post.',
     type: PostReadResource,
   })
-  @ApiException(() => [
-    NotFoundException,
-    UnauthorizedException,
-    ForbiddenException,
-  ])
+  @ApiException(() => Object.values(postsExceptions.findById))
   async findById(
     @Param('id') id: string,
     @Request() request: any,
-    @Query('threadId') threadId: string,
+    @Query() query: PostsFindByIdQuery,
   ): Promise<PostReadResource> {
-    if (!isNumberString(threadId)) {
-      throw postsExceptions.invalidThreadId;
-    }
-    return this.service.findById(id, threadId, request.user);
+    return this.service.findById(id, query.threadId, request.user);
   }
 
   @Get(':id/quote')
@@ -112,7 +99,6 @@ export class PostsController {
   }
 
   @Post()
-  @UsePipes(validationPipe)
   @ApiOperation({
     summary: 'Creates a new post.',
     description: `Creates a new post.
@@ -121,13 +107,9 @@ export class PostsController {
   })
   @ApiOkResponse({
     description: 'Some details that lead to the newly created post.',
-    type: PostLinkResource,
+    type: PostReadResource,
   })
-  @ApiException(() => [
-    validationException,
-    UnauthorizedException,
-    ForbiddenException,
-  ])
+  @ApiException(() => Object.values(postsExceptions.create))
   create(
     @Body() body: PostWriteResource,
     @Request() request: any,
@@ -151,13 +133,9 @@ export class PostsController {
   })
   @ApiOkResponse({
     description: 'Some details that lead to the newly created post.',
-    type: PostLinkResource,
+    type: PostReadResource,
   })
-  @ApiException(() => [
-    validationException,
-    UnauthorizedException,
-    ForbiddenException,
-  ])
+  @ApiException(() => Object.values(postsExceptions.update))
   async update(
     @Param('id') id: string,
     @Body() body: PostWriteResource,
@@ -167,7 +145,6 @@ export class PostsController {
   }
 
   @Post(':id/report')
-  @UsePipes(validationPipe)
   @ApiOperation({
     summary: 'Reports a post.',
     description: `Reports a post. The report will be received by the corresponding board's moderators.
@@ -181,7 +158,6 @@ export class PostsController {
   })
   @ApiOkResponse({
     description: 'The post has been reported successfully.',
-    type: PostLinkResource,
   })
   @ApiException(() => Object.values(postsExceptions.report))
   async report(

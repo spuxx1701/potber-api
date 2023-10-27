@@ -68,9 +68,9 @@ export class AuthService {
     if (/Erfolgreich eingeloggt/.test(data)) {
       return true;
     } else if (/Fehler\sbeim\sEinloggen/.test(data)) {
-      throw authExceptions.wrongCredentials;
+      throw authExceptions.login.wrongCredentials;
     } else {
-      throw authExceptions.unknownLoginFailure;
+      throw authExceptions.login.unknown;
     }
   }
 

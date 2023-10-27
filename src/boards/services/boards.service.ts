@@ -11,6 +11,7 @@ import { UserResource } from 'src/users/resources/user.resource';
 import { UsersService } from 'src/users/services/users.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { BoardPageResource, BoardResource } from '../resources/board.resource';
+import { boardsExceptions } from '../config/boards.exceptions';
 
 const ENDPOINT_URL = `${forumConfig.API_URL}board.php`;
 
@@ -50,17 +51,17 @@ export class BoardsService {
   transformBoard(boardXml: Element): BoardResource {
     // Check whether board is invalid or we do not have access
     if (boardXml.name === 'invalid-board') {
-      throw new NotFoundException();
+      throw boardsExceptions.findById.notFound;
     }
     if (boardXml.name === 'no-access') {
-      throw new ForbiddenException();
+      throw boardsExceptions.findById.forbidden;
     }
     let page: BoardPageResource | undefined;
     const threadsXml = this.xmljs.getElement('threads', boardXml);
     if (threadsXml) {
       // Check if the given page has posts and throw NotFound otherwise
       if (!threadsXml.elements) {
-        throw new NotFoundException();
+        throw boardsExceptions.findById.notFound;
       }
       page = {
         number: parseInt(this.xmljs.getAttribute('page', threadsXml)),

@@ -3,6 +3,7 @@ import { appExceptions } from 'src/config/app.exceptions';
 
 export const privateMessagesExceptions = {
   findMany: {
+    validationFailure: appExceptions.validationFailure,
     unauthorized: appExceptions.unauthorized,
     unknownError: appExceptions.unknown,
   },
@@ -22,6 +23,7 @@ export const privateMessagesExceptions = {
     notFound: new NotFoundException(),
   },
   moveToFolder: {
+    validationFailure: appExceptions.validationFailure,
     unauthorized: appExceptions.unauthorized,
     unknownError: appExceptions.unknown,
     notFound: new NotFoundException(),

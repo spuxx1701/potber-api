@@ -27,9 +27,9 @@ import { LoginResource } from '../resources/login.resource';
 import { SessionResource } from '../resources/session.resource';
 
 @Controller('auth')
-@ApiTags('Authentication')
 @UsePipes(validationPipe)
 @UseInterceptors(LoggingInterceptor)
+@ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly service: AuthService) {}
 
@@ -49,10 +49,7 @@ export class AuthController {
     status: 200,
     type: JwtResource,
   })
-  @ApiException(() => [
-    authExceptions.wrongCredentials,
-    authExceptions.unknownLoginFailure,
-  ])
+  @ApiException(() => Object.values(authExceptions.login))
   async login(@Body() loginResource: LoginResource): Promise<JwtResource> {
     return this.service.login(loginResource);
   }
@@ -68,7 +65,7 @@ export class AuthController {
     description: 'The session details.',
     type: SessionResource,
   })
-  @ApiException(() => UnauthorizedException)
+  @ApiException(() => Object.values(authExceptions.session))
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
   async session(@Request() request: any): Promise<SessionResource> {

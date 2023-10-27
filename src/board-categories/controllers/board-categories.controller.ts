@@ -17,6 +17,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import { BoardCategoryResource } from '../resources/board-category.resource';
 import { BoardCategoriesService } from '../services/board-categories.service';
+import { boardCategoriesExceptions } from '../config/board-categories.exceptions';
 
 @Controller('boardCategories')
 @ApiTags('Boards')
@@ -38,8 +39,10 @@ export class BoardCategoriesController {
     type: BoardCategoryResource,
     isArray: true,
   })
-  @ApiException(() => [UnauthorizedException])
-  async findAll(@Request() request: any): Promise<BoardCategoryResource[]> {
+  @ApiException(() => Object.values(boardCategoriesExceptions.findAll))
+  async findAll(
+    @Request() request: ExpressRequest,
+  ): Promise<BoardCategoryResource[]> {
     return this.service.findAll(request.user);
   }
 }

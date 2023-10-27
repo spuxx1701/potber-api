@@ -1,8 +1,10 @@
 import {
   BadRequestException,
+  ForbiddenException,
   HttpException,
   HttpStatus,
   InternalServerErrorException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -11,6 +13,8 @@ export const appExceptions = {
     'This array contains reasons for why input validation has failed.',
   ]),
   unauthorized: new UnauthorizedException(),
+  forbidden: new ForbiddenException(),
+  notFound: new NotFoundException(),
   unknown: new InternalServerErrorException(),
   unableToGetToken: new InternalServerErrorException(
     'Unable to retrieve security token.',

@@ -23,7 +23,6 @@ export class UsersService {
    * @returns The user resource.
    */
   async findById(id: string): Promise<UserResource> {
-    if (!id) throw usersExceptions.findById.invalidId;
     const { data } = await this.httpService.get(
       `${forumConfig.USER_PAGE_URL}${id}`,
       {

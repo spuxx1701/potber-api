@@ -12,7 +12,7 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { usersExceptions } from '../config/users.exceptions';
+import { usernamesExceptions } from '../config/users.exceptions';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { UsernamesService } from '../services/usernames.service';
 import { validationPipe } from 'src/validation/validation.pipe';
@@ -42,7 +42,7 @@ export class UsernamesController {
     type: String,
     isArray: true,
   })
-  @ApiException(() => Object.values(usersExceptions.findById))
+  @ApiException(() => Object.values(usernamesExceptions.findMany))
   async findMany(@Query() query: UsernamesFindManyQuery): Promise<string[]> {
     return this.service.findMany(query.startsWith);
   }

@@ -22,7 +22,6 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { isBooleanString, isDefined } from 'class-validator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { threadsExceptions } from '../config/threads.exceptions';
@@ -30,6 +29,7 @@ import { ThreadReadResource } from '../resources/thread.read.resource';
 import { ThreadsService } from '../services/threads.service';
 import { ThreadCreateResource } from '../resources/thread.create.resource';
 import { validationPipe } from 'src/validation/validation.pipe';
+import { ThreadsFindByIdQuery } from './queries/threads.find-by-id.query';
 
 @Controller('threads')
 @UsePipes(validationPipe)
@@ -84,24 +84,14 @@ export class ThreadsController {
     description: 'The given thread.',
     type: ThreadReadResource,
   })
-  @ApiException(() => [
-    NotFoundException,
-    UnauthorizedException,
-    ForbiddenException,
-  ])
+  @ApiException(() => Object.values(threadsExceptions.findById))
   async findById(
     @Param('id') id: string,
     @Request() request: ExpressRequest,
-    @Query('postId') postId?: string,
-    @Query('page') page?: number,
-    @Query('updateBookmark') updateBookmark?: string,
+    @Query() query: ThreadsFindByIdQuery,
   ): Promise<ThreadReadResource> {
-    if (isDefined(updateBookmark) && !isBooleanString(updateBookmark))
-      throw threadsExceptions.updateBookmarkMustBeBoolean;
     return this.service.findById(id, request.user, {
-      postId,
-      page,
-      updateBookmark: updateBookmark === 'true',
+      ...query,
     });
   }
 

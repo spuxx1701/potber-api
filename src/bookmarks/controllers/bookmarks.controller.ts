@@ -20,7 +20,6 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { LoggingInterceptor } from 'src/log/logging.interceptor';
-import { validationException } from 'src/validation/validation.pipe';
 import { bookmarksExceptions } from '../config/bookmarks.exceptions';
 import { BookmarkCreateResource } from '../resources/bookmark.create.resource';
 import { BookmarkResource } from '../resources/bookmark.resource';
@@ -47,9 +46,9 @@ export class BookmarksController {
     type: BookmarkResource,
     isArray: true,
   })
-  @ApiException(() => [UnauthorizedException])
-  async findMany(@Request() request: any): Promise<BookmarkResource[]> {
-    return this.service.getBookmarks(request.user);
+  @ApiException(() => Object.values(bookmarksExceptions.findAll))
+  async findAll(@Request() request: any): Promise<BookmarkResource[]> {
+    return this.service.findAll(request.user);
   }
 
   @Get('summary')
@@ -64,7 +63,7 @@ export class BookmarksController {
     type: BookmarksSummaryResource,
     isArray: true,
   })
-  @ApiException(() => [UnauthorizedException])
+  @ApiException(() => Object.values(bookmarksExceptions.summary))
   async getSummary(@Request() request: any): Promise<BookmarksSummaryResource> {
     return this.service.getSummary(request.user);
   }
@@ -80,11 +79,7 @@ export class BookmarksController {
     description: 'The bookmark was created.',
     type: BookmarkResource,
   })
-  @ApiException(() => [
-    validationException,
-    bookmarksExceptions.invalidPostId,
-    UnauthorizedException,
-  ])
+  @ApiException(() => Object.values(bookmarksExceptions.create))
   async create(@Body() body: BookmarkCreateResource, @Request() request: any) {
     return this.service.create(body, request.user);
   }
@@ -99,7 +94,7 @@ export class BookmarksController {
   @ApiOkResponse({
     description: 'The bookmark was deleted.',
   })
-  @ApiException(() => [UnauthorizedException, NotFoundException])
+  @ApiException(() => Object.values(bookmarksExceptions.delete))
   async delete(
     @Param('id') id: string,
     @Request() request: any,

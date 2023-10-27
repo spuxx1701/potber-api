@@ -194,11 +194,6 @@ export class PrivateMessagesController {
     
     🔒 Protected`,
   })
-  @ApiQuery({
-    name: 'folder',
-    description: 'The target folder.',
-    enum: PrivateMessageFolder,
-  })
   @ApiOkResponse({
     description: 'The private message has been marked as unread.',
   })

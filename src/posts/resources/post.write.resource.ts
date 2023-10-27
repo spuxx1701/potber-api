@@ -6,9 +6,11 @@ import {
   IsOptional,
   IsString,
   MaxLength,
+  MinLength,
 } from 'class-validator';
 import { postIcons } from '../config/post-icons';
 import { postProperties } from './post.properties';
+import { Trim } from 'src/utility/transformers/trim.transformer';
 
 export class PostWriteResource {
   @ApiProperty(postProperties.threadId)
@@ -17,6 +19,7 @@ export class PostWriteResource {
 
   @ApiProperty(postProperties.title)
   @IsString()
+  @Trim()
   @IsOptional()
   @MaxLength(255)
   title?: string;
@@ -29,6 +32,8 @@ export class PostWriteResource {
 
   @ApiProperty(postProperties.message)
   @IsString()
+  @Trim()
+  @MinLength(1)
   @MaxLength(15000)
   message: string;
 

@@ -7,18 +7,18 @@ import { swaggerUri } from './config/swagger.config';
 export class AppController {
   @Get()
   @ApiOperation({
-    summary: 'Returns the index document. Contains information about the API.',
-    description: `Returns the index document. Contains information about the API.
+    summary: 'Returns the root document. Contains information about the API.',
+    description: `Returns the root document. Contains information about the API.
     
     🔓 Open Access`,
   })
   @ApiOkResponse({
-    description: 'The index document.',
+    description: 'The root document.',
   })
-  index() {
+  root() {
     return {
       title: 'potber-api',
-      description: 'A RESTful API for forum.mods.de',
+      description: 'A RESTful JSON API for the website https://forum.mods.de',
       author: {
         name: 'Leopold Hock',
         website: 'https://www.spuxx.dev',
@@ -37,7 +37,7 @@ export class AppController {
   @Get('healthz')
   @ApiOperation({
     summary: 'Returns the current health of the API.',
-    description: `Returns the current health of the API. This is mainly used by kubernetes to check the server's status, but you may also use this for the same purpose.
+    description: `Returns the current health of the API. This is mainly used by kubernetes to check the server's status, but it can  also be used by clients to do the same.
     
     🔓 Open Access`,
   })

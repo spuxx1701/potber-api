@@ -1,10 +1,4 @@
-import {
-  ForbiddenException,
-  forwardRef,
-  Inject,
-  Injectable,
-  Logger,
-} from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
@@ -12,7 +6,6 @@ import { UsersService } from 'src/users/services/users.service';
 import { Element, XmlJsService } from 'src/xml-api/xml-js.service';
 import { postsExceptions } from '../config/posts.exceptions';
 import { PostWriteResource } from '../resources/post.write.resource';
-import { PostLinkResource } from '../resources/post.link.resource';
 import { PostPreviewResource } from '../resources/post.preview.resource';
 import { PostReadResource } from '../resources/post.read.resource';
 import { ThreadsService } from 'src/threads/services/threads.service';
@@ -85,7 +78,7 @@ export class PostsService {
       this.constructor.name,
     );
     const url = `${forumConfig.FORUM_URL}newreply.php?TID=${post.threadId}`;
-    const token = await this.getSecurityToken(url, session);
+    const token = await this.httpService.getSecurityToken(url, session);
     const payload = this.createFormBody('post', post, token);
     const { data } = await this.httpService.post(url, payload, {
       cookie: session.cookie,
@@ -109,7 +102,7 @@ export class PostsService {
       this.constructor.name,
     );
     const url = `${forumConfig.FORUM_URL}editreply.php?PID=${id}`;
-    const token = await this.getSecurityToken(url, session);
+    const token = await this.httpService.getSecurityToken(url, session);
     const payload = this.createFormBody('edit', post, token);
     const { data } = await this.httpService.post(url, payload, {
       cookie: session.cookie,
@@ -157,38 +150,14 @@ export class PostsService {
   }
 
   /**
-   * Fetches and returns the security token that is required to perform specific create or edit action.
-   * @param uri The url (e.g. '.../newreply.php?TID=123' or '.../editreply.php?PID=123')
-   * @returns The token.
-   */
-  async getSecurityToken(
-    url: string,
-    session: SessionResource,
-  ): Promise<string> {
-    const { data } = await this.httpService.get(url, {
-      cookie: session.cookie,
-      decode: true,
-    });
-    if (/Keine Zutrittsberechtigung/.test(data)) {
-      throw new ForbiddenException();
-    } else if (/Dieser Thread ist versteckt/.test(data)) {
-      throw postsExceptions.threadIsHidden;
-    }
-    const tokenMatches = data.match(/(?:(name='token'\svalue=')(.*?)('\s\/>))/);
-    if (tokenMatches && tokenMatches.length >= 3) {
-      return tokenMatches[2] as string;
-    } else {
-      throw new Error('Post action failed: Unable to retrieve security token.');
-    }
-  }
-
-  /**
    * Checks the response text returned by the 'newreply.php' or 'editreply.php' endpoints for
    * signs of success and failure.
    * @param text The response text.
-   * @returns .
+   * @returns An object containing the post's id and threadId.
    */
-  processCreateOrEditResponse(text: string): PostLinkResource | null {
+  processCreateOrEditResponse(
+    text: string,
+  ): { id: string; threadId: string } | null {
     if (/Antwort erstellt/.test(text) || /Antwort wurde editiert/.test(text)) {
       // Attempt to retrieve and return the post id
       const postIdMatches = text.match(/(?:(PID=)(\d*)(#))/);
@@ -204,16 +173,15 @@ export class PostsService {
         return {
           id,
           threadId,
-          url: `${process.env.APP_API_URL}/threads/${threadId}/posts/${id}`,
-        } as PostLinkResource;
+        };
       } else return null;
     } else {
       if (new RegExp(/Du postest zu viel in zu kurzer Zeit/).test(text)) {
-        throw postsExceptions.tooManyRequests;
+        throw postsExceptions.create.tooManyRequests;
       } else if (/Dieser Thread ist geschlossen/.test(text)) {
-        throw postsExceptions.threadIsClosed;
+        throw postsExceptions.create.threadIsClosed;
       } else {
-        throw postsExceptions.unknown;
+        throw postsExceptions.create.unknown;
       }
     }
   }
