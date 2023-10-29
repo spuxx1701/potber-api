@@ -8,6 +8,7 @@ export function TransformBooleanString(key: string) {
   return Transform(({ obj }) => {
     if (typeof obj[key] === 'boolean') return obj[key];
     else if (typeof obj[key] === 'undefined') return false;
-    else if (typeof obj[key] === 'string') obj[key].toLowerCase() === 'true';
+    else if (typeof obj[key] === 'string')
+      return obj[key].toLowerCase() === 'true';
   });
 }
