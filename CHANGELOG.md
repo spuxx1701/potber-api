@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [2.2.2] - 2023-10-29
 
+### Changed
+
+- When decoding a response, the decoder now attempts to automatically determine the encoding via the `Content-Type` header.
+
 ### Fixed
 
 - Fixed an issue where the application would get confused about the session state if the user logs out globally via the forum's logout functionality.

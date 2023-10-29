@@ -46,7 +46,11 @@ export class HttpService {
         ),
     );
     if (decode) {
-      const decoder = new TextDecoder('iso-8859-15');
+      const contentTypeHeader: string = (response as any).headers[
+        'content-type'
+      ];
+      const decoding = contentTypeHeader?.split('charset=')[1];
+      const decoder = new TextDecoder(decoding?.toLowerCase() ?? 'iso-8859-15');
       const text = decoder.decode(response.data as ArrayBuffer);
       response.data = text;
     }
