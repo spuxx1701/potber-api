@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.2.2] - 2023-10-29
+
+### Fixed
+
+- Fixed an issue where the application would get confused about the session state if the user logs out globally via the forum's logout functionality.
+
 ## [2.2.1] - 2023-10-27
 
 ### Fixed

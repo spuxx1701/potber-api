@@ -29,7 +29,7 @@ export class HttpService {
    */
   async get(url: string, options?: RequestOptions) {
     const { cookie, headers, decode } = { decode: false, ...options };
-    const response = await firstValueFrom(
+    const response = await firstValueFrom<{ data: ArrayBuffer | string }>(
       this.httpService
         .get(url, {
           responseEncoding: decode ? 'binary' : undefined,
@@ -47,9 +47,17 @@ export class HttpService {
     );
     if (decode) {
       const decoder = new TextDecoder('iso-8859-15');
-      const text = decoder.decode(response.data);
+      const text = decoder.decode(response.data as ArrayBuffer);
       response.data = text;
     }
+    // Sessions may get terminated in case a user uses forum's the global 'log out' function.
+    // We'll check for any signs that happened and return a 401 so the client can act accordingly.
+    if (
+      (response.data as string) ===
+      '<?xml version="1.0" encoding="utf-8" ?>\n<not-logged-in />'
+    )
+      throw appExceptions.unauthorized;
+
     return response as { data: string; headers: Record<string, string> };
   }
 

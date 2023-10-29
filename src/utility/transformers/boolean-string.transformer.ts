@@ -6,6 +6,8 @@ import { Transform } from 'class-transformer';
  */
 export function TransformBooleanString(key: string) {
   return Transform(({ obj }) => {
-    return obj[key].toLowerCase() === 'true';
+    if (typeof obj[key] === 'boolean') return obj[key];
+    else if (typeof obj[key] === 'undefined') return false;
+    else if (typeof obj[key] === 'string') obj[key].toLowerCase() === 'true';
   });
 }
