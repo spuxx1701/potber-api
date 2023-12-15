@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.2.4] - TODO
+
+### Changed
+
+- Updated OpenAPI docs to better document certain fields of `UserResource`.
+
 ## [2.2.3] - 2023-10-19
 
 ### Fixed

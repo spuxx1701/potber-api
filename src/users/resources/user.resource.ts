@@ -8,13 +8,15 @@ export class UserResource {
   id: string;
 
   @ApiProperty({
-    description: "The user's name.",
+    description:
+      "The user's name. Can be undefined if the user has been deleted.",
     example: 'Ameisenfutter',
   })
-  name: string;
+  name?: string;
 
   @ApiProperty({
-    description: "The user's avatar url.",
+    description:
+      "The user's avatar url. Can be undefined if the user has been deleted.",
     example: './avatare/upload/U1268185--small.png',
   })
   avatarUrl?: string;
