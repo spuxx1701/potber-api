@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 - Updated OpenAPI docs to better document certain fields of `UserResource`.
 
+### Fixed
+
+- Fixed typing of `SessionResource`.
+
 ### Chores
 
 - Added support for `nvm`.

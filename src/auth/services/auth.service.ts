@@ -115,13 +115,13 @@ export class AuthService {
     try {
       const userId = await this.getUserId(cookie);
       const { name, avatarUrl } = await this.usersService.findById(userId);
-      const session: SessionResource = {
+      const session: Partial<SessionResource> = {
         userId,
         username: name,
         avatarUrl,
         cookie,
       };
-      return session;
+      return session as SessionResource;
     } catch (error) {
       throw new UnauthorizedException(error.message);
     }

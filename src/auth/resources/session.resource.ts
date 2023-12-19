@@ -24,10 +24,10 @@ export class SessionResource {
   @ApiProperty({
     description: 'When the JWT has been issued.',
   })
-  iat?: number;
+  iat: number;
 
   @ApiProperty({
     description: 'When the JWT will expire.',
   })
-  exp?: number;
+  exp: number;
 }
