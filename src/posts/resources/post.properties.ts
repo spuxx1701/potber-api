@@ -44,7 +44,7 @@ export const postProperties = {
 
   message: {
     description:
-      'The post message. Will be undefined if the message was hidden by a moderator.',
+      'The post message. Will be undefined if the message was hidden by a moderator or if the content has been deleted.',
     example: 'Geposted mit potber-api! ❤',
   } as ApiPropertyOptions,
 
