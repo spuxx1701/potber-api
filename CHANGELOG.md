@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.2.5] - TODO
+
+### Chores
+
+- CORS origins are now being logged on startup.
+
 ## [2.2.4] - 2023-12-21
 
 ### Changed
