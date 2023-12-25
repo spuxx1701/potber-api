@@ -18,7 +18,6 @@ async function bootstrap() {
 
   // Set up CORS
   const origin = configService.get<string>('CORS_ALLOWED_ORIGINS').split(',');
-  console.log(origin);
   Logger.log(
     `CORS enabled. The following origins will be allowed: '${origin.join(
       "', '",
