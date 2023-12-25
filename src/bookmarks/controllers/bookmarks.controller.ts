@@ -8,7 +8,6 @@ import {
   Post,
   Request,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -17,7 +16,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { bookmarksExceptions } from '../config/bookmarks.exceptions';
 import { BookmarkCreateResource } from '../resources/bookmark.create.resource';
 import { BookmarkResource } from '../resources/bookmark.resource';
@@ -26,7 +24,6 @@ import { BookmarksService } from '../services/bookmarks.service';
 
 @Controller('bookmarks')
 @ApiTags('Bookmarks')
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 export class BookmarksController {

@@ -1,5 +1,5 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
-import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
@@ -9,10 +9,8 @@ import {
 import { usersExceptions } from '../config/users.exceptions';
 import { UserResource } from '../resources/user.resource';
 import { UsersService } from '../services/users.service';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 
 @Controller('users')
-@UseInterceptors(LoggingInterceptor)
 @ApiTags('Users')
 export class UsersController {
   constructor(private readonly service: UsersService) {}

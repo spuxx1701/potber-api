@@ -1,17 +1,10 @@
-import {
-  Controller,
-  Get,
-  Request,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
 import { BoardCategoryResource } from '../resources/board-category.resource';
@@ -20,7 +13,6 @@ import { boardCategoriesExceptions } from '../config/board-categories.exceptions
 
 @Controller('boardCategories')
 @ApiTags('Boards')
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 export class BoardCategoriesController {

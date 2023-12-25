@@ -1,11 +1,5 @@
 import { ApiException } from '@nanogiants/nestjs-swagger-api-exception-decorator';
-import {
-  Controller,
-  Get,
-  Query,
-  UseInterceptors,
-  UsePipes,
-} from '@nestjs/common';
+import { Controller, Get, Query, UsePipes } from '@nestjs/common';
 import {
   ApiOkResponse,
   ApiOperation,
@@ -13,13 +7,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { usernamesExceptions } from '../config/users.exceptions';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { UsernamesService } from '../services/usernames.service';
 import { validationPipe } from 'src/validation/validation.pipe';
 import { UsernamesFindManyQuery } from './queries/usernames.find-many.query';
 
 @Controller('usernames')
-@UseInterceptors(LoggingInterceptor)
 @UsePipes(validationPipe)
 @ApiTags('Users')
 export class UsernamesController {

@@ -6,7 +6,6 @@ import {
   Query,
   Request,
   UseGuards,
-  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -18,7 +17,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { BoardResource } from '../resources/board.resource';
 import { BoardsService } from '../services/boards.service';
 import { validationPipe } from 'src/validation/validation.pipe';
@@ -27,7 +25,6 @@ import { boardsExceptions } from '../config/boards.exceptions';
 
 @Controller('boards')
 @UsePipes(validationPipe)
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiTags('Boards')
 @ApiBearerAuth('access-token')

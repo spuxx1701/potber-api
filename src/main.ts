@@ -9,6 +9,7 @@ import {
   swaggerUri,
 } from './config/swagger.config';
 import { Logger } from '@nestjs/common';
+import { ResponseLoggingInterceptor } from './log/response.logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,7 @@ async function bootstrap() {
 
   // Set up CORS
   const origin = configService.get<string>('CORS_ALLOWED_ORIGINS').split(',');
+  console.log(origin);
   Logger.log(
     `CORS enabled. The following origins will be allowed: '${origin.join(
       "', '",
@@ -33,6 +35,8 @@ async function bootstrap() {
   SwaggerModule.setup(swaggerUri, app, document, {
     swaggerOptions,
   });
+
+  app.useGlobalInterceptors(new ResponseLoggingInterceptor());
 
   const port = configService.get<number>('APP_PORT');
   await app.listen(port);

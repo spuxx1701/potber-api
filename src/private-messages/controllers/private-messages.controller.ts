@@ -9,7 +9,6 @@ import {
   Query,
   Request,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,7 +21,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { PrivateMessagesService } from '../services/private-messages.service';
 import { PrivateMessageReadResource } from '../resources/private-message.read.resource';
 import { PrivateMessageFolder } from '../types';
@@ -35,7 +33,6 @@ import { PrivateMessageSendResource } from '../resources/private-message.send.re
 
 @Controller('privateMessages')
 @UsePipes(validationPipe)
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth('access-token')
 @ApiTags('Private messages')

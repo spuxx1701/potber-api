@@ -8,7 +8,6 @@ import {
   Query,
   Request,
   UseGuards,
-  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -20,7 +19,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { threadsExceptions } from '../config/threads.exceptions';
 import { ThreadReadResource } from '../resources/thread.read.resource';
 import { ThreadsService } from '../services/threads.service';
@@ -30,7 +28,6 @@ import { ThreadsFindByIdQuery } from './queries/threads.find-by-id.query';
 
 @Controller('threads')
 @UsePipes(validationPipe)
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiTags('Threads')
 @ApiBearerAuth('access-token')

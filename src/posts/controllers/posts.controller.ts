@@ -9,7 +9,6 @@ import {
   Query,
   Request,
   UseGuards,
-  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -21,7 +20,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { validationPipe } from 'src/validation/validation.pipe';
 import { postsExceptions } from '../config/posts.exceptions';
 import { PostReadResource } from '../resources/post.read.resource';
@@ -33,7 +31,6 @@ import { PostsFindByIdQuery } from './queries/posts.find-by-id.query';
 
 @Controller('posts')
 @UsePipes(validationPipe)
-@UseInterceptors(LoggingInterceptor)
 @UseGuards(JwtAuthGuard)
 @ApiTags('Posts')
 @ApiBearerAuth('access-token')

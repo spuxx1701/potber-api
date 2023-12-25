@@ -7,7 +7,6 @@ import {
   Post,
   Request,
   UseGuards,
-  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import {
@@ -16,7 +15,6 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { LoggingInterceptor } from 'src/log/logging.interceptor';
 import { validationPipe } from 'src/validation/validation.pipe';
 import { authExceptions } from '../config/auth.exceptions';
 import { AuthService } from '../services/auth.service';
@@ -27,7 +25,6 @@ import { SessionResource } from '../resources/session.resource';
 
 @Controller('auth')
 @UsePipes(validationPipe)
-@UseInterceptors(LoggingInterceptor)
 @ApiTags('Authentication')
 export class AuthController {
   constructor(private readonly service: AuthService) {}
