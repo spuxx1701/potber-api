@@ -70,8 +70,9 @@ export class ThreadsService {
       thread.page &&
       !thread.page.posts.find((post) => post.id === options.postId)
     ) {
-      throw new NotFoundException();
+      throw threadsExceptions.findById.notFound;
     }
+    console.log(thread.page.number);
     return thread;
   }
 
@@ -104,11 +105,11 @@ export class ThreadsService {
    */
   transformThread(threadXml: Element): ThreadReadResource {
     if (threadXml.name === 'invalid-thread') {
-      throw new NotFoundException();
+      throw threadsExceptions.findById.notFound;
     } else if (threadXml.name === 'no-access') {
-      throw new ForbiddenException();
+      throw threadsExceptions.findById.forbidden;
     } else if (threadXml.name === 'thread-hidden') {
-      throw new NotFoundException();
+      throw threadsExceptions.findById.notFound;
     }
     const thread = {
       id: this.xmljs.getAttribute('id', threadXml),
@@ -164,7 +165,7 @@ export class ThreadsService {
   transformThreadPage(threadPageXml: Element) {
     if (!threadPageXml) return undefined;
     if (!threadPageXml.elements || threadPageXml.elements?.length === 0) {
-      throw new NotFoundException();
+      throw threadsExceptions.findById.notFound;
     }
     const posts: PostReadResource[] = [];
     for (const postXml of threadPageXml.elements) {

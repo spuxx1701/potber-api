@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 - Request/response logging now utilizes both middlewares and interceptors to also log requests that were turned down (e.g. due to CORS).
 
+### Fixed
+
+- Fixed some exceptions in `/threads/:id` not being documented properly.
+
 ### Chores
 
 - CORS origins are now being logged on startup.

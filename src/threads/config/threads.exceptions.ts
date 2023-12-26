@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { appExceptions } from 'src/config/app.exceptions';
 
 export const threadsExceptions = {
@@ -5,6 +6,7 @@ export const threadsExceptions = {
     validationFailure: appExceptions.validationFailure,
     unauthorized: appExceptions.unauthorized,
     forbidden: appExceptions.forbidden,
+    notFound: new NotFoundException(),
     unknown: appExceptions.unknown,
   },
   create: {
