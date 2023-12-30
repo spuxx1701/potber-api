@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 
 - Request/response logging now utilizes both middlewares and interceptors to also log requests that were turned down (e.g. due to CORS).
+- Increased the timeout value for outgoing requests to 30 seconds.
 
 ### Fixed
 
