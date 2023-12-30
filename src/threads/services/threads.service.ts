@@ -72,7 +72,6 @@ export class ThreadsService {
     ) {
       throw threadsExceptions.findById.notFound;
     }
-    console.log(thread.page.number);
     return thread;
   }
 
