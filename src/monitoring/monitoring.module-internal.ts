@@ -14,4 +14,3 @@ import { MonitoringDummyController } from './monitoring.dummy-controller';
   ],
 })
 export class MonitoringInteralModule {}
-
