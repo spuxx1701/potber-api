@@ -17,12 +17,14 @@ import { ThreadsModule } from './threads/threads.module';
 import { UsersModule } from './users/users.module';
 import { PrivateMessagesModule } from './private-messages/private-messages.module';
 import { RequestLoggingMiddleware } from './log/request.logging.middleware';
+import { MonitoringModule } from './monitoring/monitoring.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    MonitoringModule,
     EncodingModule,
     HttpModule,
     AuthModule,
