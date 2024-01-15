@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.3.1] - UNRELEASED
+
+### Chores
+
+- Improved how metrics are being handled and added the `http_requests_total` metric.
+
 ## [2.3.0] - 2024-01-15
 
 ### Added
