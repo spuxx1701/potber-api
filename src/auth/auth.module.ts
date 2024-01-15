@@ -23,7 +23,7 @@ import { corsConfig } from 'src/config/cors.config';
     XmlApiModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('application.auth.jwtSecret'),
+        secret: configService.get<string>('AUTH_JWT_SECRET'),
       }),
       inject: [ConfigService],
     }),

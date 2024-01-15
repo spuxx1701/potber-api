@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [2.3.1] - UNRELEASED
+## [2.3.1] - 2024-01-15
+
+### Fixed
+
+- Fixed a critical bug that would prevent logins.
 
 ### Chores
 
