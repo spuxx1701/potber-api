@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { EncodingModule } from 'src/encoding/encoding.module';
 import { HttpModule } from 'src/http/http.module';
@@ -8,15 +8,22 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
+import { appConfig } from 'src/config/app.config';
+import { corsConfig } from 'src/config/cors.config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig, corsConfig],
+    }),
+
     EncodingModule,
     HttpModule,
     XmlApiModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('AUTH_JWT_SECRET'),
+        secret: configService.get<string>('application.auth.jwtSecret'),
       }),
       inject: [ConfigService],
     }),

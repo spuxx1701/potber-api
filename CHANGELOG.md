@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## [2.2.5] - 2024-01-15
 
+### Added
+
+- Implemented metrics endpoint for prometheus.
+
 ### Changed
 
 - Request/response logging now utilizes both middlewares and interceptors to also log requests that were turned down (e.g. due to CORS).
