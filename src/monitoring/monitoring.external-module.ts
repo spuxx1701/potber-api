@@ -10,7 +10,7 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
   imports: [
     PrometheusModule.register({
       defaultMetrics: {
-        enabled: false,
+        enabled: true,
       },
     }),
   ],
