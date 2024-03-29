@@ -20,7 +20,7 @@ export class AppController {
       title: 'potber-api',
       description: 'A RESTful JSON API for the website https://forum.mods.de',
       author: {
-        name: 'Leopold Hock',
+        name: 'Ameisenfutter',
         website: 'https://www.spuxx.dev',
         github: 'https://www.github.com/spuxx1701',
       },
