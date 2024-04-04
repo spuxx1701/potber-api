@@ -2,10 +2,7 @@ import { TestContainer, createTestContainer } from 'test/container';
 import { ThreadsModule } from './threads.module';
 import { threadsHandlers } from 'test/msw/handlers/threads/threads.handlers';
 import { fakeRequest } from 'test/helpers/fake-request';
-import {
-  OpeningPostResource,
-  ThreadCreateResource,
-} from './resources/thread.create.resource';
+import { ThreadCreateResource } from './resources/thread.create.resource';
 import { ThreadReadResource } from './resources/thread.read.resource';
 
 describe('Threads | e2e', () => {
