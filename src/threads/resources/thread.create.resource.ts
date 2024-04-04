@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   IsBoolean,
   IsIn,
@@ -7,6 +8,7 @@ import {
   IsString,
   MaxLength,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
 import { postIcons } from 'src/posts/config/post-icons';
 import { postProperties } from 'src/posts/resources/post.properties';
@@ -89,6 +91,8 @@ export class ThreadCreateResource {
     description: 'The opening post of the thread.',
     type: OpeningPostResource,
   })
+  @ValidateNested()
+  @Type(() => OpeningPostResource)
   openingPost: OpeningPostResource;
 
   constructor(init: ThreadCreateResource) {

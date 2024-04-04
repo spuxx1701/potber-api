@@ -128,7 +128,7 @@ describe('Threads | e2e', () => {
       } as ThreadCreateResource);
       expect(response.status).toBe(400);
       expect(response.body.message).toContain(
-        'message must be longer than or equal to 1 characters',
+        'openingPost.message must be longer than or equal to 1 characters',
       );
     });
 
