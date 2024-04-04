@@ -1,11 +1,4 @@
-import {
-  ForbiddenException,
-  forwardRef,
-  Inject,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { forumConfig } from 'src/config/forum.config';
 import { HttpService } from 'src/http/http.service';
@@ -207,19 +200,25 @@ export class ThreadsService {
     const token = await this.httpService.getSecurityToken(tokenUrl, session);
 
     const url = `${forumConfig.FORUM_URL}newthread.php`;
-    const payload = this.httpService.createFormDataPayload({
-      BID: thread.boardId,
-      token,
-      thread_title: this.encodingService.encodeText(thread.title),
-      thread_subtitle: this.encodingService.encodeText(thread.subtitle) ?? '',
-      thread_tags: thread.tags.length > 0 ? thread.tags.join('++') : '',
-      thread_icon: thread.icon ?? '0',
-      message: this.encodingService.encodeText(thread.message),
-      thread_converturls: thread.convertUrls ? '1' : '0',
-      thread_disablebbcode: thread.disableBbCode ? '1' : '0',
-      thread_disablesmilies: thread.disableEmojis ? '1' : '0',
-      submit: 'Eintragen',
-    });
+    const payload = this.httpService.createFormDataPayload(
+      {
+        BID: thread.boardId,
+        token,
+        thread_title: thread.title,
+        thread_subtitle: thread.subtitle ?? '',
+        thread_tags: thread.tags.length > 0 ? thread.tags.join('++') : '',
+        thread_icon: thread.icon ?? '0',
+        message: thread.message,
+        thread_converturls: thread.convertUrls ? '1' : '0',
+        thread_disablebbcode: thread.disableBbCode ? '1' : '0',
+        thread_disablesmilies: thread.disableEmojis ? '1' : '0',
+        submit: 'Eintragen',
+      },
+      {
+        encode: true,
+        escapeHtml: true,
+      },
+    );
 
     const { data } = await this.httpService.post(url, payload, {
       cookie: session.cookie,

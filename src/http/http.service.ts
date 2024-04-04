@@ -10,6 +10,7 @@ export interface RequestOptions {
   cookie?: string;
   headers?: Record<string, string>;
   decode?: boolean;
+  encoding?: string;
 }
 
 @Injectable()
@@ -50,7 +51,7 @@ export class HttpService {
         'content-type'
       ];
       const decoding = contentTypeHeader?.split('charset=')[1];
-      const decoder = new TextDecoder(decoding?.toLowerCase() ?? 'iso-8859-15');
+      const decoder = new TextDecoder(decoding?.toLowerCase() ?? 'iso-8859-1');
       const text = decoder.decode(response.data as ArrayBuffer);
       response.data = text;
     }
@@ -73,12 +74,14 @@ export class HttpService {
    * @returns The response object.
    */
   async post(url: string, payload: any, options?: RequestOptions) {
+    const { encoding } = { encoding: 'iso-8859-15', ...options };
+    console.log(payload);
     return firstValueFrom(
       this.httpService
         .post(url, payload, {
           headers: {
             Cookie: options?.cookie,
-            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            'Content-Type': `application/x-www-form-urlencoded;charset=${encoding}`,
             ...options?.headers,
           },
         })
@@ -96,13 +99,30 @@ export class HttpService {
    * @param options.encode (optional) Whether string values should be encoded.
    * @returns The payload string.
    */
-  createFormDataPayload(data: object, options?: { encode?: true }): string {
+  createFormDataPayload(
+    data: object,
+    options?: {
+      encode?: boolean;
+      escapeHtml?: boolean;
+      replaceUnsupportedCharacters?: boolean;
+    },
+  ): string {
     let payload = '';
     Object.keys(data).forEach((key, index) => {
       if (index >= 1) payload += '&';
       if (data[key]) {
         if (typeof data[key] === 'string' && options?.encode) {
-          payload += `${key}=${this.encodingService.encodeText(data[key])}`;
+          let value = data[key];
+          if (options?.replaceUnsupportedCharacters) {
+            value = this.encodingService.replaceUnsupportedCharacters(value);
+          }
+          if (options?.encode) {
+            value = this.encodingService.encode(value);
+          }
+          if (options?.escapeHtml) {
+            value = this.encodingService.escapeHtml(value);
+          }
+          payload += `${key}=${value}`;
         } else {
           payload += `${key}=${data[key]}`;
         }
@@ -110,6 +130,7 @@ export class HttpService {
         payload += `${key}=`;
       }
     });
+    console.log(payload);
     return payload;
   }
 

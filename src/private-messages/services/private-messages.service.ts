@@ -491,6 +491,8 @@ export class PrivateMessagesService {
       },
       {
         encode: true,
+        escapeHtml: false,
+        replaceUnsupportedCharacters: true,
       },
     );
     const { data } = await this.httpService.post(url, payload, {

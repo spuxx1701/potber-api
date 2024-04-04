@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [2.3.3] - 2024-04-04
+
+### Fixed
+
+- Fixed some more encoding issues only affecting private messages.
+
+### Chores
+
+- Bumped Dockerfile node version to 18.
+
 ## [2.3.2] - 2024-01-15
 
 ### Fixed

@@ -72,6 +72,22 @@ export class EncodingService {
   }
 
   /**
+   * Replaces unsupported characters with supported alternatives. Can help
+   * to avoid certain encoding issues.
+   */
+  replaceUnsupportedCharacters(input: string) {
+    const result = [...input]
+      .map((char) => {
+        const code = char.codePointAt(0);
+        // Replace non-breaking spaces with regular spaces
+        if (code === 160) return ' ';
+        else return char;
+      })
+      .join('');
+    return result;
+  }
+
+  /**
    * Unescapes HTML codes to their corresponding utf-8 characters.
    * @param input The input string.
    * @returns The output string.

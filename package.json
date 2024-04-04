@@ -1,6 +1,6 @@
 {
   "name": "potber-api",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A modern JSON API for forum.mods.de",
   "author": "https://spuxx.dev",
   "private": true,
