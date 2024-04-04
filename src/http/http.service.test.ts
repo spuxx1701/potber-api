@@ -30,9 +30,9 @@ describe('Http | HttpService', () => {
         emoji: '🥳',
       };
       const expected = 'username=[potber]%E4%F6%FC%B2&emoji=%26%23129395%3B';
-      expect(service.createFormDataPayload(data, { encode: true })).toBe(
-        expected,
-      );
+      expect(
+        service.createFormDataPayload(data, { encode: true, escapeHtml: true }),
+      ).toBe(expected);
     });
   });
 });
