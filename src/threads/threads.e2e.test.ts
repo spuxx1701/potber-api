@@ -2,7 +2,10 @@ import { TestContainer, createTestContainer } from 'test/container';
 import { ThreadsModule } from './threads.module';
 import { threadsHandlers } from 'test/msw/handlers/threads/threads.handlers';
 import { fakeRequest } from 'test/helpers/fake-request';
-import { ThreadCreateResource } from './resources/thread.create.resource';
+import {
+  OpeningPostResource,
+  ThreadCreateResource,
+} from './resources/thread.create.resource';
 import { ThreadReadResource } from './resources/thread.read.resource';
 
 describe('Threads | e2e', () => {
@@ -22,9 +25,11 @@ describe('Threads | e2e', () => {
       const response = await request.send({
         boardId: '75',
         title: 'neuer thread',
-        subtitle: 'dies ist ein neuer thread',
-        message: 'das ist der startpost',
-        icon: '37',
+        openingPost: {
+          title: 'dies ist ein neuer thread',
+          message: 'das ist der startpost',
+          icon: '37',
+        },
       } as ThreadCreateResource);
       expect(response.status).toBe(201);
       expect(response.body).toStrictEqual({
@@ -87,9 +92,11 @@ describe('Threads | e2e', () => {
       const response = await request.send({
         boardId: '75',
         title: 'neuer thread',
-        subtitle: 'dies ist ein neuer thread',
-        message: 'das ist der startpost',
-        icon: '37',
+        openingPost: {
+          title: 'dies ist ein neuer thread',
+          message: 'das ist der startpost',
+          icon: '37',
+        },
       } as ThreadCreateResource);
       expect(response.status).toBe(401);
     });
@@ -99,9 +106,11 @@ describe('Threads | e2e', () => {
       const response = await request.send({
         boardId: '75',
         title: '',
-        subtitle: 'dies ist ein neuer thread',
-        message: 'das ist der startpost',
-        icon: '37',
+        openingPost: {
+          title: 'dies ist ein neuer thread',
+          message: 'das ist der startpost',
+          icon: '37',
+        },
       } as ThreadCreateResource);
       expect(response.status).toBe(400);
       expect(response.body.message).toContain(
@@ -114,9 +123,11 @@ describe('Threads | e2e', () => {
       const response = await request.send({
         boardId: '75',
         title: 'neuer thread',
-        subtitle: 'dies ist ein neuer thread',
-        message: '',
-        icon: '37',
+        openingPost: {
+          title: 'dies ist ein neuer thread',
+          message: '',
+          icon: '37',
+        },
       } as ThreadCreateResource);
       expect(response.status).toBe(400);
       expect(response.body.message).toContain(
@@ -129,9 +140,11 @@ describe('Threads | e2e', () => {
       const response = await request.send({
         boardId: '',
         title: 'neuer thread',
-        subtitle: 'dies ist ein neuer thread',
-        message: 'das ist der startpost',
-        icon: '37',
+        openingPost: {
+          title: 'dies ist ein neuer thread',
+          message: 'das ist der startpost',
+          icon: '37',
+        },
       } as ThreadCreateResource);
       expect(response.status).toBe(400);
       expect(response.body.message).toContain(

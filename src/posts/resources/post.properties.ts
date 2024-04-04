@@ -78,18 +78,21 @@ export const postProperties = {
   convertUrls: {
     description: 'Whether URLs should be converted to URL tags automatically.',
     default: true,
+    required: false,
   } as ApiPropertyOptions,
 
   disableBbCode: {
     description:
       'Whether BBCode should not be used. If set to true, BBCode tags will be displayed as plain text.',
     default: false,
+    required: false,
   } as ApiPropertyOptions,
 
   disableEmojis: {
     description:
       'Whether emojis should not be converted automatically. If set to true, emojis will be displayed as plain text.',
     default: false,
+    required: false,
   } as ApiPropertyOptions,
 
   url: {

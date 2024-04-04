@@ -12,57 +12,30 @@ import { postIcons } from 'src/posts/config/post-icons';
 import { postProperties } from 'src/posts/resources/post.properties';
 import { Trim } from 'src/utility/transformers/trim.transformer';
 
-export class ThreadCreateResource {
+export class OpeningPostResource {
   @ApiProperty({
-    description: 'The board you want the thread to create in.',
-    example: '75',
-  })
-  @IsNumberString()
-  boardId: string;
-
-  @ApiProperty({
-    description: "The thread's title.",
-    example: 'This thread was created using potber-api!',
-  })
-  @IsString()
-  @Trim()
-  @MinLength(1)
-  @MaxLength(255)
-  title: string;
-
-  @ApiProperty({
-    description: "The thread's subtitle.",
+    description:
+      "The opening post's title. Acts as the thread's subtitle. Can be empty.",
     example: "It's a lot of fun!",
+    required: false,
   })
   @IsString()
   @Trim()
   @MaxLength(255)
   @IsOptional()
-  subtitle?: string;
+  title?: string;
 
   @ApiProperty({
-    description:
-      "The thread's icon. Will be the same as as the opening post's icon.",
+    description: "The opening posts's icon. Acts as the thread's icon.",
     example: '37',
+    required: false,
   })
   @IsNumberString()
   @IsIn(postIcons)
   @IsOptional()
   icon?: string;
 
-  @ApiProperty({
-    description: "The thread's tags.",
-    example: ['potber', 'potber-api'],
-  })
-  @IsString({ each: true })
-  @IsOptional()
-  tags?: string[] = [];
-
-  @ApiProperty({
-    description: "The message body of the thread's opening post.",
-    example:
-      'This thread was created using potber-api. Find out more about potber-api [url=https://github.com/spuxx1701/potber-api]here[/url]!',
-  })
+  @ApiProperty(postProperties.message)
   @IsString()
   @Trim()
   @MinLength(1)
@@ -83,6 +56,40 @@ export class ThreadCreateResource {
   @IsOptional()
   @IsBoolean()
   disableEmojis?: boolean = postProperties.disableEmojis.default;
+}
+
+export class ThreadCreateResource {
+  @ApiProperty({
+    description: 'The board you want the thread to create in.',
+    example: '75',
+  })
+  @IsNumberString()
+  boardId: string;
+
+  @ApiProperty({
+    description: "The thread's title.",
+    example: 'This thread was created using potber-api!',
+  })
+  @IsString()
+  @Trim()
+  @MinLength(1)
+  @MaxLength(255)
+  title: string;
+
+  @ApiProperty({
+    description: "The thread's tags.",
+    example: ['potber', 'potber-api'],
+    required: false,
+  })
+  @IsString({ each: true })
+  @IsOptional()
+  tags?: string[] = [];
+
+  @ApiProperty({
+    description: 'The opening post of the thread.',
+    type: OpeningPostResource,
+  })
+  openingPost: OpeningPostResource;
 
   constructor(init: ThreadCreateResource) {
     for (const key in init) {

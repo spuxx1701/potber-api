@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [2.3.3] - 2024-04-04
+## [3.0.0] - UNRELEASED
+
+### Changed
+
+- 💥 Breaking: `POST '/threads` route now uses a different payload format.
 
 ### Fixed
 
