@@ -5,6 +5,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { SessionResource } from 'src/auth/resources/session.resource';
 import { appExceptions } from 'src/config/app.exceptions';
 import { EncodingService } from 'src/encoding/encoding.service';
+import { defaultHeaders } from './http.config';
 
 export interface RequestOptions {
   cookie?: string;
@@ -37,6 +38,7 @@ export class HttpService {
           responseType: decode ? 'arraybuffer' : undefined,
           headers: {
             Cookie: cookie,
+            ...defaultHeaders,
             ...headers,
           },
         })
@@ -74,15 +76,18 @@ export class HttpService {
    * @returns The response object.
    */
   async post(url: string, payload: any, options?: RequestOptions) {
-    const { encoding } = { encoding: 'iso-8859-15', ...options };
-    console.log(payload);
+    const { encoding, cookie, headers } = {
+      encoding: 'iso-8859-15',
+      ...options,
+    };
     return firstValueFrom(
       this.httpService
         .post(url, payload, {
           headers: {
-            Cookie: options?.cookie,
+            Cookie: cookie,
             'Content-Type': `application/x-www-form-urlencoded;charset=${encoding}`,
-            ...options?.headers,
+            ...defaultHeaders,
+            ...headers,
           },
         })
         .pipe(
