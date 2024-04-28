@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [3.1.0] - 2024-04-28
+
+### Changed
+
+- User accounts that have been locked permanently are no longer allowed to log into potber-api. User accounts that have been locked temporarily are not affected.
+
 ## [3.0.0] - 2024-04-05
 
 ### Changed

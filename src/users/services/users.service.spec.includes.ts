@@ -149,6 +149,7 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
       activity: 'online',
       status: 'aktiv',
       age: '15.10.2007 19:44 (5691 Tage)',
+      locked: false,
     },
   },
   {
@@ -250,6 +251,7 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
       activity: 'war heute online',
       status: 'aktiv',
       age: '17.02.2002 00:00 (7822 Tage)',
+      locked: false,
     },
   },
   {
@@ -363,6 +365,7 @@ export const userProfileMockData: UserProfileMockDatEntry[] = [
       activity: 'offline seit über sieben Monaten',
       status: 'aktiv',
       age: '30.08.2004 19:58 (6896 Tage)',
+      locked: false,
     },
   },
 ];

@@ -1,4 +1,9 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { forumConfig } from 'src/config/forum.config';
 import { authExceptions } from '../config/auth.exceptions';
 import { LoginResource } from '../resources/login.resource';
@@ -114,7 +119,14 @@ export class AuthService {
   async createSession(cookie: string): Promise<SessionResource> {
     try {
       const userId = await this.getUserId(cookie);
-      const { name, avatarUrl } = await this.usersService.findById(userId);
+      const { name, avatarUrl, locked, status } =
+        await this.usersService.findById(userId);
+      // If the use account has been locked permanently, the login should fail.
+      // We check both locked and status since locked will also be true if the account
+      // has been locked temporarily.
+      if (locked && status === 'gesperrt') {
+        throw authExceptions.login.lockedPermanently;
+      }
       const session: Partial<SessionResource> = {
         userId,
         username: name,
@@ -123,6 +135,7 @@ export class AuthService {
       };
       return session as SessionResource;
     } catch (error) {
+      if (error instanceof ForbiddenException) throw error;
       throw new UnauthorizedException(error.message);
     }
   }

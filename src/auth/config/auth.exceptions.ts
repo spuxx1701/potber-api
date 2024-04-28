@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { appExceptions } from 'src/config/app.exceptions';
 
 export const authExceptions = {
@@ -7,6 +7,9 @@ export const authExceptions = {
     unknown: appExceptions.unknown,
     wrongCredentials: new UnauthorizedException(
       'Login failed (possibly due to wrong credentials).',
+    ),
+    lockedPermanently: new ForbiddenException(
+      'The account has been locked permanently. potber-api does not support permenently locked accounts logging in.',
     ),
   },
   validate: {

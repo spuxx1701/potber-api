@@ -67,6 +67,7 @@ export class UsersService {
     const ageMatches = html.match(
       /Dabei\sseit:<\/td>(?:\s*)<td class="attrv">(.*)<\/td>/,
     );
+    const locked = html.includes('<td class="attrv">gesperrt');
     const age = ageMatches[1];
     const user: UserResource = {
       id,
@@ -77,6 +78,7 @@ export class UsersService {
       status,
       avatarUrl,
       age,
+      locked,
     };
     return user;
   }
