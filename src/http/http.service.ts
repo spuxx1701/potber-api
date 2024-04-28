@@ -135,7 +135,6 @@ export class HttpService {
         payload += `${key}=`;
       }
     });
-    console.log(payload);
     return payload;
   }
 
