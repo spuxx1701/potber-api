@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Changed
 
 - User accounts that have been locked permanently are no longer allowed to log into potber-api. User accounts that have been locked temporarily are not affected.
+- Outgoing http requests now provide the `User-Agent: potber-api` http header.
 
 ## [3.0.0] - 2024-04-05
 
