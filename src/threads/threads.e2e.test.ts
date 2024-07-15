@@ -98,6 +98,19 @@ describe('Threads | e2e', () => {
       expect(response.status).toBe(401);
     });
 
+    it('should return 403', async () => {
+      container.mockServer.use(...threadsHandlers.create.forbidden);
+      const request = fakeRequest(container.app, 'POST', '/threads');
+      const response = await request.send({
+        boardId: '403',
+        title: 'hier darf ich keinen thread erstellen',
+        openingPost: {
+          message: 'wirklich schade',
+        },
+      } as ThreadCreateResource);
+      expect(response.status).toBe(403);
+    });
+
     it('should fail validation due to missing title', async () => {
       const request = fakeRequest(container.app, 'POST', '/threads');
       const response = await request.send({

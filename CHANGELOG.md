@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [UNRELEASED]
+
+### Fixed
+
+- Attempting to create a thread in a board without the required permissions now properly raises a 403 status code.
+
 ## [3.1.0] - 2024-04-28
 
 ### Changed

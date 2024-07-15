@@ -54,5 +54,13 @@ export const threadsHandlers = {
         );
       }),
     ],
+    forbidden: [
+      rest.get(`${forumConfig.FORUM_URL}newthread.php`, (req, res, ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.text(readHandlerMockFile('threads/create/token-forbidden.html')),
+        );
+      }),
+    ],
   },
 };

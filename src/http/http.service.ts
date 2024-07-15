@@ -153,6 +153,9 @@ export class HttpService {
       cookie: session.cookie,
       decode: true,
     });
+    if (data.includes(`Nicht genug Privilegien`)) {
+      throw appExceptions.forbidden;
+    }
     const tokenMatches = data.match(/(?:(name='token'\svalue=')(.*?)('\s\/>))/);
     if (tokenMatches && tokenMatches.length >= 3) {
       return tokenMatches[2] as string;
