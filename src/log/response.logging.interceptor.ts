@@ -18,7 +18,7 @@ export class ResponseLoggingInterceptor implements NestInterceptor {
       tap(() => {
         const dateOut = new Date();
         Logger.log(
-          `${req.method} ${req.url} from ${req.ip} fulfilled after ${
+          `${req.method} ${req.url} fulfilled after ${
             dateOut.getTime() - dateIn.getTime()
           }ms.`,
           'Response',
