@@ -196,6 +196,11 @@ export class ThreadsService {
     thread: ThreadCreateResource,
     session: SessionResource,
   ): Promise<ThreadReadResource> {
+    Logger.log(
+      `User '${session.username}' (${session.userId}) is attempting to create a new thread in board '${thread.boardId}'.`,
+      this.constructor.name,
+    );
+
     const tokenUrl = `${forumConfig.FORUM_URL}newthread.php?BID=${thread.boardId}`;
     const token = await this.httpService.getSecurityToken(tokenUrl, session);
 

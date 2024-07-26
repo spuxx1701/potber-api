@@ -148,6 +148,7 @@ export class BookmarksService {
     }
     Logger.log(
       `User '${session.username}' (${session.userId}) has created bookmark '${bookmark.id}'.`,
+      this.constructor.name,
     );
     return bookmark;
   }
@@ -190,6 +191,7 @@ export class BookmarksService {
     }
     Logger.log(
       `User '${session.username}' (${session.userId}) has deleted bookmark '${id}'.`,
+      this.constructor.name,
     );
   }
 

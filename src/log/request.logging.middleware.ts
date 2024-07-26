@@ -10,13 +10,14 @@ export class RequestLoggingMiddleware implements NestMiddleware {
   ) {}
 
   use(req: Request, res: Response, next: NextFunction) {
-    if (!req.originalUrl.startsWith('/metrics')) {
+    if (
+      !req.originalUrl.startsWith('/metrics') &&
+      !req.originalUrl.startsWith('/healthz')
+    ) {
       this.counter.inc();
 
       Logger.log(
-        `${req.method} ${req.originalUrl} from ${req.ip} (origin: ${req.header(
-          'origin',
-        )}).`,
+        `${req.method} ${req.originalUrl} (origin: ${req.header('origin')}).`,
         'Request',
       );
     }
