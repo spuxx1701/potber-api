@@ -13,6 +13,11 @@ import { tap } from 'rxjs/operators';
 export class ResponseLoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req: Request = context.getArgByIndex(0);
+    if (
+      req.originalUrl.startsWith('/metrics') ||
+      req.originalUrl.startsWith('/healthz')
+    )
+      return;
     const dateIn = new Date();
     return next.handle().pipe(
       tap(() => {
