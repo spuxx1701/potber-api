@@ -76,13 +76,16 @@ export class HttpService {
    * @returns The response object.
    */
   async post(url: string, payload: any, options?: RequestOptions) {
-    const { encoding, cookie, headers } = {
+    const { encoding, cookie, headers, decode } = {
       encoding: 'iso-8859-15',
+      decode: false,
       ...options,
     };
-    return firstValueFrom(
+    const response = await firstValueFrom(
       this.httpService
         .post(url, payload, {
+          responseEncoding: decode ? 'binary' : undefined,
+          responseType: decode ? 'arraybuffer' : undefined,
           headers: {
             Cookie: cookie,
             'Content-Type': `application/x-www-form-urlencoded;charset=${encoding}`,
@@ -96,6 +99,16 @@ export class HttpService {
           }),
         ),
     );
+    if (decode) {
+      const contentTypeHeader: string = (response as any).headers[
+        'content-type'
+      ];
+      const decoding = contentTypeHeader?.split('charset=')[1];
+      const decoder = new TextDecoder(decoding?.toLowerCase() ?? 'iso-8859-1');
+      const text = decoder.decode(response.data as ArrayBuffer);
+      response.data = text;
+    }
+    return response as { data: string; headers: Record<string, string> };
   }
 
   /**
@@ -104,8 +117,8 @@ export class HttpService {
    * @param options.encode (optional) Whether string values should be encoded.
    * @returns The payload string.
    */
-  createFormDataPayload(
-    data: object,
+  createFormDataPayload<T extends object>(
+    data: T,
     options?: {
       encode?: boolean;
       escapeHtml?: boolean;
