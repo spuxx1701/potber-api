@@ -22,7 +22,7 @@ export class ResponseLoggingInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         const dateOut = new Date();
-        Logger.log(
+        Logger.verbose(
           `${req.method} ${req.url} fulfilled after ${
             dateOut.getTime() - dateIn.getTime()
           }ms.`,

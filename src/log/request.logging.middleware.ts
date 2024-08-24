@@ -16,7 +16,7 @@ export class RequestLoggingMiddleware implements NestMiddleware {
     ) {
       this.counter.inc();
 
-      Logger.log(
+      Logger.verbose(
         `${req.method} ${req.originalUrl} (origin: ${req.header('origin')}).`,
         'Request',
       );
