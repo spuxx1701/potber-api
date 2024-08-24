@@ -117,7 +117,7 @@ export class PostsService {
   }
 
   /**
-   * Creats a form body from the given post and other parameters.
+   * Creates a form body from the given post and other parameters.
    * @param post The post.
    * @param token The security token.
    * @returns The form body.
