@@ -4,11 +4,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
-## [UNRELEASED]
+## [3.1.2]
 
 ### Fixed
 
 - Applied various improvements to logging.
+
+### Chores
+
+- Now uses `User-Agent: potber` instead of `User-Agent: potber` on outgoing requests.
 
 ## [3.1.1] - 2024-07-15
 
