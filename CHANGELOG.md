@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [3.1.3] - 2024-09-04
+
+### Fixed
+
+- Now REALLY `User-Agent: potber` instead of `User-Agent: potber` on outgoing requests.
+
 ## [3.1.2] - 2024-09-04
 
 ### Fixed

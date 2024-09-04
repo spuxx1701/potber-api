@@ -15,5 +15,5 @@ export function httpRequestInterceptor(
 
 export const defaultHeaders: Partial<RawAxiosRequestHeaders> = {
   Accept: 'text/html,text/xml',
-  'User-Agent': 'potber-api',
+  'User-Agent': 'potber',
 };
