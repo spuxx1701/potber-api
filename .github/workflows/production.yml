@@ -7,7 +7,7 @@ on:
 
 jobs:
   types:
-    uses: spuxx1701/ci-cd/.github/workflows/npm_types.ymlv4.1.0
+    uses: spuxx1701/ci-cd/.github/workflows/npm_types.yml@v4.1.0
 
   lint:
     uses: spuxx1701/ci-cd/.github/workflows/npm_lint.yml@v4.1.0
