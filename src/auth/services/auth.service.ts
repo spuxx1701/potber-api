@@ -119,7 +119,7 @@ export class AuthService {
   async createSession(cookie: string): Promise<SessionResource> {
     try {
       const userId = await this.getUserId(cookie);
-      const { name, avatarUrl, locked, status } =
+      const { name, avatarUrl, locked, status, privileged } =
         await this.usersService.findById(userId);
       // If the use account has been locked permanently, the login should fail.
       // We check both locked and status since locked will also be true if the account
@@ -132,6 +132,7 @@ export class AuthService {
         username: name,
         avatarUrl,
         cookie,
+        privileged,
       };
       return session as SessionResource;
     } catch (error) {

@@ -7,4 +7,5 @@ export const defaultMockSession: SessionResource = {
   cookie: 'mock-session-cookie',
   iat: Date.now() / 1000 - 1800,
   exp: Date.now() / 1000 + 1800,
+  privileged: false,
 };

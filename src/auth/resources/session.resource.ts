@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PRIVILEGED_USER_RANKS } from 'src/config/constants';
 
 export class SessionResource {
   @ApiProperty({
@@ -30,4 +31,11 @@ export class SessionResource {
     description: 'When the JWT will expire.',
   })
   exp: number;
+
+  @ApiProperty({
+    description: `Whether the user is a privileged user. Users with the following ranks are considered privileged: ${PRIVILEGED_USER_RANKS.join(
+      ', ',
+    )}`,
+  })
+  privileged: boolean;
 }
