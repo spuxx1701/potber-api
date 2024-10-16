@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PRIVILEGED_USER_RANKS } from 'src/config/constants';
 
 export class UserResource {
   @ApiProperty({
@@ -64,4 +65,11 @@ export class UserResource {
       'Whether the user account has been locked (temporarily or permanently).',
   })
   locked?: boolean;
+
+  @ApiProperty({
+    description: `Whether the user is a privileged user. Users with the following ranks are considered privileged: ${PRIVILEGED_USER_RANKS.join(
+      ', ',
+    )}`,
+  })
+  privileged?: boolean;
 }

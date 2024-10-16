@@ -6,6 +6,7 @@ import { usersExceptions } from '../config/users.exceptions';
 import { UserResource } from '../resources/user.resource';
 import { EncodingService } from 'src/encoding/encoding.service';
 import { parseAvatarUrl } from 'src/utility/forum.utility';
+import { PRIVILEGED_USER_RANKS } from 'src/config/constants';
 /**
  * The users service class. Can transform users.
  */
@@ -64,6 +65,7 @@ export class UsersService {
     const avatarUrl = parseAvatarUrl(avatarUrlMatches[2]);
     const rankMatches = html.match(/<span class="rang">(.*)<\/span>/);
     const rank = rankMatches[1];
+    const privileged = PRIVILEGED_USER_RANKS.includes(rank);
     const ageMatches = html.match(
       /Dabei\sseit:<\/td>(?:\s*)<td class="attrv">(.*)<\/td>/,
     );
@@ -79,6 +81,7 @@ export class UsersService {
       avatarUrl,
       age,
       locked,
+      privileged,
     };
     return user;
   }
